@@ -1,5 +1,6 @@
 // JavaScript Document
 
+
 // The possible activity types
 var ActivityType = ["Presentation","Group Work","Discussion","Break"]
 
@@ -11,7 +12,7 @@ function Activity(name,length,typeid,description){
 	var _length = length;
 	var _typeid = typeid;
 	var _description = description;
-	
+
 	// sets the name of the activity
 	this.setName = function(name) {
 		_name = name;
@@ -22,7 +23,7 @@ function Activity(name,length,typeid,description){
 	this.getName = function(name) {
 		return _name;
 	}
-	
+
 	// sets the length of the activity
 	this.setLength = function(length) {
 		_length = length;
@@ -33,7 +34,7 @@ function Activity(name,length,typeid,description){
 	this.getLength = function() {
 		return _length;
 	}
-	
+
 	// sets the typeid of the activity
 	this.setTypeId = function(typeid) {
 		_typeid = typeid;
@@ -44,7 +45,7 @@ function Activity(name,length,typeid,description){
 	this.getTypeId = function() {
 		return _typeid;
 	}
-	
+
 	// sets the description of the activity
 	this.setDescription = function(description) {
 		_description = description;
@@ -55,7 +56,7 @@ function Activity(name,length,typeid,description){
 	this.getDescription = function() {
 		return _description;
 	}
-	
+
 	// This method returns the string representation of the
 	// activity type.
 	this.getType = function () {
@@ -63,7 +64,7 @@ function Activity(name,length,typeid,description){
 	};
 }
 
-// This is a day consturctor. You can use it to create days, 
+// This is a day consturctor. You can use it to create days,
 // but there is also a specific function in the Model that adds
 // days to the model, so you don't need call this yourself.
 function Day(startH,startM) {
@@ -76,7 +77,7 @@ function Day(startH,startM) {
 		model.notifyObservers();
 	}
 
-	// returns the total length of the acitivities in 
+	// returns the total length of the acitivities in
 	// a day in minutes
 	this.getTotalLength = function () {
 		var totalLength = 0;
@@ -85,20 +86,20 @@ function Day(startH,startM) {
 		});
 		return totalLength;
 	};
-	
-	// returns the string representation Hours:Minutes of 
+
+	// returns the string representation Hours:Minutes of
 	// the end time of the day
 	this.getEnd = function() {
 		var end = this._start + this.getTotalLength();
 		return Math.floor(end/60) + ":" + end % 60;
 	};
-	
-	// returns the string representation Hours:Minutes of 
+
+	// returns the string representation Hours:Minutes of
 	// the start time of the day
 	this.getStart = function() {
 		return Math.floor(this._start/60) + ":" + this._start % 60;
 	};
-	
+
 	// returns the length (in minutes) of activities of certain type
 	this.getLengthByType = function (typeid) {
 		var length = 0;
@@ -109,9 +110,9 @@ function Day(startH,startM) {
 		});
 		return length;
 	};
-	
+
 	// adds an activity to specific position
-	// if the position is not provided then it will add it to the 
+	// if the position is not provided then it will add it to the
 	// end of the list
 	this._addActivity = function(activity,position){
 		if(position != null){
@@ -120,14 +121,14 @@ function Day(startH,startM) {
 			this._activities.push(activity);
 		}
 	};
-	
+
 	// removes an activity from specific position
 	// this method will be called when needed from the model
 	// don't call it directly
 	this._removeActivity = function(position) {
 		return this._activities.splice(position,1)[0];
 	};
-	
+
 	// moves activity inside one day
 	// this method will be called when needed from the model
 	// don't call it directly
@@ -147,7 +148,7 @@ function Day(startH,startM) {
 function Model(){
 	this.days = [];
 	this.parkedActivities = [];
-	
+
 	// adds a new day. if startH and startM (start hours and minutes)
 	// are not provided it will set the default start of the day to 08:00
 	this.addDay = function (startH,startM) {
@@ -161,7 +162,7 @@ function Model(){
 		this.notifyObservers();
 		return day;
 	};
-	
+
 	// add an activity to model
 	this.addActivity = function (activity,day,position) {
 		if(day != null) {
@@ -174,19 +175,19 @@ function Model(){
 		}
 		this.notifyObservers();
 	}
-	
+
 	// add an activity to parked activities
 	this.addParkedActivity = function(activity,position){
 		this.addActivity(activity,null,position);
 	};
-	
-	// remove an activity on provided position from parked activites 
+
+	// remove an activity on provided position from parked activites
 	this.removeParkedActivity = function(position) {
 		act = this.parkedActivities.splice(position,1)[0];
 		this.notifyObservers();
 		return act;
 	};
-	
+
 	// moves activity between the days, or day and parked activities.
 	// to park activity you need to set the new day to null
 	// to move a parked activity to let's say day 0 you set oldday to null
@@ -209,16 +210,16 @@ function Model(){
 		}
 		this.notifyObservers();
 	};
-	
+
 	//*** OBSERVABLE PATTERN ***
 	var listeners = [];
-	
+
 	this.notifyObservers = function (args) {
 	    for (var i = 0; i < listeners.length; i++){
 	        listeners[i].update(args);
 	    }
 	};
-	
+
 	this.addObserver = function (listener) {
 	    listeners.push(listener);
 	};
@@ -238,7 +239,7 @@ function createTestData(){
 	model.addActivity(new Activity("Working in groups",35,1,""),0);
 	model.addActivity(new Activity("Idea 1 discussion",15,2,""),0);
 	model.addActivity(new Activity("Coffee break",20,3,""),0);
-	
+
 	console.log("Day Start: " + model.days[0].getStart());
 	console.log("Day End: " + model.days[0].getEnd());
 	console.log("Day Length: " + model.days[0].getTotalLength() + " min");
