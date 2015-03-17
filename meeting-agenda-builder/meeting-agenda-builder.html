@@ -5,8 +5,10 @@
 <body>
 	<button id="addParkedActivity">✚ Add activity</button>
 
-	<div id="parkedActivities">
-		ggggg
+	<div id="parkedActivitiesView">
+		{{#each parkedActivities}}
+			{{> parkedActivity}}
+		{{/each}}
 	</div>
 
 	{{#if view "test"}}
@@ -14,3 +16,11 @@
 		{{> run_tests}}
 	{{/if}}
 </body>
+
+<template name="parkedActivity">
+	<div class="parkedActivityObject">
+		Type: {{type}}
+		Description: {{description}}
+		Length: {{length}}
+	</div>
+</template>

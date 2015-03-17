@@ -1,19 +1,18 @@
 if (Meteor.isClient) {
-	// counter starts at 0
-	Session.setDefault('counter', 0);
+	Template.body.helpers({
+		parkedActivities: function() {
+			// results = Schedules.findOne("7brtTuz4yWDtKtS4Z");
+			// return results.parkedActivities;
 
-	Template.hello.helpers({
-		counter: function () {
-			return Session.get('counter');
+			return getParkedActivities();
 		}
 	});
 
-	Template.hello.events({
-		'click button': function () {
-			// increment the counter when button is clicked
-			Session.set('counter', Session.get('counter') + 1);
-		}
+	Template.body.events({
+		//
 	});
+
+	
 }
 
 if (Meteor.isServer) {
