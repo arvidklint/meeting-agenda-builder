@@ -1,7 +1,18 @@
-#parkedActivitiesView {
-	background-color: black;
-	width: 300px;
+#mainFrame {
+	background-color: yellow;
 	height: 1000px;
+}
+
+#parkedActivitiesView {
+	background-color: gray;
+	float: left;
+	width: 350px;
+	height: 100%;
+}
+
+#parkedActivities {
+	border: 1px solid black;
+	width: 300px;
 	padding-top: 5px;
 }
 
@@ -12,12 +23,12 @@
 .parkedActivityObject {
 	height: 50px;
 	width: 280px;
-	background-color: yellow;
 	margin: 5px;
 	margin-top: 0px;
 	padding: 5px;
 }
 
+<<<<<<< HEAD
 #modal_overlay {
 	position: fixed;
 	font-family: Arial, Helvetica, sans-serif;
@@ -40,3 +51,45 @@
 	padding: 5px 20px 13px 20px;
 	background: #fff;
 }
+=======
+.presentation {
+	background-color: blue;
+}
+
+.group_work {
+	background-color: red;
+}
+
+.discussion {
+	background-color: green;
+}
+
+.break {
+	background-color: yellow;
+}
+
+#daysView {
+	background-color: gray;
+	margin-left: 355px;
+	height: 100%;
+}
+
+.day {
+	background-color: white;
+	width: 350px;
+	height: 100%;
+	float: left;
+	margin: 5px;
+	margin-right: 0px;
+}
+
+.dayHeader {
+	height: 150px;
+	border: 1px solid red;
+}
+
+.dayActivities {
+	border: 1px solid black;
+	margin-top: 10px;
+}
+>>>>>>> 9a5018de4f0a97c581466ad0b354a5e348ccc6cf

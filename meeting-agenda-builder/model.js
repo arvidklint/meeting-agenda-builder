@@ -1,4 +1,4 @@
-var ActivityType = ["Presentation","Group Work","Discussion","Break"]
+var ActivityType = ["presentation","group_work","discussion","break"]
 
 Schedules = new Mongo.Collection("schedules");
 
@@ -8,15 +8,18 @@ getParkedActivities = function() {
 	return Schedules.findOne("7brtTuz4yWDtKtS4Z").parkedActivities;
 }
 
+getDays = function() {
+	return Schedules.findOne("7brtTuz4yWDtKtS4Z").days;
+}
+
 Meteor.methods({
 	addDay: function(startH, startM) {
-		var day;
-		if(startH){
-			day = new Day(startH,startM);
-		} else {
-			day = new Day(8,0);
+		var day = {
+			startTime: 0,
+			activities: []
 		}
-		this.days.push(day);
+
+		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {days: day}} )
 	},
 	addParkedActivity: function(activity, position) {
 		if (position === null) {

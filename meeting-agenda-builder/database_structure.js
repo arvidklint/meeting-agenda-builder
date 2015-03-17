@@ -17,7 +17,7 @@ function databaseStructureExample() {
 	};
 
 	test_day = {
-		start: "480",
+		startTime: "480",
 		activities: []
 	};
 }

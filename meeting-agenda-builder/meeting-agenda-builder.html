@@ -3,15 +3,18 @@
 </head>
 
 <body>
-	<button id="addParkedActivity">✚ Add activity</button>
-	<button id="addParkedActivityAt2">Add activity at 2</button>
-
-	<div id="parkedActivitiesView">
-		{{#each parkedActivities}}
-			{{> parkedActivity}}
-		{{/each}}
+	<div id="mainFrame">
+		{{> parkedActivitiesView}}
+		{{> daysView}}
 	</div>
+</body>
 
+<template name="parkedActivitiesView">
+	<div id="parkedActivitiesView">
+		<button id="addParkedActivity">✚ Add activity</button>
+		<button id="addParkedActivityAt2">Add activity at 2</button>
+
+<<<<<<< HEAD
 
 	{{> newActivityView}}
 
@@ -21,15 +24,24 @@
 		{{> run_tests}}
 	{{/if}}
 </body>
+=======
+		<div id="parkedActivities">
+			{{#each parkedActivities}}
+				{{> parkedActivity}}
+			{{/each}}
+		</div>
+	</div>
+</template>
+>>>>>>> 9a5018de4f0a97c581466ad0b354a5e348ccc6cf
 
 <template name="parkedActivity">
-	<div class="parkedActivityObject">
-		Type: {{type}}
+	<div class="parkedActivityObject {{type}}">
 		Description: {{description}}
 		Length: {{length}}
 	</div>
 </template>
 
+<<<<<<< HEAD
 <template name="newActivityView">
 	{{#if addParkedActivityModal}}
 	<div id="modal_overlay">
@@ -46,3 +58,26 @@
 	</div>
 	{{/if}}
 </template>
+=======
+<template name="daysView">
+	<div id="daysView">
+		daysView
+		{{#each days}}
+			{{> day}}
+		{{/each}}
+		<button id="addDay">✚ Add day</button>
+	</div>
+</template>
+
+<template name="day">
+	<div class="day">
+		<div class="dayHeader">
+			dayHeader
+			Start: {{startTimeHuman}}
+		</div>
+		<div class="dayActivities">
+			dayActivities
+		</div>
+	</div>
+</template>
+>>>>>>> 9a5018de4f0a97c581466ad0b354a5e348ccc6cf
