@@ -1,0 +1,85 @@
+// Database structure
+
+function databaseStructureExample() {
+	test_schedule = {
+		parkedActivities: 	[{}, 
+							{}],
+		days: 	[{},
+				{}],
+		owner: 'Mats'
+	};
+
+	test_activity = {
+		name: "Mats",
+		length: "60",
+		type: "Presentation",
+		description: "Mats ska berätta om föroreningar orsakade av Al Gore"
+	};
+
+	test_day = {
+		start: "480",
+		activities: []
+	};
+}
+
+if (Meteor.isClient) {
+	Template.test.events({
+		"click #testButton": function() {
+			test_schedule = {
+				parkedActivities: [],
+				days: [],
+				owner: 'Henrik'
+			};
+
+			test_activity1 = {
+				name: "Mats",
+				length: "60",
+				type: "Presentation",
+				description: "Mats ska berätta om föroreningar orsakade av Al Gore"
+			};
+
+			test_activity2 = {
+				name: "Hans",
+				length: "45",
+				type: "Group Work",
+				description: "Hans visar sin fisk"
+			};
+
+			test_day = {
+				start: "480",
+				activities: []
+			};
+
+			test_schedule.parkedActivities.push(test_activity1);
+			test_schedule.days.push(test_day);
+			test_schedule.days[0].activities.push(test_activity2);
+
+			Schedules.insert(test_schedule);
+		},
+
+		"click #button2": function() {
+				allSchedules = Schedules.find({});
+
+				console.log(allSchedules);
+		}
+	});
+
+	Template.funktionstest.helpers({
+		utskrivningsstest: function() {
+			return Schedules.find({});
+		}
+	});
+
+	Template.body.helpers({
+		view: function() {
+			return Session.get("page");
+		}
+	});
+
+	Template.body.events({
+		"click #runTemplate": function() {
+			console.log("runTemplate");
+			Session.set("page", "test");
+		}
+	});
+}

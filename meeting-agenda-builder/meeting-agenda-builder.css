@@ -1,1 +1,9 @@
-/* CSS declarations go here */
+#parkedActivities {
+	background-color: black;
+	width: 300px;
+	height: 1000px;
+}
+
+#addParkedActivity {
+	width: 300px;
+}
