@@ -28,7 +28,6 @@
 	padding: 5px;
 }
 
-<<<<<<< HEAD
 #modal_overlay {
 	position: fixed;
 	font-family: Arial, Helvetica, sans-serif;
@@ -51,7 +50,7 @@
 	padding: 5px 20px 13px 20px;
 	background: #fff;
 }
-=======
+
 .presentation {
 	background-color: blue;
 }
@@ -92,4 +91,3 @@
 	border: 1px solid black;
 	margin-top: 10px;
 }
->>>>>>> 9a5018de4f0a97c581466ad0b354a5e348ccc6cf
