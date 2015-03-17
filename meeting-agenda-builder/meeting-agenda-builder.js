@@ -9,7 +9,9 @@ if (Meteor.isClient) {
 	});
 
 	Template.body.events({
-		//
+		"click #addParkedActivity": function() {
+			Meteor.call("asdf", "ddddddddddddddddd");
+		}
 	});
 
 	
