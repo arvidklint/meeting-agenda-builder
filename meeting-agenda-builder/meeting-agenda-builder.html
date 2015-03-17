@@ -35,7 +35,7 @@
 		{{#each days}}
 			{{> day}}
 		{{/each}}
-		<button id="newDay">✚ Add day</button>
+		<button id="addDay">✚ Add day</button>
 	</div>
 </template>
 
@@ -43,6 +43,7 @@
 	<div class="day">
 		<div class="dayHeader">
 			dayHeader
+			Start: {{startTimeHuman}}
 		</div>
 		<div class="dayActivities">
 			dayActivities

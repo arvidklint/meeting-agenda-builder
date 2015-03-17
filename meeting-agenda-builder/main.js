@@ -3,9 +3,6 @@ if (Meteor.isClient) {
 
 	Template.parkedActivitiesView.helpers({
 		parkedActivities: function() {
-			// results = Schedules.findOne("7brtTuz4yWDtKtS4Z");
-			// return results.parkedActivities;
-
 			return getParkedActivities();
 		}
 	});
@@ -35,14 +32,21 @@ if (Meteor.isClient) {
 
 	Template.daysView.helpers({
 		days: function() {
-			test_day = {
-				start: "480",
-				activities: []
-			};
-
-			return [test_day, test_day];
+			return getDays();
 		}
 	});
+
+	Template.daysView.events({
+		"click #addDay": function() {
+			Meteor.call("addDay");
+		}
+	});
+
+	Template.day.helpers({
+		startTimeHuman: function() {
+			return this.startTime + 10;
+		}
+	})
 
 	
 }
