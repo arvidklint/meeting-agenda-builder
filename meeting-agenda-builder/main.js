@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
 	Meteor.subscribe("schedules");
 
-	Template.body.helpers({
+	Template.parkedActivitiesView.helpers({
 		parkedActivities: function() {
 			// results = Schedules.findOne("7brtTuz4yWDtKtS4Z");
 			// return results.parkedActivities;
@@ -10,12 +10,12 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Template.body.events({
+	Template.parkedActivitiesView.events({
 		"click #addParkedActivity": function() {
 			test_activity = {
 				name: "Mats",
 				length: "60",
-				type: "Presentation",
+				type: "presentation",
 				description: "Mats ska berätta om föroreningar orsakade av Al Gore"
 			};
 
@@ -25,11 +25,22 @@ if (Meteor.isClient) {
 			test_activity = {
 				name: "Nummer2aktiviteten",
 				length: "360",
-				type: "Presentation",
+				type: "group_discussion",
 				description: "Hängringar om te"
 			};
 
 			Meteor.call("addParkedActivity", test_activity, 2);
+		}
+	});
+
+	Template.daysView.helpers({
+		days: function() {
+			test_day = {
+				start: "480",
+				activities: []
+			};
+
+			return [test_day, test_day];
 		}
 	});
 

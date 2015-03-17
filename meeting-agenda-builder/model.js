@@ -1,4 +1,4 @@
-var ActivityType = ["Presentation","Group Work","Discussion","Break"]
+var ActivityType = ["presentation","group_work","discussion","break"]
 
 Schedules = new Mongo.Collection("schedules");
 

@@ -3,25 +3,49 @@
 </head>
 
 <body>
-	<button id="addParkedActivity">✚ Add activity</button>
-	<button id="addParkedActivityAt2">Add activity at 2</button>
-
-	<div id="parkedActivitiesView">
-		{{#each parkedActivities}}
-			{{> parkedActivity}}
-		{{/each}}
+	<div id="mainFrame">
+		{{> parkedActivitiesView}}
+		{{> daysView}}
 	</div>
-
-	{{#if view "test"}}
-		Kör tester
-		{{> run_tests}}
-	{{/if}}
 </body>
 
+<template name="parkedActivitiesView">
+	<div id="parkedActivitiesView">
+		<button id="addParkedActivity">✚ Add activity</button>
+		<button id="addParkedActivityAt2">Add activity at 2</button>
+
+		<div id="parkedActivities">
+			{{#each parkedActivities}}
+				{{> parkedActivity}}
+			{{/each}}
+		</div>
+	</div>
+</template>
+
 <template name="parkedActivity">
-	<div class="parkedActivityObject">
-		Type: {{type}}
+	<div class="parkedActivityObject {{type}}">
 		Description: {{description}}
 		Length: {{length}}
+	</div>
+</template>
+
+<template name="daysView">
+	<div id="daysView">
+		daysView
+		{{#each days}}
+			{{> day}}
+		{{/each}}
+		<button id="newDay">✚ Add day</button>
+	</div>
+</template>
+
+<template name="day">
+	<div class="day">
+		<div class="dayHeader">
+			dayHeader
+		</div>
+		<div class="dayActivities">
+			dayActivities
+		</div>
 	</div>
 </template>
