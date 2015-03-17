@@ -2,7 +2,7 @@
 
 function databaseStructureExample() {
 	test_schedule = {
-		parkedActivities: 	[{}, 
+		parkedActivities: 	[{},
 							{}],
 		days: 	[{},
 				{}],
@@ -69,7 +69,7 @@ if (Meteor.isClient) {
 			test_schedule.days.push(test_day);
 			test_schedule.days[0].activities.push(test_activity2);
 
-			Schedules.insert(test_schedule);
+			Meteor.call("addSchedule", test_schedule);
 		},
 
 		"click #button2": function() {

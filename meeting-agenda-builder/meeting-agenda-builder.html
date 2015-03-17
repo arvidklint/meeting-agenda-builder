@@ -12,6 +12,10 @@
 		{{/each}}
 	</div>
 
+
+	{{> newActivityView}}
+
+
 	{{#if view "test"}}
 		Kör tester
 		{{> run_tests}}
@@ -24,4 +28,21 @@
 		Description: {{description}}
 		Length: {{length}}
 	</div>
+</template>
+
+<template name="newActivityView">
+	{{#if addParkedActivityModal}}
+	<div id="modal_overlay">
+		<div id="modal" class="popupContainer">
+			<div class="popupHeader">
+				<span class="header_title">Create new activity</span>
+				<span class="modal_close"></span>
+				<a href="#close" id="closeModal">X Stäng</a>
+			</div>
+			<form id="newActivityForm">
+					<input type="text" name="name" placeholder="Name">
+			</form>
+		</div>
+	</div>
+	{{/if}}
 </template>
