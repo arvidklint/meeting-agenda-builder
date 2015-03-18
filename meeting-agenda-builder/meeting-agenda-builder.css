@@ -1,3 +1,8 @@
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12pt;
+}
+
 #mainFrame {
 	background-color: yellow;
 	height: 1000px;
@@ -28,9 +33,17 @@
 	padding: 5px;
 }
 
+.btn {
+	border-radius: 0px;
+	background-color: #2da9ff;
+	border: none;
+	padding: 8px;
+	color: #ffffff;
+	font-size: 14pt;
+}
+
 #modal_overlay {
 	position: fixed;
-	font-family: Arial, Helvetica, sans-serif;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -47,8 +60,31 @@
 	width: 400px;
 	position: relative;
 	margin: 10% auto;
-	padding: 5px 20px 13px 20px;
 	background: #fff;
+}
+
+.popupHeader {
+  background-color: #2da9ff;
+  padding: 10px;
+}
+
+.modalinput {
+  position: relative;
+  width: 360px;
+  padding: 8px 5px;
+  margin-bottom: 10px;
+  border: solid #d6d6d6 1px;
+  resize: none;
+	font-size: 14pt;
+}
+
+.modalLabel {
+  color: #9a9a9a;
+}
+
+.popupForm {
+  padding: 20px 12px;
+  background-color: #ededed;
 }
 
 .presentation {
