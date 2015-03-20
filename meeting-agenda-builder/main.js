@@ -4,7 +4,7 @@ if (Meteor.isClient) {
 	Template.daysView.helpers({
 		days: function() {
 			days = getDays();
-
+			days = addActivityStartTimes(days);
 			return days;
 		}
 	});

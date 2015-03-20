@@ -1,6 +1,5 @@
-if(Meteor.isClient) {
-	Session.set("parkedActivityModal", false);
-	Session.set("parentParked", false);
+if (Meteor.isClient) {
+	Session.set("activityModal", false);
 
 	Template.parkedActivitiesView.helpers({
 		parkedActivities: function() {
@@ -9,14 +8,20 @@ if(Meteor.isClient) {
 	});
 
 	Template.parkedActivitiesView.events({
-		"click #addParkedActivity": function() {
-			Session.set("parkedActivityModal", true);
+		"click #addActivityButton": function() {
+			Session.set("activityModal", true);
+		}
+	});
+
+	Template.parkedActivity.events({
+		"click .parkedActivityObject": function(event) {
+			event.target.addClass("marked");
 		}
 	});
 
 	Template.newActivityView.events({
 		"click #closeModal": function() {
-			Session.set("parkedActivityModal", false);
+			Session.set("activityModal", false);
 		},
 		"submit .newActivity": function(event) {
 			var n = event.target.name.value;
@@ -26,28 +31,27 @@ if(Meteor.isClient) {
 
 			var activity = {
 				name: n,
-				length: l,
+				activityLength: l,
 				type: t,
 				description: d
 			}
 
-			Meteor.call("addParkedActivity", activity, null);
+			Meteor.call("addActivity", activity, null);
 
-			Session.set("parkedActivityModal", false);
+			Session.set("activityModal", false);
 			return false;
 		}
 	});
 
 	Template.newActivityView.helpers({
-		addParkedActivityModal: function() {
-			return Session.get("parkedActivityModal");
+		addActivityModal: function() {
+			return Session.get("activityModal");
 		}
 	});
 
 	Template.activity.helpers({
-		activityStart: function() {
-			console.log(this);
-			return this.length;
+		startTimeHuman: function() {
+			return minutesToHuman(this.activityStart);
 		}
 	});
 }

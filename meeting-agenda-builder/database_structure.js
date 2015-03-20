@@ -11,7 +11,7 @@ function databaseStructureExample() {
 
 	test_activity = {
 		name: "Mats",
-		length: "60",
+		activitylength: "60",
 		type: "Presentation",
 		description: "Mats ska berätta om föroreningar orsakade av Al Gore"
 	};
