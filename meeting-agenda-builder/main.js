@@ -3,7 +3,9 @@ if (Meteor.isClient) {
 
 	Template.daysView.helpers({
 		days: function() {
-			return getDays();
+			days = getDays();
+
+			return days;
 		}
 	});
 

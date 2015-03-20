@@ -24,9 +24,26 @@
 </template>
 
 <template name="parkedActivity">
-	<div class="parkedActivityObject {{type}}">
+	<div class="activityObject parkedActivity {{type}}">
+		<div class="parkedActivityTime">
+			{{length}} min
+		</div>
+		{{> activityInfo}}
+	</div>
+</template>
+
+<template name="activity">
+	<div class="activityObject {{type}}">
+		<div class="activityTime">
+			{{activityStart}}
+		</div>
+		{{> activityInfo}}
+	</div>
+</template>
+
+<template name="activityInfo">
+	<div class="activityInfo">
 		Description: {{description}}
-		Length: {{length}}
 	</div>
 </template>
 
@@ -47,7 +64,9 @@
 			Start: {{startTimeHuman}}
 		</div>
 		<div class="dayActivities">
-			dayActivities
+			{{#each activities}}
+				{{> activity}}
+			{{/each}}
 		</div>
 	</div>
 </template>

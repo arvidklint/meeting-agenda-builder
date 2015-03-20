@@ -1,19 +1,20 @@
 if(Meteor.isClient) {
-  Session.set("parkedActivityModal", false);
+	Session.set("parkedActivityModal", false);
+	Session.set("parentParked", false);
 
-  Template.parkedActivitiesView.helpers({
-    parkedActivities: function() {
-      return getParkedActivities();
-    }
-  });
+	Template.parkedActivitiesView.helpers({
+		parkedActivities: function() {
+			return getParkedActivities();
+		}
+	});
 
-  Template.parkedActivitiesView.events({
-    "click #addParkedActivity": function() {
-      Session.set("parkedActivityModal", true);
-    }
-  });
+	Template.parkedActivitiesView.events({
+		"click #addParkedActivity": function() {
+			Session.set("parkedActivityModal", true);
+		}
+	});
 
-  Template.newActivityView.events({
+	Template.newActivityView.events({
 		"click #closeModal": function() {
 			Session.set("parkedActivityModal", false);
 		},
@@ -40,6 +41,13 @@ if(Meteor.isClient) {
 	Template.newActivityView.helpers({
 		addParkedActivityModal: function() {
 			return Session.get("parkedActivityModal");
+		}
+	});
+
+	Template.activity.helpers({
+		activityStart: function() {
+			console.log(this);
+			return this.length;
 		}
 	});
 }
