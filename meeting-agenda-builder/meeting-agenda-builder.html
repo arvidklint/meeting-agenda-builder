@@ -16,15 +16,15 @@
 
 		<div id="parkedActivities">
 			{{#each parkedActivities}}
-				{{> parkedActivity}}
+				{{> activity}}
 			{{/each}}
 		</div>
 	</div>
 </template>
 
 <template name="parkedActivity">
-	<div class="activityObject parkedActivity {{type}}">
-		<div class="parkedActivityTime">
+	<div class="activityObject parkedActivity {{type}} {{tooShort}}" style="height: {{activityHeight}}px">
+		<div class="activityTime">
 			{{activityLength}} min
 		</div>
 		{{> activityInfo}}
@@ -32,10 +32,15 @@
 </template>
 
 <template name="activity">
-	<div class="activityObject {{type}}">
+	<div class="activityObject {{type}} {{tooShort}}" style="height: {{activityHeight}}px">
 		<div class="activityTime">
-			{{startTimeHuman}}
+			{{#if activityStart}}
+				{{startTimeHuman}}
+			{{else}}
+				{{activityLength}} min
+			{{/if}}
 		</div>
+
 		{{> activityInfo}}
 	</div>
 </template>

@@ -50,8 +50,20 @@ if (Meteor.isClient) {
 	});
 
 	Template.activity.helpers({
-		startTimeHuman: function() {
+		startTimeHuman: function() { 
 			return minutesToHuman(this.activityStart);
+		},
+		activityHeight: function() {
+			if (this.activityLength >= 30) {
+				return this.activityLength * 1.5;
+			} else {
+				return 45;
+			}
+		},
+		tooShort: function() {
+			if (this.activityLength < 30) {
+				return "tooShort";
+			}
 		}
 	});
 }
