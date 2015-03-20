@@ -21,16 +21,33 @@ body {
 	padding-top: 5px;
 }
 
-#addParkedActivity {
+#addActivityButton {
 	width: 300px;
 }
 
 .parkedActivityObject {
-	height: 50px;
 	width: 280px;
 	margin: 5px;
 	margin-top: 0px;
-	padding: 5px;
+	cursor: pointer;
+}
+
+.parkedActivityHeader {
+	height: 20px;
+	padding: 3px;
+	background-color: rgba(255, 255, 255, 0.4);
+	text-align: center;
+}
+
+.parkedActivityContent {
+	height: 40px;
+	padding: 3px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.marked {
+	background-color: purple;
 }
 
 .btn {

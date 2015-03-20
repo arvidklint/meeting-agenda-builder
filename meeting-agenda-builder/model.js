@@ -21,9 +21,8 @@ Meteor.methods({
 
 		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {days: day}} )
 	},
-	addParkedActivity: function(activity, position) {
+	addActivity: function(activity, day, position) {
 		if (position === null) {
-			console.log(activity);
 			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {parkedActivities: activity} } );
 		} else {
 			pas = getParkedActivities();

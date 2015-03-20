@@ -12,8 +12,7 @@
 
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
-		<button id="addParkedActivity">✚ Add activity</button>
-		<button id="addParkedActivityAt2">Add activity at 2</button>
+		<button id="addActivityButton">✚ Add activity</button>
 
 		<div id="parkedActivities">
 			{{#each parkedActivities}}
@@ -24,9 +23,15 @@
 </template>
 
 <template name="parkedActivity">
+
 	<div class="parkedActivityObject {{type}}">
-		Description: {{description}}
-		Length: {{length}}
+		<div class="parkedActivityHeader">
+			{{name}}
+		</div>
+		<div class="parkedActivityContent">
+			Description: {{description}}
+			Length: {{length}}
+		</div>
 	</div>
 </template>
 
