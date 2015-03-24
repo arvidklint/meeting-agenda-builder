@@ -83,6 +83,10 @@ minutesToHuman = function(inMinutes) {
 	return hours + ":" + minutes;
 }
 
+hmToMinutes = function(hours, minutes) {
+	return parseInt(hours) * 60 + parseInt(minutes);
+}
+
 zeroPadding = function(num, size) {
 	while (num.length < size) {
 		num = "0" + num;
@@ -91,6 +95,20 @@ zeroPadding = function(num, size) {
 	return num;
 }
 
+numberList = function(start, end, padding) {
+	var numList = []
+
+	for (var i = start; i < end + 1; i++) {
+		if (padding) {
+			num = zeroPadding("" + i, 2);
+		} else {
+			num = i;
+		}
+		numList.push(num);
+	}
+
+	return numList;
+}
 
 Meteor.methods({
 	addDay: function(startH, startM) {

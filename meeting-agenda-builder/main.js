@@ -34,11 +34,30 @@ if (Meteor.isClient) {
 		},
 		dayEnd: function() {
 			return minutesToHuman(this.startTime + dayLength(this));
-		},
-		hoursList: function() {
-			htmlString = '<option value="jag">jag</option>';
+		}
+	});
 
-			return htmlString;
+	Template.hoursList.helpers({
+		hours: function() {
+			return numberList(0, 23, 2);
+		},
+		selected: function() {
+			// Returns true if this hour should be selected in the menu
+
+			hour = minutesToHuman(Template.parentData(1).startTime).split(":")[0]; // get the day's selected hour from the parent template
+			return (this == hour);
+		}
+	});
+
+	Template.minutesList.helpers({
+		minutes: function() {
+			return numberList(0, 59, 2);
+		},
+		selected: function() {
+			// Returns true if this minute should be selected in the menu
+
+			minute = minutesToHuman(Template.parentData(1).startTime).split(":")[1]; // get the day's selected minute from the parent template
+			return (this == minute);
 		}
 	});
 
@@ -66,4 +85,15 @@ if (Meteor.isClient) {
 		});
 		this.$('#parkedActivities').disableSelection();
 	};
+
+	Template.day.rendered = function() {
+		// this.$('.hoursList').append(numberOptionList(0, 23, 2));
+		// console.log(this.startTime);
+		// this.$('.hoursList').val(this.startTime);
+		// this.$('.minutesList').append(numberOptionList(0, 59, 2));
+
+
+		// console.log(numberOptionList(0, 23, 2));
+		// console.log(numberOptionList(0, 59, 2));
+	}
 }

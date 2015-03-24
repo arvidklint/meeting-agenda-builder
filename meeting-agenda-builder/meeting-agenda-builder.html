@@ -16,7 +16,7 @@
 	{{> parkedActivitiesView}}
 	{{> daysView}}
 	{{> newActivityView}}
-</body>
+</template>
 
 <template name="scheduleTitle">
 	<div id="scheduleTitle">
@@ -76,15 +76,18 @@
 			Dag {{dayNumber}}<br/>
 			{{dayTitle}}<br/>
 			Start: {{startTimeHuman}} 
-			<select id="startHours-day{{dayNumber}}" class="hoursList"></select>
-			<select id="startMinutes-day{{dayNumber}}" class="minutesList"></select>
+			<select id="startHours-day{{dayNumber}}" class="hoursList">
+				{{> hoursList}}
+			</select>
+			:
+			<select id="startMinutes-day{{dayNumber}}" class="minutesList">
+				{{> minutesList}}
+			</select>
 			<br/>
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
-
-	
-
 		</div>
+
 		<ul class="dayActivities">
 			{{#each activities}}
 				{{> activity}}
@@ -93,3 +96,22 @@
 	</div>
 </template>
 
+<template name="hoursList">
+	{{#each hours}}
+		{{#if selected}}
+			<option value="{{this}}" selected="selected">{{this}}</option>
+		{{else}}
+			<option value="{{this}}">{{this}}</option>
+		{{/if}}
+	{{/each}}
+</template>
+
+<template name="minutesList">
+	{{#each minutes}}
+		{{#if selected}}
+			<option value="{{this}}" selected="selected">{{this}}</option>
+		{{else}}
+			<option value="{{this}}">{{this}}</option>
+		{{/if}}
+	{{/each}}
+</template>
