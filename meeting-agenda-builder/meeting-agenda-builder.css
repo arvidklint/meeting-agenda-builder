@@ -33,14 +33,14 @@ body {
 	cursor: pointer;
 }
 
-.parkedActivityHeader {
+.activityHeader {
 	height: 20px;
 	padding: 3px;
 	background-color: rgba(255, 255, 255, 0.4);
 	text-align: center;
 }
 
-.parkedActivityContent {
+.activityContent {
 	height: 40px;
 	padding: 3px;
 	overflow: hidden;

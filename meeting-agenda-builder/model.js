@@ -12,9 +12,18 @@ getDays = function() {
 	return Schedules.findOne("7brtTuz4yWDtKtS4Z").days;
 }
 
+makeActivityObject = function(name, length, type, description) {
+	return {
+		"name": name,
+		"activityLength": length,
+		"type": type,
+		"description": description
+	}
+}
+
 addActivityStartTimes = function(days) {
 	// Receives an array of days. Returns an array of days, with fields for activity start times added
-	
+
 	for (i in days) {
 		startTime = days[i].startTime; // the startTime of the first activity is the startTime of the day
 
@@ -28,7 +37,7 @@ addActivityStartTimes = function(days) {
 }
 
 minutesToHuman = function(inMinutes) {
-	// Receives a number in minutes. Outputs a human-readable string formatted to HH:MM 
+	// Receives a number in minutes. Outputs a human-readable string formatted to HH:MM
 
 	hours = "" + Math.floor(inMinutes/60);
 	hours = zeroPadding(hours, 2);
