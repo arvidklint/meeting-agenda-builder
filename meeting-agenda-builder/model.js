@@ -12,8 +12,9 @@ getDays = function() {
 	return Schedules.findOne("7brtTuz4yWDtKtS4Z").days;
 }
 
-makeActivityObject = function(name, length, type, description) {
+makeActivityObject = function(title, name, length, type, description) {
 	return {
+		"title": title,
 		"name": name,
 		"activityLength": length,
 		"type": type,

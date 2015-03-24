@@ -32,7 +32,7 @@
 </template>
 
 <template name="activity">
-	<div class="activityObject {{type}} {{tooShort}}" style="height: {{activityHeight}}px">
+	<div class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
 		<div class="activityTime">
 			{{#if activityStart}}
 				{{startTimeHuman}}
@@ -46,7 +46,11 @@
 </template>
 
 <template name="activityInfo">
-	<div class="activityInfo">
+
+	<div class="activityInfo {{type}}">
+		<div class="activityHeader">
+			{{title}}
+		</div>
 		Description: {{description}}
 	</div>
 </template>

@@ -24,6 +24,7 @@ if (Meteor.isClient) {
 			Session.set("activityModal", false);
 		},
 		"submit .newActivity": function(event) {
+			var ti = event.target.title.value;
 			var n = event.target.name.value;
 			var l = event.target.length.value;
 			var t = event.target.type.value;
@@ -45,7 +46,7 @@ if (Meteor.isClient) {
 	});
 
 	Template.activity.helpers({
-		startTimeHuman: function() { 
+		startTimeHuman: function() {
 			return minutesToHuman(this.activityStart);
 		},
 		activityHeight: function() {
@@ -61,4 +62,8 @@ if (Meteor.isClient) {
 			}
 		}
 	});
+
+	Template.activity.rendered = function() {
+		this.$('#activity').sortable();
+	}
 }
