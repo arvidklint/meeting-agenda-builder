@@ -113,25 +113,34 @@ numberList = function(start, end, padding) {
 Meteor.methods({
 	addDay: function(startH, startM) {
 		var day = {
-			startTime: 0,
+			startTime: 540,
 			activities: []
 		}
 
-		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {days: day}} )
+		Schedules.update( {"_id": queryID}, { $push: {days: day}} )
 	},
 	addActivity: function(activity, day, position) {
 		if (position === null) {
-			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {parkedActivities: activity} } );
+			Schedules.update( {"_id": queryID}, { $push: {parkedActivities: activity} } );
 		} else {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
-			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
+			Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
 		};
 	},
 	removeActivity: function(position) {
 		pas = getParkedActivities();
 		pas.splice(position, 1);
-		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
+		Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+	},
+	changeStartTime: function(position, newTime) {
+		day = Schedules.findOne(queryID).days[position]; // hämtar dagen
+		day.startTime = newTime; // modifierar dagens starttid
+
+		var formattedInfo = {};
+		formattedInfo["days." + position] = day; // skapar dict med key som heter days[position] och infogar den nya dagen (nödvändigt trick)
+
+		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // ersätter hela dagen i databasen (det enda sättet tyvärr)
 	}
 });
 
