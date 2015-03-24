@@ -10,6 +10,8 @@
 		{{> daysView}}
 		{{> newActivityView}}
 	</div>
+
+	
 </body>
 
 <template name="scheduleTitle">
@@ -78,9 +80,15 @@
 		<div class="dayHeader">
 			Dag {{dayNumber}}<br/>
 			{{dayTitle}}<br/>
-			Start: {{startTimeHuman}}<br/>
+			Start: {{startTimeHuman}} 
+			<select id="startHours-day{{dayNumber}}" class="hoursList"></select>
+			<select id="startMinutes-day{{dayNumber}}" class="minutesList"></select>
+			<br/>
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
+
+	
+
 		</div>
 		<div class="dayActivities">
 			{{#each activities}}
@@ -89,3 +97,4 @@
 		</div>
 	</div>
 </template>
+

@@ -60,7 +60,7 @@ if (Meteor.isClient) {
 			if (this.activityLength < 30) {
 				return "tooShort";
 			}
-		}
+		},
 	});
 
 	Template.activity.rendered = function() {

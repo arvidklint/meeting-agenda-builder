@@ -61,6 +61,16 @@ addDayNumbers = function(days) {
 	return days;
 }
 
+dayLength = function(day) {
+	length = 0;
+
+	for (i in day.activities) {
+		length += day.activities[i].activityLength;
+	}
+
+	return length;
+}
+
 minutesToHuman = function(inMinutes) {
 	// Receives a number in minutes. Outputs a human-readable string formatted to HH:MM
 
@@ -80,6 +90,7 @@ zeroPadding = function(num, size) {
 
 	return num;
 }
+
 
 Meteor.methods({
 	addDay: function(startH, startM) {

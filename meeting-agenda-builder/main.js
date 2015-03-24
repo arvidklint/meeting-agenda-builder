@@ -28,6 +28,17 @@ if (Meteor.isClient) {
 		},
 		dayNumber: function() {
 			return this.dayNumber;
+		},
+		dayLength: function() {
+			return minutesToHuman(dayLength(this));
+		},
+		dayEnd: function() {
+			return minutesToHuman(this.startTime + dayLength(this));
+		},
+		hoursList: function() {
+			htmlString = '<option value="jag">jag</option>';
+
+			return htmlString;
 		}
 	});
 }
