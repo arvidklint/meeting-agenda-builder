@@ -4,35 +4,30 @@
 
 <body>
 	<div id="mainFrame">
-		{{> parkedActivitiesView}}
-		{{> daysView}}
-		{{> newActivityView}}
+		{{> mainFrame}}
 	</div>
 </body>
+
+<template name="mainFrame">
+	{{> parkedActivitiesView}}
+	{{> daysView}}
+	{{> newActivityView}}
+</template>
 
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
 		<button id="addActivityButton">✚ Add activity</button>
 
-		<div id="parkedActivities">
+		<ul id="parkedActivities">
 			{{#each parkedActivities}}
 				{{> activity}}
 			{{/each}}
-		</div>
-	</div>
-</template>
-
-<template name="parkedActivity">
-	<div class="activityObject parkedActivity {{type}} {{tooShort}}" style="height: {{activityHeight}}px">
-		<div class="activityTime">
-			{{activityLength}} min
-		</div>
-		{{> activityInfo}}
+		</ul>
 	</div>
 </template>
 
 <template name="activity">
-	<div class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
+	<li class="activityObject {{tooShort}} sortableList" style="height: {{activityHeight}}px">
 		<div class="activityTime">
 			{{#if activityStart}}
 				{{startTimeHuman}}
@@ -42,7 +37,7 @@
 		</div>
 
 		{{> activityInfo}}
-	</div>
+	</li>
 </template>
 
 <template name="activityInfo">
@@ -71,10 +66,10 @@
 			dayHeader
 			Start: {{startTimeHuman}}
 		</div>
-		<div class="dayActivities">
+		<ul class="dayActivities">
 			{{#each activities}}
 				{{> activity}}
 			{{/each}}
-		</div>
+		</ul>
 	</div>
 </template>

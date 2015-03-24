@@ -74,6 +74,11 @@ Meteor.methods({
 			pas.splice(position, 0, activity);
 			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
 		};
+	},
+	removeActivity: function(position) {
+		pas = getParkedActivities();
+		pas.splice(position, 1);
+		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
 	}
 });
 

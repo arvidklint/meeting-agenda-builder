@@ -13,12 +13,6 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Template.parkedActivity.events({
-		"click .parkedActivityObject": function(event) {
-			event.target.addClass("marked");
-		}
-	});
-
 	Template.newActivityView.events({
 		"click #closeModal": function() {
 			Session.set("activityModal", false);
@@ -62,8 +56,4 @@ if (Meteor.isClient) {
 			}
 		}
 	});
-
-	Template.activity.rendered = function() {
-		this.$('#activity').sortable();
-	}
 }
