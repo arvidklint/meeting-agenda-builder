@@ -3,6 +3,12 @@ body {
 	font-size: 12pt;
 }
 
+ul {
+    list-style-type: none;
+    padding:0;
+    margin:0
+}
+
 #mainFrame {
 	background-color: yellow;
 	height: 1000px;
@@ -15,17 +21,12 @@ body {
 	height: 100%;
 }
 
-#parkedActivities {
-	border: 1px solid black;
-	width: 300px;
-	padding-top: 5px;
-}
-
 #addActivityButton {
 	width: 300px;
 }
 
 .activityObject {
+	display: block;
 	width: 280px;
 	margin: 5px;
 	margin-top: 0px;
