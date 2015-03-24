@@ -4,12 +4,26 @@ Schedules = new Mongo.Collection("schedules");
 
 // Main model functions
 
+queryID = "7brtTuz4yWDtKtS4Z";
+
 getParkedActivities = function() {
-	return Schedules.findOne("7brtTuz4yWDtKtS4Z").parkedActivities;
+	return Schedules.findOne(queryID).parkedActivities;
 }
 
 getDays = function() {
-	return Schedules.findOne("7brtTuz4yWDtKtS4Z").days;
+	return Schedules.findOne(queryID).days;
+}
+
+getScheduleInfo = function() {
+	schedule = Schedules.findOne(queryID);
+
+	var scheduleInfo = {};
+
+	scheduleInfo["id"] = schedule._id;
+	scheduleInfo["scheduleTitle"] = schedule.scheduleTitle;
+	scheduleInfo["owner"] = schedule.owner;
+
+	return scheduleInfo;
 }
 
 makeActivityObject = function(title, name, length, type, description) {
@@ -32,6 +46,16 @@ addActivityStartTimes = function(days) {
 			days[i].activities[j]["activityStart"] = startTime; // add startTime to the activity object
 			startTime += days[i].activities[j].activityLength; // increase the startTime variable for the next activity, with the length of this activity
 		}
+	}
+
+	return days;
+}
+
+addDayNumbers = function(days) {
+	// Receives an array of days. Returns an array of days, with fields for day number added.
+
+	for (i in days) {
+		days[i]["dayNumber"] = parseInt(i) + 1;
 	}
 
 	return days;

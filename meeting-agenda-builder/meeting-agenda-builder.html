@@ -9,9 +9,17 @@
 </body>
 
 <template name="mainFrame">
+	{{> scheduleTitle}}
+
 	{{> parkedActivitiesView}}
 	{{> daysView}}
 	{{> newActivityView}}
+</body>
+
+<template name="scheduleTitle">
+	<div id="scheduleTitle">
+		{{scheduleTitle}}
+	</div>
 </template>
 
 <template name="parkedActivitiesView">
@@ -63,8 +71,11 @@
 <template name="day">
 	<div class="day">
 		<div class="dayHeader">
-			dayHeader
-			Start: {{startTimeHuman}}
+			Dag {{dayNumber}}<br/>
+			{{dayTitle}}<br/>
+			Start: {{startTimeHuman}}<br/>
+			Längd: {{dayLength}}<br/>
+			Slut: {{dayEnd}}<br/>
 		</div>
 		<ul class="dayActivities">
 			{{#each activities}}

@@ -2,6 +2,7 @@
 
 function databaseStructureExample() {
 	test_schedule = {
+		scheduleName: "Rymdkonferens",
 		parkedActivities: 	[{},
 							{}],
 		days: 	[{},
@@ -18,6 +19,7 @@ function databaseStructureExample() {
 	};
 
 	test_day = {
+		dayTitle: "Rymddag 1",
 		startTime: "480",
 		activities: []
 	};

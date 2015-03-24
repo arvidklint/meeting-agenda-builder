@@ -45,9 +45,9 @@ if (Meteor.isClient) {
 		},
 		activityHeight: function() {
 			if (this.activityLength >= 30) {
-				return this.activityLength * 1.5;
+				return this.activityLength * 1.5 + 20;
 			} else {
-				return 45;
+				return 45 + 20;
 			}
 		},
 		tooShort: function() {

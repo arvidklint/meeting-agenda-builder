@@ -1,10 +1,17 @@
 if (Meteor.isClient) {
 	Meteor.subscribe("schedules");
 
+	Template.scheduleTitle.helpers({
+		scheduleTitle: function() {
+			return getScheduleInfo().scheduleTitle;
+		}
+	})
+
 	Template.daysView.helpers({
 		days: function() {
 			days = getDays();
 			days = addActivityStartTimes(days);
+			days = addDayNumbers(days);
 			return days;
 		}
 	});
@@ -17,7 +24,10 @@ if (Meteor.isClient) {
 
 	Template.day.helpers({
 		startTimeHuman: function() {
-			return this.startTime + 10;
+			return minutesToHuman(this.startTime);
+		},
+		dayNumber: function() {
+			return this.dayNumber;
 		}
 	});
 
