@@ -28,6 +28,11 @@ if (Meteor.isClient) {
 		},
 		selectedMinute: function() {
 			if (this == "45") return true;
+		},
+		days: function() {
+			days = getDays();
+			days = addDayNumbers(days);
+			return days;
 		}
 	});
 
@@ -37,15 +42,15 @@ if (Meteor.isClient) {
 		},
 		"submit .newActivity": function(event) {
 			var ti = event.target.title.value;
-			var n = event.target.name.value;
 			var h = event.target.lengthH.value;
 			var m = event.target.lengthM.value;
 			var t = event.target.type.value;
+			var l = event.target.location.value;
 			var d = event.target.description.value;
 
-			var l = hmToMinutes(h, m);
+			var length = hmToMinutes(h, m);
 
-			Meteor.call("addActivity", makeActivityObject(ti, n, l, t, d), null);
+			Meteor.call("addActivity", makeActivityObject(ti, length, t, l, d), null);
 
 			Session.set("activityModal", false);
 			return false;

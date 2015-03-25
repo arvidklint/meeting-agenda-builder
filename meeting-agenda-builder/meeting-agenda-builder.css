@@ -54,18 +54,23 @@ ul {
 	border-bottom: 1px dotted orange;
 }
 
-.activityHeader {
+.activityTitle {
 	height: 20px;
 	padding: 3px;
 	background-color: rgba(255, 255, 255, 0.4);
 	text-align: center;
 }
 
-.activityContent {
-	height: 40px;
+.activityLocation {
+	padding: 3px;
+	font-size: 10pt;
+}
+
+.activityDescription {
 	padding: 3px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	display: inline;
 }
 
 #daysView {

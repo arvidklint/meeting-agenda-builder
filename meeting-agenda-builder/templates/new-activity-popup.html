@@ -11,10 +11,7 @@
 
 			<form class="popupForm newActivity">
 				<input class="modalinput" type="text" name="title" placeholder="Title"/>
-				<!-- <label class="modalLabel" for="name">Name</label> -->
-				<input class="modalinput" type="text" name="name" placeholder="Name"/>
-				<!-- <label class="modalLabel" for="length">Length</label> -->
-				
+				<input class="modalinput" type="text" name="location" placeholder="Location"/>
 				<label class="modalLabel" for="length">Length</label>
 				<select class="modalinput modalinputNumber" name="lengthH">
 					{{#each hours}}
@@ -34,12 +31,22 @@
 						{{/if}}
 					{{/each}}
 				</select>
+				<br/>
 
+				<label class="modalLabel" for="type">Type</label>
 				<select class="modalinput" name="type">
 					<option value="presentation">Presentation</option>
 					<option value="group_work">Group work</option>
 					<option value="discussion">Discussion</option>
 					<option value="break">Break</option>
+				</select>
+
+				<label class="modalLabel" for="target">Create activity in</label>
+				<select class="modalinput" name="target">
+					<option value="parkedActivities">Parked activities</option>
+					{{#each days}}
+						<option value="{{dayNumber}}">Day {{dayNumber}}, {{dayTitle}}</option>
+					{{/each}}
 				</select>
 
 				<label class="modalLabel" for="description">Description</label>

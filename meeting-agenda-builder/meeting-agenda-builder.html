@@ -46,18 +46,20 @@
 			{{/if}}
 		</div>
 
-		{{> activityInfo}}
-	</li>
-</template>
-
-<template name="activityInfo">
-
-	<div class="activityInfo {{type}}">
-		<div class="activityHeader">
-			{{title}}
+		<div class="activityInfo {{type}}">
+			<div class="activityTitle">
+				{{title}}
+			</div>
+			{{#if location}}
+				<div class="activityLocation">
+					{{location}}
+				</div>
+			{{/if}}
+			<div class="activityDescription">
+				Description: {{description}}
+			</div>
 		</div>
-		Description: {{description}}
-	</div>
+	</li>
 </template>
 
 <template name="daysView">

@@ -26,12 +26,12 @@ getScheduleInfo = function() {
 	return scheduleInfo;
 }
 
-makeActivityObject = function(title, name, length, type, description) {
+makeActivityObject = function(title, length, type, location, description) {
 	return {
 		"title": title,
-		"name": name,
 		"activityLength": length,
 		"type": type,
+		"location": location,
 		"description": description
 	}
 }
