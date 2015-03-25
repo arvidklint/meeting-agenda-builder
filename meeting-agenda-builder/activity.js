@@ -68,5 +68,9 @@ if (Meteor.isClient) {
 				return "tooShort";
 			}
 		},
+		activityStartSet: function() {
+			if (this.activityStart != null) return true;
+			else return false;
+		}
 	});
 }

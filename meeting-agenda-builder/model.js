@@ -27,8 +27,6 @@ getScheduleInfo = function() {
 }
 
 makeActivityObject = function(title, name, length, type, description) {
-
-
 	return {
 		"title": title,
 		"name": name,

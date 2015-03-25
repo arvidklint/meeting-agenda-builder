@@ -39,9 +39,18 @@ if (Meteor.isClient) {
 
 	Template.day.events({
 		"change .hoursList": function(event) {
+			$(event.target).parent().submit();
+		},
+		"change .minutesList": function(event) {
+			$(event.target).parent().submit();
+		},
+		"submit .startTime": function(event) {
 			dayNumber = parseInt(this.dayNumber);
-			newTime = hmToMinutes($('#startHours-day' + dayNumber).val(), $('#startMinutes-day' + dayNumber).val()); // get value for hour and minute and convert to minutes
+			newTime = hmToMinutes(event.target.startHours.value, event.target.startMinutes.value);
+
 			Meteor.call("changeStartTime", dayNumber - 1, newTime);
+
+			return false;
 		}
 	})
 

@@ -39,7 +39,7 @@
 <template name="activity">
 	<li class="activityObject {{tooShort}} sortableList" style="height: {{activityHeight}}px">
 		<div class="activityTime">
-			{{#if activityStart}}
+			{{#if activityStartSet}}
 				{{startTimeHuman}}
 			{{else}}
 				{{activityLength}} min
@@ -76,14 +76,13 @@
 			Dag {{dayNumber}}<br/>
 			{{dayTitle}}<br/>
 			Start: 
-			<form id="startTime">
-				<select id="startHours-day{{dayNumber}}" class="hoursList">
+			<form class="startTime">
+				<select class="hoursList" name="startHours">
 					{{> hoursList}}
 				</select>
-				<select id="startMinutes-day{{dayNumber}}" class="minutesList">
+				<select class="minutesList" name="startMinutes">
 					{{> minutesList}}
 				</select>
-				<!-- <button type="submit">OK</button> -->
 			</form>
 			<br/>
 			Längd: {{dayLength}}<br/>
