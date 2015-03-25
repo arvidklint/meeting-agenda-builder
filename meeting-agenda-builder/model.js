@@ -27,6 +27,8 @@ getScheduleInfo = function() {
 }
 
 makeActivityObject = function(title, name, length, type, description) {
+
+
 	return {
 		"title": title,
 		"name": name,
@@ -95,10 +97,10 @@ zeroPadding = function(num, size) {
 	return num;
 }
 
-numberList = function(start, end, padding) {
+numberList = function(start, end, step, padding) {
 	var numList = []
 
-	for (var i = start; i < end + 1; i++) {
+	for (var i = start; i < end + 1; i = i + step) {
 		if (padding) {
 			num = zeroPadding("" + i, 2);
 		} else {

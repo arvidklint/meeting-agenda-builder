@@ -13,6 +13,24 @@ if (Meteor.isClient) {
 		}
 	});
 
+	Template.newActivityView.helpers({
+		addActivityModal: function() {
+			return Session.get("activityModal");
+		},
+		hours: function() {
+			return numberList(0, 23, 1, 2);
+		},
+		minutes: function() {
+			return numberList(0, 59, 5, 2);
+		},
+		selectedHour: function() {
+			if (this == "00") return true;
+		},
+		selectedMinute: function() {
+			if (this == "45") return true;
+		}
+	});
+
 	Template.newActivityView.events({
 		"click #closeModal": function() {
 			Session.set("activityModal", false);
@@ -20,22 +38,17 @@ if (Meteor.isClient) {
 		"submit .newActivity": function(event) {
 			var ti = event.target.title.value;
 			var n = event.target.name.value;
-			var l = event.target.length.value;
+			var h = event.target.lengthH.value;
+			var m = event.target.lengthM.value;
 			var t = event.target.type.value;
 			var d = event.target.description.value;
 
-			var activity = makeActivityObject(n, l, t, d);
+			var l = hmToMinutes(h, m);
 
-			Meteor.call("addActivity", activity, null);
+			Meteor.call("addActivity", makeActivityObject(ti, n, l, t, d), null);
 
 			Session.set("activityModal", false);
 			return false;
-		}
-	});
-
-	Template.newActivityView.helpers({
-		addActivityModal: function() {
-			return Session.get("activityModal");
 		}
 	});
 

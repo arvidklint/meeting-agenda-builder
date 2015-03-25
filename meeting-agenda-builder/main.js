@@ -38,7 +38,7 @@ if (Meteor.isClient) {
 	});
 
 	Template.day.events({
-		"change .hoursList": function() {
+		"change .hoursList": function(event) {
 			dayNumber = parseInt(this.dayNumber);
 			newTime = hmToMinutes($('#startHours-day' + dayNumber).val(), $('#startMinutes-day' + dayNumber).val()); // get value for hour and minute and convert to minutes
 			Meteor.call("changeStartTime", dayNumber - 1, newTime);
@@ -47,7 +47,7 @@ if (Meteor.isClient) {
 
 	Template.hoursList.helpers({
 		hours: function() {
-			return numberList(0, 23, 2);
+			return numberList(0, 23, 1, 2);
 		},
 		selected: function() {
 			// Returns true if this hour should be selected in the menu
@@ -59,7 +59,7 @@ if (Meteor.isClient) {
 
 	Template.minutesList.helpers({
 		minutes: function() {
-			return numberList(0, 59, 2);
+			return numberList(0, 59, 5, 2);
 		},
 		selected: function() {
 			// Returns true if this minute should be selected in the menu

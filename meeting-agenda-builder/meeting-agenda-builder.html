@@ -76,13 +76,15 @@
 			Dag {{dayNumber}}<br/>
 			{{dayTitle}}<br/>
 			Start: 
-			<select id="startHours-day{{dayNumber}}" class="hoursList">
-				{{> hoursList}}
-			</select>
-			:
-			<select id="startMinutes-day{{dayNumber}}" class="minutesList">
-				{{> minutesList}}
-			</select>
+			<form id="startTime">
+				<select id="startHours-day{{dayNumber}}" class="hoursList">
+					{{> hoursList}}
+				</select>
+				<select id="startMinutes-day{{dayNumber}}" class="minutesList">
+					{{> minutesList}}
+				</select>
+				<!-- <button type="submit">OK</button> -->
+			</form>
 			<br/>
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>

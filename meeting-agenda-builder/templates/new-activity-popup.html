@@ -2,28 +2,51 @@
 	{{#if addActivityModal}}
 	<div id="modal_overlay">
 		<div id="modal" class="popupContainer">
+
 			<div class="popupHeader">
 				<span class="header_title">Create new activity</span>
 				<span class="modal_close"></span>
 				<a href="#close" id="closeModal">X Stäng</a>
 			</div>
+
 			<form class="popupForm newActivity">
-					<input class="modalinput" type="text" name="title" placeholder="Title"/>
-          <!-- <label class="modalLabel" for="name">Name</label> -->
-					<input class="modalinput" type="text" name="name" placeholder="Name"/>
-          <!-- <label class="modalLabel" for="length">Length</label> -->
-          <input class="modalinput" type="text" name="length" placeholder="Length"/>
-          <!-- <label class="modalLabel" for="type">Type</label> -->
-          <select class="modalinput" name="type">
-            <option value="presentation">Presentation</option>
-            <option value="group_work">Group work</option>
-            <option value="discussion">Discussion</option>
-            <option value="break">Break</option>
-          </select>
-          <label class="modalLabel" for="description">Description</label>
-          <textarea class="modalinput" name="description" rows="8" cols="40" paceholder="test"></textarea>
-          <button class="btn" type="submit">Create new</button>
+				<input class="modalinput" type="text" name="title" placeholder="Title"/>
+				<!-- <label class="modalLabel" for="name">Name</label> -->
+				<input class="modalinput" type="text" name="name" placeholder="Name"/>
+				<!-- <label class="modalLabel" for="length">Length</label> -->
+				
+				<label class="modalLabel" for="length">Length</label>
+				<select class="modalinput modalinputNumber" name="lengthH">
+					{{#each hours}}
+						{{#if selectedHour}}
+							<option value="{{this}}" selected="selected">{{this}}</option>
+						{{else}}
+							<option value="{{this}}">{{this}}</option>
+						{{/if}}
+					{{/each}}
+				</select>
+				<select class="modalinput modalinputNumber" name="lengthM">
+					{{#each minutes}}
+						{{#if selectedMinute}}
+							<option value="{{this}}" selected="selected">{{this}}</option>
+						{{else}}
+							<option value="{{this}}">{{this}}</option>
+						{{/if}}
+					{{/each}}
+				</select>
+
+				<select class="modalinput" name="type">
+					<option value="presentation">Presentation</option>
+					<option value="group_work">Group work</option>
+					<option value="discussion">Discussion</option>
+					<option value="break">Break</option>
+				</select>
+
+				<label class="modalLabel" for="description">Description</label>
+				<textarea class="modalinput" name="description" rows="8" cols="40"></textarea>
+				<button class="btn" type="submit">Create new</button>
 			</form>
+
 		</div>
 	</div>
 	{{/if}}
