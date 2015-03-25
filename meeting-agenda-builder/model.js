@@ -119,13 +119,19 @@ Meteor.methods({
 
 		Schedules.update( {"_id": queryID}, { $push: {days: day}} )
 	},
-	addActivity: function(activity, day, position) {
-		if (position === null) {
-			Schedules.update( {"_id": queryID}, { $push: {parkedActivities: activity} } );
-		} else {
+	addActivity: function(activity, target, position) {
+		if (target == "parkedActivities") {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
 			Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+		} else {
+			day = getDays()[target]; // get the whole day
+			day.activities.push(activity);
+
+			var formattedInfo = {};
+			formattedInfo["days." + target] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
+
+			Schedules.update( {"_id": queryID}, { $set: formattedInfo }) // reupload the whole day
 		};
 	},
 	removeActivity: function(position) {
@@ -134,13 +140,13 @@ Meteor.methods({
 		Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
 	},
 	changeStartTime: function(position, newTime) {
-		day = Schedules.findOne(queryID).days[position]; // hämtar dagen
-		day.startTime = newTime; // modifierar dagens starttid
+		day = Schedules.findOne(queryID).days[position]; // get the day
+		day.startTime = newTime; // modify the day's start time
 
 		var formattedInfo = {};
-		formattedInfo["days." + position] = day; // skapar dict med key som heter days[position] och infogar den nya dagen (nödvändigt trick)
+		formattedInfo["days." + position] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // ersätter hela dagen i databasen (det enda sättet tyvärr)
+		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
 	}
 });
 

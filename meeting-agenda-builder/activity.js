@@ -41,16 +41,19 @@ if (Meteor.isClient) {
 			Session.set("activityModal", false);
 		},
 		"submit .newActivity": function(event) {
-			var ti = event.target.title.value;
-			var h = event.target.lengthH.value;
-			var m = event.target.lengthM.value;
-			var t = event.target.type.value;
-			var l = event.target.location.value;
-			var d = event.target.description.value;
+			var title = event.target.title.value;
+			var location = event.target.location.value;
+			var lengthH = event.target.lengthH.value;
+			var lengthM = event.target.lengthM.value;
+			var type = event.target.type.value;
+			var target = event.target.target.value;
+			var description = event.target.description.value;
 
-			var length = hmToMinutes(h, m);
+			var length = hmToMinutes(lengthH, lengthM);
 
-			Meteor.call("addActivity", makeActivityObject(ti, length, t, l, d), null);
+			if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
+
+			Meteor.call("addActivity", makeActivityObject(title, length, type, location, description), target);
 
 			Session.set("activityModal", false);
 			return false;
