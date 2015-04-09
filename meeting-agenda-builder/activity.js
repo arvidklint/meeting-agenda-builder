@@ -1,18 +1,6 @@
 if (Meteor.isClient) {
 	Session.set("activityModal", false);
 
-	Template.parkedActivitiesView.helpers({
-		parkedActivities: function() {
-			return getParkedActivities();
-		}
-	});
-
-	Template.parkedActivitiesView.events({
-		"click #addActivityButton": function() {
-			Session.set("activityModal", true);
-		}
-	});
-
 	Template.newActivityView.helpers({
 		addActivityModal: function() {
 			return Session.get("activityModal");

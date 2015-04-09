@@ -22,6 +22,18 @@ if (Meteor.isClient) {
 		}
 	});
 
+	Template.parkedActivitiesView.helpers({
+		parkedActivities: function() {
+			return getParkedActivities();
+		}
+	});
+
+	Template.parkedActivitiesView.events({
+		"click #addActivityButton": function() {
+			Session.set("activityModal", true);
+		}
+	});
+
 	Template.day.helpers({
 		startTimeHuman: function() {
 			return minutesToHuman(this.startTime);
