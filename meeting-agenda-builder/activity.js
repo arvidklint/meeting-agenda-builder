@@ -24,7 +24,7 @@ if (Meteor.isClient) {
 			var t = event.target.type.value;
 			var d = event.target.description.value;
 
-			var activity = makeActivityObject(n, l, t, d);
+			var activity = makeActivityObject(ti, n, l, t, d);
 
 			Meteor.call("addActivity", activity, null);
 

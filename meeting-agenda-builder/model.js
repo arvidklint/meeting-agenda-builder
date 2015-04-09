@@ -7,7 +7,25 @@ Schedules = new Mongo.Collection("schedules");
 queryID = "7brtTuz4yWDtKtS4Z";
 
 getParkedActivities = function() {
-	return Schedules.findOne(queryID).parkedActivities;
+	array = Schedules.findOne(queryID).parkedActivities;
+	sortedArray = sortArrayByProperty(array, "rank");
+	highestRank = parseInt(sortedArray[sortedArray.length-1].rank);
+	console.log(highestRank);
+	return sortedArray;
+}
+
+sortArrayByProperty = function(array, property) {
+	return array.sort(dynamicSort(property));
+}
+
+function dynamicSort(property) {
+	return function (a,b) {
+		if (a[property] < b[property])
+			return -1;
+		if (a[property] > b[property])
+			return 1;
+		return 0;
+	}
 }
 
 getDays = function() {
@@ -27,7 +45,11 @@ getScheduleInfo = function() {
 }
 
 makeActivityObject = function(title, name, length, type, description) {
+	if(highestRank == null) {
+		highestRank = -1;
+	}
 	return {
+		"rank": highestRank + 1,
 		"title": title,
 		"name": name,
 		"activityLength": length,
@@ -108,11 +130,29 @@ Meteor.methods({
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
 			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
-		};
+		}
 	},
 	removeActivity: function(position) {
-		pas = getParkedActivities();
+		var pas = getParkedActivities();
 		pas.splice(position, 1);
+		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
+	},
+	setActivityRank: function(oldRank, newRank) {
+		var pas = getParkedActivities();
+
+		// Eftersom pas redan är sorterad kan vi använda oldRank som index
+		var movingElement = pas.splice(oldRank, 1);
+
+		for (var i = oldRank; i < pas.length; i++) {
+			pas[i].rank = parseInt(pas[i].rank) - 1;
+		}
+
+		pas.splice(newRank, 0, movingElement);
+
+		for (var i = newRank + 1; i < pas.length; i++) {
+			pas[i].rank = parseInt(pas[i].rank + 1);
+		}
+
 		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
 	}
 });
