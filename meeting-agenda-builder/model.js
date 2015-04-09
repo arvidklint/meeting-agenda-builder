@@ -10,6 +10,18 @@ getParkedActivities = function() {
 	return Schedules.findOne(queryID).parkedActivities;
 }
 
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
+
 getDays = function() {
 	return Schedules.findOne(queryID).days;
 }
@@ -147,7 +159,28 @@ Meteor.methods({
 		formattedInfo["days." + position] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
 		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
+	},
+	moveActivity: function(target, startPos, endPos) {
+		if (target == "parkedActivities") {
+			var pas = getParkedActivities();
+			var activity = pas[startPos];
+			pas.splice(startPos, 1);
+			if (endPos >= pas.length) {
+				pas.push(activity);
+			} else {
+				pas.splice(endPos, 0, activity);
+			}
+			
+			
+			for (var i = 0; i < pas.length; i++) {
+				console.log(i + " titel: " + pas[i].title);
+			}
+			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+		}
 	}
+	// updateRank: function(id, rank) {
+	// 	Schedules.update( {"_id": queryID, parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
+	// }
 });
 
 if (Meteor.isServer) {
