@@ -13,29 +13,50 @@ if (Meteor.isClient) {
 		}
 	});
 
+	Template.newActivityView.helpers({
+		addActivityModal: function() {
+			return Session.get("activityModal");
+		},
+		hours: function() {
+			return numberList(0, 23, 1, 2);
+		},
+		minutes: function() {
+			return numberList(0, 59, 5, 2);
+		},
+		selectedHour: function() {
+			if (this == "00") return true;
+		},
+		selectedMinute: function() {
+			if (this == "45") return true;
+		},
+		days: function() {
+			days = getDays();
+			days = addDayNumbers(days);
+			return days;
+		}
+	});
+
 	Template.newActivityView.events({
 		"click #closeModal": function() {
 			Session.set("activityModal", false);
 		},
 		"submit .newActivity": function(event) {
-			var ti = event.target.title.value;
-			var n = event.target.name.value;
-			var l = event.target.length.value;
-			var t = event.target.type.value;
-			var d = event.target.description.value;
+			var title = event.target.title.value;
+			var location = event.target.location.value;
+			var lengthH = event.target.lengthH.value;
+			var lengthM = event.target.lengthM.value;
+			var type = event.target.type.value;
+			var target = event.target.target.value;
+			var description = event.target.description.value;
 
-			var activity = makeActivityObject(ti, n, l, t, d);
+			var length = hmToMinutes(lengthH, lengthM);
 
-			Meteor.call("addActivity", activity, null);
+			if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
+
+			Meteor.call("addActivity", makeActivityObject(title, length, type, location, description), target);
 
 			Session.set("activityModal", false);
 			return false;
-		}
-	});
-
-	Template.newActivityView.helpers({
-		addActivityModal: function() {
-			return Session.get("activityModal");
 		}
 	});
 
@@ -55,5 +76,9 @@ if (Meteor.isClient) {
 				return "tooShort";
 			}
 		},
+		activityStartSet: function() {
+			if (this.activityStart != null) return true;
+			else return false;
+		}
 	});
 }

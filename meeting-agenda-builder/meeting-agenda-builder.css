@@ -4,9 +4,9 @@ body {
 }
 
 ul {
-    list-style-type: none;
-    padding:0;
-    margin:0
+		list-style-type: none;
+		padding:0;
+		margin:0
 }
 
 #mainFrame {
@@ -54,18 +54,23 @@ ul {
 	border-bottom: 1px dotted orange;
 }
 
-.activityHeader {
+.activityTitle {
 	height: 20px;
 	padding: 3px;
 	background-color: rgba(255, 255, 255, 0.4);
 	text-align: center;
 }
 
-.activityContent {
-	height: 40px;
+.activityLocation {
+	padding: 3px;
+	font-size: 10pt;
+}
+
+.activityDescription {
 	padding: 3px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	display: inline;
 }
 
 #daysView {
@@ -125,27 +130,31 @@ ul {
 }
 
 .popupHeader {
-  background-color: #2da9ff;
-  padding: 10px;
+	background-color: #2da9ff;
+	padding: 10px;
 }
 
 .modalinput {
-  position: relative;
-  width: 360px;
-  padding: 8px 5px;
-  margin-bottom: 10px;
-  border: solid #d6d6d6 1px;
-  resize: none;
-	font-size: 14pt;
+	position: relative;
+	width: 360px;
+	padding: 8px 5px;
+	margin-bottom: 10px;
+	border: solid #d6d6d6 1px;
+	resize: none;
+	font-size: 12pt;
+}
+
+.modalinputNumber {
+	width: 55px;
 }
 
 .modalLabel {
-  color: #9a9a9a;
+	color: #9a9a9a;
 }
 
 .popupForm {
-  padding: 20px 12px;
-  background-color: #ededed;
+	padding: 20px 12px;
+	background-color: #ededed;
 }
 
 .presentation {

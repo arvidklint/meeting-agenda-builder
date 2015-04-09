@@ -7,25 +7,7 @@ Schedules = new Mongo.Collection("schedules");
 queryID = "7brtTuz4yWDtKtS4Z";
 
 getParkedActivities = function() {
-	array = Schedules.findOne(queryID).parkedActivities;
-	sortedArray = sortArrayByProperty(array, "rank");
-	highestRank = parseInt(sortedArray[sortedArray.length-1].rank);
-	console.log(highestRank);
-	return sortedArray;
-}
-
-sortArrayByProperty = function(array, property) {
-	return array.sort(dynamicSort(property));
-}
-
-function dynamicSort(property) {
-	return function (a,b) {
-		if (a[property] < b[property])
-			return -1;
-		if (a[property] > b[property])
-			return 1;
-		return 0;
-	}
+	return Schedules.findOne(queryID).parkedActivities;
 }
 
 getDays = function() {
@@ -44,16 +26,12 @@ getScheduleInfo = function() {
 	return scheduleInfo;
 }
 
-makeActivityObject = function(title, name, length, type, description) {
-	if(highestRank == null) {
-		highestRank = -1;
-	}
+makeActivityObject = function(title, length, type, location, description) {
 	return {
-		"rank": highestRank + 1,
 		"title": title,
-		"name": name,
 		"activityLength": length,
 		"type": type,
+		"location": location,
 		"description": description
 	}
 }
@@ -105,6 +83,10 @@ minutesToHuman = function(inMinutes) {
 	return hours + ":" + minutes;
 }
 
+hmToMinutes = function(hours, minutes) {
+	return parseInt(hours) * 60 + parseInt(minutes);
+}
+
 zeroPadding = function(num, size) {
 	while (num.length < size) {
 		num = "0" + num;
@@ -113,47 +95,58 @@ zeroPadding = function(num, size) {
 	return num;
 }
 
+numberList = function(start, end, step, padding) {
+	var numList = []
+
+	for (var i = start; i < end + 1; i = i + step) {
+		if (padding) {
+			num = zeroPadding("" + i, 2);
+		} else {
+			num = i;
+		}
+		numList.push(num);
+	}
+
+	return numList;
+}
 
 Meteor.methods({
 	addDay: function(startH, startM) {
 		var day = {
-			startTime: 0,
+			startTime: 540,
 			activities: []
 		}
 
-		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {days: day}} )
+		Schedules.update( {"_id": queryID}, { $push: {days: day}} )
 	},
-	addActivity: function(activity, day, position) {
-		if (position === null) {
-			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $push: {parkedActivities: activity} } );
-		} else {
+	addActivity: function(activity, target, position) {
+		if (target == "parkedActivities") {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
-			Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
-		}
+			Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+		} else {
+			day = getDays()[target]; // get the whole day
+			day.activities.push(activity);
+
+			var formattedInfo = {};
+			formattedInfo["days." + target] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
+
+			Schedules.update( {"_id": queryID}, { $set: formattedInfo }) // reupload the whole day
+		};
 	},
 	removeActivity: function(position) {
-		var pas = getParkedActivities();
+		pas = getParkedActivities();
 		pas.splice(position, 1);
-		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
+		Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
 	},
-	setActivityRank: function(oldRank, newRank) {
-		var pas = getParkedActivities();
+	changeStartTime: function(position, newTime) {
+		day = Schedules.findOne(queryID).days[position]; // get the day
+		day.startTime = newTime; // modify the day's start time
 
-		// Eftersom pas redan är sorterad kan vi använda oldRank som index
-		var movingElement = pas.splice(oldRank, 1);
+		var formattedInfo = {};
+		formattedInfo["days." + position] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-		for (var i = oldRank; i < pas.length; i++) {
-			pas[i].rank = parseInt(pas[i].rank) - 1;
-		}
-
-		pas.splice(newRank, 0, movingElement);
-
-		for (var i = newRank + 1; i < pas.length; i++) {
-			pas[i].rank = parseInt(pas[i].rank + 1);
-		}
-
-		Schedules.update( {"_id": "7brtTuz4yWDtKtS4Z"}, { $set: {parkedActivities: pas} });
+		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
 	}
 });
 

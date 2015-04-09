@@ -39,25 +39,27 @@
 <template name="activity">
 	<li class="activityObject {{tooShort}} sortableList" style="height: {{activityHeight}}px">
 		<div class="activityTime">
-			{{#if activityStart}}
+			{{#if activityStartSet}}
 				{{startTimeHuman}}
 			{{else}}
 				{{activityLength}} min
 			{{/if}}
 		</div>
 
-		{{> activityInfo}}
-	</li>
-</template>
-
-<template name="activityInfo">
-
-	<div class="activityInfo {{type}}">
-		<div class="activityHeader">
-			{{title}}
+		<div class="activityInfo {{type}}">
+			<div class="activityTitle">
+				{{title}}
+			</div>
+			{{#if location}}
+				<div class="activityLocation">
+					{{location}}
+				</div>
+			{{/if}}
+			<div class="activityDescription">
+				Description: {{description}}
+			</div>
 		</div>
-		Description: {{description}}
-	</div>
+	</li>
 </template>
 
 <template name="daysView">
@@ -75,16 +77,20 @@
 		<div class="dayHeader">
 			Dag {{dayNumber}}<br/>
 			{{dayTitle}}<br/>
-			Start: {{startTimeHuman}} 
-			<select id="startHours-day{{dayNumber}}" class="hoursList"></select>
-			<select id="startMinutes-day{{dayNumber}}" class="minutesList"></select>
+			Start: 
+			<form class="startTime">
+				<select class="hoursList" name="startHours">
+					{{> hoursList}}
+				</select>
+				<select class="minutesList" name="startMinutes">
+					{{> minutesList}}
+				</select>
+			</form>
 			<br/>
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
-
-	
-
 		</div>
+
 		<ul class="dayActivities">
 			{{#each activities}}
 				{{> activity}}
@@ -93,3 +99,22 @@
 	</div>
 </template>
 
+<template name="hoursList">
+	{{#each hours}}
+		{{#if selected}}
+			<option value="{{this}}" selected="selected">{{this}}</option>
+		{{else}}
+			<option value="{{this}}">{{this}}</option>
+		{{/if}}
+	{{/each}}
+</template>
+
+<template name="minutesList">
+	{{#each minutes}}
+		{{#if selected}}
+			<option value="{{this}}" selected="selected">{{this}}</option>
+		{{else}}
+			<option value="{{this}}">{{this}}</option>
+		{{/if}}
+	{{/each}}
+</template>
