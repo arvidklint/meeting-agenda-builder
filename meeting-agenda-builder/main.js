@@ -93,23 +93,19 @@ if (Meteor.isClient) {
 	Template.mainFrame.rendered = function() {
 		console.log("renderat");
 		this.$('#parkedActivities').sortable({
-			start: function(e, ui) {
-				startIndex = ui.item.index();
-			},
 			stop: function(e, ui) {
-				endIndex = ui.item.index();
-				console.log("StartIndex: " + startIndex);
-				console.log("EndIndex: " + endIndex);
 				el = ui.item.get(0);
+				before = ui.item.prev().get(0);
+				after = ui.item.next().get(0);
 
-				activity = Blaze.getData(el);
+				if (!before) {
+					newRank = 0;
+				} else {
+					newRank = parseInt(Blaze.getData(before).rank);
+				}
+				oldRank = parseInt(Blaze.getData(el).rank);
 
-				// if(startIndex < endIndex) {
-				// 	endIndex -= 1;
-				// }
-
-				Meteor.call("removeActivity", startIndex);
-				Meteor.call("addActivity", activity, null, endIndex);
+				Meteor.call("setActivityRank", oldRank, newRank);
 			}
 		});
 		this.$('#parkedActivities').disableSelection();
