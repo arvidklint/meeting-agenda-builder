@@ -30,12 +30,13 @@
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
 		<button id="addActivityButton">✚ Add activity</button>
-
+		{{#if showParkedActivities}}
 		<ul id="parkedActivities">
 			{{#each parkedActivities}}
 				{{> activity}}
 			{{/each}}
 		</ul>
+		{{/if}}
 	</div>
 </template>
 
