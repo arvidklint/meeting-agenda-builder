@@ -4,9 +4,9 @@ body {
 }
 
 ul {
-		list-style-type: none;
-		padding:0;
-		margin:0
+	list-style-type: none;
+	padding:0;
+	margin:0
 }
 
 #mainFrame {
@@ -184,4 +184,24 @@ ul {
 
 .break {
 	background-color: yellow;
+}
+
+#scheduleList {
+	background-color: gray;
+	padding: 5px;
+	width: 500px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.scheduleListItem {
+	background-color: white;
+	cursor: pointer;
+	padding: 2px;
+}
+
+.title {
+	font-size: 14pt;
+	margin-top: 0pt;
+	margin-bottom: 20px;
 }

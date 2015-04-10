@@ -1,0 +1,20 @@
+<template name="loginView">
+	{{> loginButtons}}
+
+	{{#if loggedIn}}
+		{{> schedules}}
+	{{else}}
+		Not logged in
+	{{/if}}
+</template>
+
+<template name="schedules">
+	<p>Skedules</p>
+
+	<div id="scheduleList">
+		<p class="title">Schedules</p>
+		{{#each schedules}}
+			<div class="scheduleListItem">{{scheduleTitle}}</div>
+		{{/each}}
+	</div>
+</template>

@@ -7,6 +7,14 @@ if (Meteor.isClient) {
 		scheduleTitle: function() {
 			return getScheduleInfo().scheduleTitle;
 		}
+	});
+
+	Template.scheduleTitle.events({
+		"click #toScheduleChooser": function() {
+			console.log("clicked toScheduleChooser");
+			Session.set("currentSchedule", null);
+			console.log("the current schedule is now" + Session.get("currentSchedule"));
+		}
 	})
 
 	Template.daysView.helpers({
@@ -182,4 +190,6 @@ if (Meteor.isClient) {
 		// console.log(numberOptionList(0, 23, 2));
 		// console.log(numberOptionList(0, 59, 2));
 	}
+
+	
 }

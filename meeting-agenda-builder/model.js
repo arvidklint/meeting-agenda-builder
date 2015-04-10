@@ -6,6 +6,20 @@ Schedules = new Mongo.Collection("schedules");
 
 queryID = "7brtTuz4yWDtKtS4Z";
 
+leTest = function() {
+	console.log("leTest");
+	loggedIn = true;
+}
+
+getSchedules = function(user) {
+	console.log("id: " + user._id);
+	schedules = Schedules.find({"owner": user._id}).fetch();
+	console.log("Schedules:");
+	console.log(schedules);
+
+	return schedules;
+}
+
 getParkedActivities = function() {
 	return Schedules.findOne(queryID).parkedActivities;
 }

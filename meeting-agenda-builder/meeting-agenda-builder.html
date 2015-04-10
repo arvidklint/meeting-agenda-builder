@@ -3,22 +3,26 @@
 </head>
 
 <body>
-	<div id="mainFrame">
+	{{#if scheduleChosen}}
 		{{> mainFrame}}
-	</div>
-
-	
+	{{else}}
+		{{> loginView}}
+	{{/if}}
 </body>
 
 <template name="mainFrame">
-	{{> scheduleTitle}}
-	{{> parkedActivitiesView}}
-	{{> daysView}}
-	{{> newActivityView}}
+	<div id="mainFrame">
+		{{> scheduleTitle}}
+
+		{{> parkedActivitiesView}}
+		{{> daysView}}
+		{{> newActivityView}}
+	</div>
 </template>
 
 <template name="scheduleTitle">
-	<div id="scheduleTitle">
+	<div class="title">
+		<button id="toScheduleChooser">&lt;</button>
 		{{scheduleTitle}}
 	</div>
 </template>
