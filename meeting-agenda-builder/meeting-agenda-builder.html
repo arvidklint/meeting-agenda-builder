@@ -26,18 +26,17 @@
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
 		<button id="addActivityButton">✚ Add activity</button>
-		{{#if showParkedActivities}}
-		<ul id="parkedActivities">
+		<ul class="activityList connectLists" id="parkedActivities">
 			{{#each parkedActivities}}
 				{{> activity}}
 			{{/each}}
 		</ul>
-		{{/if}}
 	</div>
 </template>
 
 <template name="activity">
-	<li class="activityObject {{tooShort}} sortableList" style="height: {{activityHeight}}px">
+	<!-- <div id="{{activityID}}" class="activityObject {{tooShort}}" target="{{target}}" style="height: {{activityHeight}}px; left: {{leftPos}}; top: {{topPos}}"> -->
+	<li class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
 		<div class="activityTime">
 			{{#if activityStartSet}}
 				{{startTimeHuman}}
@@ -91,7 +90,7 @@
 			Slut: {{dayEnd}}<br/>
 		</div>
 
-		<ul class="dayActivities">
+		<ul class="activityList connectLists" id="{{dayTitle}}">
 			{{#each activities}}
 				{{> activity}}
 			{{/each}}
