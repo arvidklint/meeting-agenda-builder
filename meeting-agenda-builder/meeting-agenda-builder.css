@@ -3,6 +3,8 @@ body {
 	font-size: 12pt;
 }
 
+
+
 ul {
 	list-style-type: none;
 	padding:0;
@@ -124,7 +126,11 @@ ul {
 	cursor: pointer;
 }
 
-#modal_overlay {
+.badBtn {
+	background-color: red;
+}
+
+.modal_overlay {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -134,16 +140,28 @@ ul {
 	z-index: 100;
 }
 
-#modal {
+.modal {
 	width: 400px;
 	position: relative;
 	margin: 5% auto;
 	background: #fff;
+	overflow: scroll;
+	max-height: 100%;
 }
 
 .popupHeader {
 	background-color: #2da9ff;
 	padding: 10px;
+	overflow: hidden;
+}
+
+.popupHeader_title {
+	float: left;
+}
+
+.popupHeader_button {
+	float: right;
+	cursor: pointer;
 }
 
 .modalinput {
@@ -193,14 +211,33 @@ ul {
 	margin-left: auto;
 }
 
+#scheduleListTable {
+	width: 100%;
+}
+
 .scheduleListItem {
 	background-color: white;
 	cursor: pointer;
 	padding: 2px;
+	margin-bottom: 2px;
+	overflow: hidden;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.floatRight {
+	float: right;
+}
+
+.fullwidth {
+	width: 100%;
 }
 
 .title {
 	font-size: 14pt;
 	margin-top: 0pt;
 	margin-bottom: 20px;
+	overflow: hidden;
 }

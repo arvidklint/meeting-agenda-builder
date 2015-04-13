@@ -4,40 +4,35 @@ Schedules = new Mongo.Collection("schedules");
 
 // Main model functions
 
-queryID = "7brtTuz4yWDtKtS4Z";
-
 leTest = function() {
 	console.log("leTest");
 	loggedIn = true;
 }
 
 getSchedules = function(user) {
-	console.log("id: " + user._id);
 	schedules = Schedules.find({"owner": user._id}).fetch();
-	console.log("Schedules:");
-	console.log(schedules);
 
 	return schedules;
 }
 
 getParkedActivities = function() {
-	return Schedules.findOne(queryID).parkedActivities;
+	return Schedules.findOne(Session.get("currentSchedule")).parkedActivities;
 }
 
 function dynamicSort(property) {
-    var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
-    }
-    return function (a,b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
+	var sortOrder = 1;
+	if(property[0] === "-") {
+		sortOrder = -1;
+		property = property.substr(1);
+	}
+	return function (a,b) {
+		var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+		return result * sortOrder;
+	}
 }
 
 getDays = function() {
-	return Schedules.findOne(queryID).days;
+	return Schedules.findOne(Session.get("currentSchedule")).days;
 }
 
 getDayWithTitle = function(title) {
@@ -61,7 +56,7 @@ getDayPosWithTitle = function(title) {
 }
 
 getScheduleInfo = function() {
-	schedule = Schedules.findOne(queryID);
+	schedule = Schedules.findOne(Session.get("currentSchedule"));
 
 	var scheduleInfo = {};
 
@@ -120,6 +115,18 @@ makeActivityObject = function(title, length, type, location, description) {
 		"location": location,
 		"description": description
 	}
+}
+
+emptySchedule = function() {
+	this.scheduleTitle = "";
+	this.parkedActivities = [];
+	this.days = [];
+	this.owner = "";
+}
+
+emptyDay = function() {
+	this.startTime = 540;
+	activities = [];
 }
 
 addActivityStartTimes = function(days) {
@@ -221,19 +228,41 @@ putActivityInList = function(list, activity, pos) {
 }
 
 Meteor.methods({
+	addSchedule: function(userID, scheduleTitle, numDays) {
+		var schedule = new emptySchedule;
+
+		schedule.scheduleTitle = scheduleTitle;
+		schedule.owner = userID;
+
+		for (var i = 0; i < numDays; i ++) {
+			schedule.days.push(new emptyDay);
+		}
+
+		var scheduleID = Schedules.insert(schedule);
+		Session.set("currentSchedule", scheduleID);
+	},
+	deleteSchedule: function(scheduleID) {
+		var schedule = Schedules.findOne(scheduleID);
+
+		if (schedule.owner == Meteor.user()._id) {
+			Schedules.remove(schedule._id);
+		} else {
+			throw new Error("You are not the owner of the schedule " + schedule.scheduleTitle + " and can therefore not delete it.");
+		}
+	},
 	addDay: function(startH, startM) {
 		var day = {
 			startTime: 540,
 			activities: []
 		}
 
-		Schedules.update( {"_id": queryID}, { $push: {days: day}} )
+		Schedules.update( {"_id": Session.get("currentSchedule")}, { $push: {days: day}} )
 	},
 	addActivity: function(activity, target, position) {
 		if (target === "parkedActivities") {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
-			Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
 		} else {
 			day = getDays()[target]; // get the whole day
 			day.activities.push(activity);
@@ -241,22 +270,22 @@ Meteor.methods({
 			var formattedInfo = {};
 			formattedInfo["days." + target] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-			Schedules.update( {"_id": queryID}, { $set: formattedInfo }) // reupload the whole day
+			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }) // reupload the whole day
 		};
 	},
 	removeActivity: function(position) {
 		pas = getParkedActivities();
 		pas.splice(position, 1);
-		Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
 	},
 	changeStartTime: function(position, newTime) {
-		day = Schedules.findOne(queryID).days[position]; // get the day
+		day = Schedules.findOne(Session.get("currentSchedule")).days[position]; // get the day
 		day.startTime = newTime; // modify the day's start time
 
 		var formattedInfo = {};
 		formattedInfo["days." + position] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
+		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
 	},
 	// updateActivityPos: function(targetList, activityID, leftPos, topPos) {
 	// 	if (targetList === "parkedActivities") {
@@ -298,14 +327,28 @@ Meteor.methods({
 	},
 	moveActivityToList: function(scheduleID, startTarget, endTarget, startPos, endPos) {
 
+<<<<<<< HEAD
 		if(startTarget === "parkedActivities") {
 			console.log("parkedActivities till lista");
 
+=======
+		if (startTarget === "parkedActivities") {
+>>>>>>> 66d7e38111d5a04a0ce23d0bb7e9f1a4aa47e6df
 			var pas = getParkedActivities();
 
+<<<<<<< HEAD
 			var dayIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
 
 			var day = getDays()[dayIndex];
+=======
+			var activity = pas.splice(startPos, 1)[0];
+			console.log(activity);
+			if (endPos >= day.activities.length) {
+				day.activities.push(activity);
+			} else {
+				day.activities.splice(endPos, 0, activity);
+			}
+>>>>>>> 66d7e38111d5a04a0ce23d0bb7e9f1a4aa47e6df
 
 			var activity = pas.splice(startPos, 1)[0];
 			
@@ -313,8 +356,14 @@ Meteor.methods({
 
 			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
 			var formattedInfo = {};
+<<<<<<< HEAD
 			formattedInfo["days." + dayIndex] = day;
 			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo });
+=======
+			formattedInfo["days." + dayPos] = day;
+			console.log(formattedInfo);
+			Schedules.update( {"_id": queryID}, { $set: formattedInfo });
+>>>>>>> 66d7e38111d5a04a0ce23d0bb7e9f1a4aa47e6df
 
 		} else if (endTarget === "parkedActivities") {
 			console.log("lista till parkedActivities");
@@ -352,10 +401,11 @@ Meteor.methods({
 
 			Schedules.update( {"_id": scheduleID}, {$set: formattedInfo});
 		}
+		
 		Deps.flush();
 	}
 	// updateRank: function(id, rank) {
-	// 	Schedules.update( {"_id": queryID, parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
+	// 	Schedules.update( {"_id": Session.get("currentSchedule"), parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
 	// }
 });
 
@@ -363,7 +413,6 @@ if (Meteor.isServer) {
 	Meteor.publish("schedules", function() {
 		return Schedules.find({});
 	});
-
 
 	Meteor.startup(function () {
 		// code to run on server at startup
