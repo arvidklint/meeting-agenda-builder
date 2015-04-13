@@ -111,7 +111,7 @@ if (Meteor.isClient) {
 	// 	});
 	// }
 
-	Template.mainFrame.rendered = function() {
+	Template.activity.rendered = function() {
 		$('.activityList').sortable({
 			connectWith: ".connectLists",
 			dropOnEmpty: true,
