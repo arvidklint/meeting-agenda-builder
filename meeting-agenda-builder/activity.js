@@ -48,7 +48,8 @@ if (Meteor.isClient) {
 
 			if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
-			Meteor.call("addActivity", makeActivityObject(title, length, type, location, description), target, 0);
+			var newActivity = makeActivityObject(title, length, type, location, description);
+			Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
 
 			Session.set("activityModal", false);
 			return false;
