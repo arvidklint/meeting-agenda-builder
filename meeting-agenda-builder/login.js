@@ -1,5 +1,3 @@
-console.log("Dokumentet körs");
-
 if (Meteor.isClient) {
 	Deps.autorun(function () {
 		if (Meteor.user()) Session.set("loggedIn", true);
@@ -25,7 +23,6 @@ if (Meteor.isClient) {
 	Template.loginView.events({
 		"click .scheduleListItem": function() {
 			Session.set("currentSchedule", this._id);
-			console.log("Satte currentSchedule till: " + Session.get("currentSchedule"));
 		}
 	})
 

@@ -4,24 +4,19 @@ Schedules = new Mongo.Collection("schedules");
 
 // Main model functions
 
-queryID = "7brtTuz4yWDtKtS4Z";
-
 leTest = function() {
 	console.log("leTest");
 	loggedIn = true;
 }
 
 getSchedules = function(user) {
-	console.log("id: " + user._id);
 	schedules = Schedules.find({"owner": user._id}).fetch();
-	console.log("Schedules:");
-	console.log(schedules);
 
 	return schedules;
 }
 
 getParkedActivities = function() {
-	return Schedules.findOne(queryID).parkedActivities;
+	return Schedules.findOne(Session.get("currentSchedule")).parkedActivities;
 }
 
 function dynamicSort(property) {
@@ -37,11 +32,11 @@ function dynamicSort(property) {
 }
 
 getDays = function() {
-	return Schedules.findOne(queryID).days;
+	return Schedules.findOne(Session.get("currentSchedule")).days;
 }
 
 getScheduleInfo = function() {
-	schedule = Schedules.findOne(queryID);
+	schedule = Schedules.findOne(Session.get("currentSchedule"));
 
 	var scheduleInfo = {};
 
@@ -143,13 +138,13 @@ Meteor.methods({
 			activities: []
 		}
 
-		Schedules.update( {"_id": queryID}, { $push: {days: day}} )
+		Schedules.update( {"_id": Session.get("currentSchedule")}, { $push: {days: day}} )
 	},
 	addActivity: function(activity, target, position) {
 		if (target == "parkedActivities") {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
-			Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
 		} else {
 			day = getDays()[target]; // get the whole day
 			day.activities.push(activity);
@@ -157,22 +152,22 @@ Meteor.methods({
 			var formattedInfo = {};
 			formattedInfo["days." + target] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-			Schedules.update( {"_id": queryID}, { $set: formattedInfo }) // reupload the whole day
+			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }) // reupload the whole day
 		};
 	},
 	removeActivity: function(position) {
 		pas = getParkedActivities();
 		pas.splice(position, 1);
-		Schedules.update( {"_id": queryID}, { $set: {parkedActivities: pas} });
+		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
 	},
 	changeStartTime: function(position, newTime) {
-		day = Schedules.findOne(queryID).days[position]; // get the day
+		day = Schedules.findOne(Session.get("currentSchedule")).days[position]; // get the day
 		day.startTime = newTime; // modify the day's start time
 
 		var formattedInfo = {};
 		formattedInfo["days." + position] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-		Schedules.update( {"_id": queryID}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
+		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
 	},
 	moveActivity: function(target, startPos, endPos) {
 		if (target == "parkedActivities") {
@@ -189,11 +184,11 @@ Meteor.methods({
 			for (var i = 0; i < pas.length; i++) {
 				console.log(i + " titel: " + pas[i].title);
 			}
-			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+			Schedules.update( {"_id": Session.get("currentSchedule")}, {$set: {parkedActivities: pas} });
 		}
 	}
 	// updateRank: function(id, rank) {
-	// 	Schedules.update( {"_id": queryID, parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
+	// 	Schedules.update( {"_id": Session.get("currentSchedule"), parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
 	// }
 });
 
