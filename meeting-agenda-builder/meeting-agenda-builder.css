@@ -3,9 +3,7 @@ body {
 	font-size: 12pt;
 }
 
-body .fixed {
-	overflow: hidden;
-}
+
 
 ul {
 	list-style-type: none;
@@ -149,6 +147,7 @@ ul {
 	margin: 5% auto;
 	background: #fff;
 	overflow: scroll;
+	max-height: 100%;
 }
 
 .popupHeader {

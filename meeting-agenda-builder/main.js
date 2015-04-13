@@ -3,12 +3,6 @@ if (Meteor.isClient) {
 
 	Session.set("showPas", true);
 
-	Template.body.helpers({
-		modal: function() {
-			if (Session.get("modal")) return 'class="fixed"';
-		}
-	})
-
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
 			return getScheduleInfo().scheduleTitle;
