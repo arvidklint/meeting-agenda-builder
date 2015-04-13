@@ -196,6 +196,30 @@ numberList = function(start, end, step, padding) {
 	return numList;
 }
 
+moveActivityInList = function(list, startPos, endPos) {
+	var activity = list[startPos];
+	list.splice(startPos, 1);
+
+	if (endPos >= list.length) {
+		console.log("push");
+		list.push(activity);
+	} else {
+		list.splice(endPos, 0, activity);
+		console.log("splice");
+	}
+	return list;
+}
+
+putActivityInList = function(list, activity, pos) {
+	// if (pos >= list.length) {
+	// 	list.push(activity);
+	// } else {
+	// 	list.splice(pos, 0, activity);
+	// }
+	list.splice(pos, 0, activity);
+	return list;
+}
+
 Meteor.methods({
 	addDay: function(startH, startM) {
 		var day = {
@@ -250,86 +274,83 @@ Meteor.methods({
 	// 		);
 	// 	}
 	// },
-	moveActivity: function(target, startPos, endPos) {
-		if (target == "parkedActivities") {
+	moveActivity: function(scheduleID, target, startPos, endPos) {
+		if (target === "parkedActivities") {
 			var pas = getParkedActivities();
-			var activity = pas[startPos];
-			pas.splice(startPos, 1);
-			if (endPos >= pas.length) {
-				pas.push(activity);
-			} else {
-				pas.splice(endPos, 0, activity);
-			}
+			pas = moveActivityInList(pas, startPos, endPos);
+
+			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
 			
-			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
-			Deps.flush();
+		} else {
+			var dayIndex = parseInt(target.replace(/\D/g,'')) - 1; //Replaces every non-digit characters with nothing.
+			var day = getDays()[dayIndex];
+
+			day.activities = moveActivityInList(day.activities, startPos, endPos);
+
+			var formattedInfo = {};
+			formattedInfo["days." + dayIndex] = day;
+			console.log(formattedInfo);
+
+			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo});
+
 		}
+		Deps.flush();
 	},
-	moveActivityToList: function(startTarget, endTarget, startPos, endPos) {
+	moveActivityToList: function(scheduleID, startTarget, endTarget, startPos, endPos) {
 
 		if(startTarget === "parkedActivities") {
+			console.log("parkedActivities till lista");
 
 			var pas = getParkedActivities();
-			var day = getDayWithTitle(endTarget);
-			console.log(day.dayTitle);
 
+			var dayIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
+
+			var day = getDays()[dayIndex];
 
 			var activity = pas.splice(startPos, 1)[0];
-			console.log(activity);
-			if (endPos >= day.activities.length) {
-				day.activities.push(activity);
-			} else {
-				day.activities.splice(endPos, 0, activity);
-			}
+			
+			day.activities = putActivityInList(day.activities, activity, endPos);
 
-			var dayPos = getDayPosWithTitle(endTarget);
-
-			console.log(dayPos);
-			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
 			var formattedInfo = {};
-			formattedInfo["days." + dayPos] = day;
-			console.log(formattedInfo);
-			Schedules.update( {"_id": queryID}, { $set: formattedInfo });
-
+			formattedInfo["days." + dayIndex] = day;
+			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo });
 
 		} else if (endTarget === "parkedActivities") {
+			console.log("lista till parkedActivities");
 			var pas = getParkedActivities();
-			var day = getDayWithTitle(startTarget);
+
+			var dayIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
+
+			var day = getDays()[dayIndex];
 
 			var activity = day.activities.splice(startPos, 1)[0];
-			if (endPos >= pas.length) {
-				pas.push(activity);
-			} else {
-				pas.splice(endPos, 0, activity);
-			}
 
-			var dayPos = getDayPosWithTitle(startTarget);
+			pas = putActivityInList(pas, activity, endPos);
 
-			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
 
 			var formattedInfo = {};
-			formattedInfo["days." + dayPos] = day;
-			Schedules.update( {"_id": queryID}, {$set: formattedInfo});
+			formattedInfo["days." + dayIndex] = day;
+			Schedules.update( {"_id": scheduleID}, {$set: formattedInfo});
 
 		} else {
-			var dayStart = getDayWithTitle(startTarget);
-			var dayEnd = getDayWithTitle(endTarget);
+			console.log("lista till lista");
+			var dayStartIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
+			var dayEndIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
+
+			var dayStart = getDays()[dayStartIndex];
+			var dayEnd = getDays()[dayEndIndex];
 
 			var activity = dayStart.activities.splice(startPos, 1)[0];
-			if (endPos >= dayEnd.activities.length) {
-				dayEnd.activities.push(activity);
-			} else {
-				dayEnd.activities.splice(endPos, 0, activity);
-			}
 
-			var dayStartPos = getDayPosWithTitle(startTarget);
-			var dayEndPos = getDayPosWithTitle(endTarget);
+			dayEnd.activities = putActivityInList(dayEnd.activities, activity, endPos);
 
 			var formattedInfo = {};
-			formattedInfo["days." + dayStartPos] = dayStart;
-			formattedInfo["days." + dayEndPos] = dayEnd;
+			formattedInfo["days." + dayStartIndex] = dayStart;
+			formattedInfo["days." + dayEndIndex] = dayEnd;
 
-			Schedules.update( {"_id": queryID}, {$set: formattedInfo});
+			Schedules.update( {"_id": scheduleID}, {$set: formattedInfo});
 		}
 		Deps.flush();
 	}

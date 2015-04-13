@@ -10,7 +10,7 @@ if (Meteor.isClient) {
 		scheduleChosen: function() {
 			if (Session.get("currentSchedule")) { // if a current schedule is set
 				currentSchedule = Schedules.findOne(Session.get("currentSchedule")); // fetch it
-				if (currentSchedule.owner == Meteor.user()._id) return true; // return true if the logged in user owns it
+				if (currentSchedule.owner === Meteor.user()._id) return true; // return true if the logged in user owns it
 			} 
 			else return false; // results in the loginview showing instead of a schedule
 		}

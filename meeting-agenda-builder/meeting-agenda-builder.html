@@ -39,7 +39,6 @@
 </template>
 
 <template name="activity">
-	<!-- <div id="{{activityID}}" class="activityObject {{tooShort}}" target="{{target}}" style="height: {{activityHeight}}px; left: {{leftPos}}; top: {{topPos}}"> -->
 	<li class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
 		<div class="activityTime">
 			{{#if activityStartSet}}
@@ -94,7 +93,7 @@
 			Slut: {{dayEnd}}<br/>
 		</div>
 
-		<ul class="activityList connectLists" id="{{dayTitle}}">
+		<ul class="activityList connectLists" id="day_{{dayNumber}}">
 			{{#each activities}}
 				{{> activity}}
 			{{/each}}
