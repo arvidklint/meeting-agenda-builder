@@ -13,7 +13,7 @@ if (Meteor.isClient) {
 		"click #toScheduleChooser": function() {
 			Session.set("currentSchedule", null);
 		}
-	})
+	});
 
 	Template.daysView.helpers({
 		days: function() {

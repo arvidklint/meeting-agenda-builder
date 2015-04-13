@@ -234,11 +234,13 @@ Meteor.methods({
 
 		Schedules.update( {"_id": Session.get("currentSchedule")}, { $push: {days: day}} )
 	},
-	addActivity: function(activity, target, position) {
+	addActivity: function(activity, target, position, scheduleID) {
+		console.log("addActivity");
+
 		if (target === "parkedActivities") {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
-			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
+			Schedules.update( {"_id": scheduleID}, { $set: {parkedActivities: pas} });
 		} else {
 			day = getDays()[target]; // get the whole day
 			day.activities.push(activity);
@@ -246,7 +248,7 @@ Meteor.methods({
 			var formattedInfo = {};
 			formattedInfo["days." + target] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }) // reupload the whole day
+			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo }) // reupload the whole day
 		};
 	},
 	removeActivity: function(position) {
