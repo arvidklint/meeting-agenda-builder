@@ -20,15 +20,15 @@ getParkedActivities = function() {
 }
 
 function dynamicSort(property) {
-    var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
-    }
-    return function (a,b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
+	var sortOrder = 1;
+	if(property[0] === "-") {
+		sortOrder = -1;
+		property = property.substr(1);
+	}
+	return function (a,b) {
+		var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+		return result * sortOrder;
+	}
 }
 
 getDays = function() {
@@ -117,6 +117,18 @@ makeActivityObject = function(title, length, type, location, description) {
 	}
 }
 
+emptySchedule = function() {
+	this.scheduleTitle = "";
+	this.parkedActivities = [];
+	this.days = [];
+	this.owner = "";
+}
+
+emptyDay = function() {
+	this.startTime = 540;
+	activities = [];
+}
+
 addActivityStartTimes = function(days) {
 	// Receives an array of days. Returns an array of days, with fields for activity start times added
 
@@ -192,6 +204,28 @@ numberList = function(start, end, step, padding) {
 }
 
 Meteor.methods({
+	addSchedule: function(userID, scheduleTitle, numDays) {
+		var schedule = new emptySchedule;
+
+		schedule.scheduleTitle = scheduleTitle;
+		schedule.owner = userID;
+
+		for (var i = 0; i < numDays; i ++) {
+			schedule.days.push(new emptyDay);
+		}
+
+		var scheduleID = Schedules.insert(schedule);
+		Session.set("currentSchedule", scheduleID);
+	},
+	deleteSchedule: function(scheduleID) {
+		var schedule = Schedules.findOne(scheduleID);
+
+		if (schedule.owner == Meteor.user()._id) {
+			Schedules.remove(schedule._id);
+		} else {
+			throw new Error("You are not the owner of the schedule " + schedule.scheduleTitle + " and can therefore not delete it.");
+		}
+	},
 	addDay: function(startH, startM) {
 		var day = {
 			startTime: 540,
@@ -335,7 +369,6 @@ if (Meteor.isServer) {
 	Meteor.publish("schedules", function() {
 		return Schedules.find({});
 	});
-
 
 	Meteor.startup(function () {
 		// code to run on server at startup

@@ -1,12 +1,11 @@
 <template name="newActivityView">
 	{{#if addActivityModal}}
-	<div id="modal_overlay">
-		<div id="modal" class="popupContainer">
+	<div class="modal_overlay">
+		<div class="modal">
 
 			<div class="popupHeader">
-				<span class="header_title">Create new activity</span>
-				<span class="modal_close"></span>
-				<a href="#close" id="closeModal">X Stäng</a>
+				<div class="popupHeader_title">Create new activity</div>
+				<div class="popupHeader_button" id="closeModal">X</div>
 			</div>
 
 			<form class="popupForm newActivity">

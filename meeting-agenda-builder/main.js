@@ -3,6 +3,12 @@ if (Meteor.isClient) {
 
 	Session.set("showPas", true);
 
+	Template.body.helpers({
+		modal: function() {
+			if (Session.get("modal")) return 'class="fixed"';
+		}
+	})
+
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
 			return getScheduleInfo().scheduleTitle;
@@ -11,9 +17,7 @@ if (Meteor.isClient) {
 
 	Template.scheduleTitle.events({
 		"click #toScheduleChooser": function() {
-			console.log("clicked toScheduleChooser");
 			Session.set("currentSchedule", null);
-			console.log("the current schedule is now" + Session.get("currentSchedule"));
 		}
 	})
 
