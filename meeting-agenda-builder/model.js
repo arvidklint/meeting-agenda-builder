@@ -329,28 +329,13 @@ Meteor.methods({
 	},
 	moveActivityToList: function(scheduleID, startTarget, endTarget, startPos, endPos) {
 
-<<<<<<< HEAD
 		if(startTarget === "parkedActivities") {
 			console.log("parkedActivities till lista");
-
-=======
-		if (startTarget === "parkedActivities") {
->>>>>>> 66d7e38111d5a04a0ce23d0bb7e9f1a4aa47e6df
 			var pas = getParkedActivities();
 
-<<<<<<< HEAD
 			var dayIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
 
 			var day = getDays()[dayIndex];
-=======
-			var activity = pas.splice(startPos, 1)[0];
-			console.log(activity);
-			if (endPos >= day.activities.length) {
-				day.activities.push(activity);
-			} else {
-				day.activities.splice(endPos, 0, activity);
-			}
->>>>>>> 66d7e38111d5a04a0ce23d0bb7e9f1a4aa47e6df
 
 			var activity = pas.splice(startPos, 1)[0];
 			
@@ -358,14 +343,9 @@ Meteor.methods({
 
 			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
 			var formattedInfo = {};
-<<<<<<< HEAD
+
 			formattedInfo["days." + dayIndex] = day;
 			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo });
-=======
-			formattedInfo["days." + dayPos] = day;
-			console.log(formattedInfo);
-			Schedules.update( {"_id": queryID}, { $set: formattedInfo });
->>>>>>> 66d7e38111d5a04a0ce23d0bb7e9f1a4aa47e6df
 
 		} else if (endTarget === "parkedActivities") {
 			console.log("lista till parkedActivities");
