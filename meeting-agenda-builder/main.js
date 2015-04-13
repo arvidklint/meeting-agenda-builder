@@ -5,7 +5,7 @@ if (Meteor.isClient) {
 
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
-			return getScheduleInfo().scheduleTitle;
+			return getScheduleInfo(Session.get("currentSchedule")).scheduleTitle;
 		}
 	});
 
@@ -17,7 +17,7 @@ if (Meteor.isClient) {
 
 	Template.daysView.helpers({
 		days: function() {
-			days = getDays();
+			days = getDays(Session.get("currentSchedule"));
 			days = addActivityStartTimes(days);
 			days = addDayNumbers(days);
 			return days;
@@ -26,13 +26,13 @@ if (Meteor.isClient) {
 
 	Template.daysView.events({
 		"click #addDay": function() {
-			Meteor.call("addDay");
+			Meteor.call("addDay", null, null, Session.get("currentSchedule"));
 		}
 	});
 
 	Template.parkedActivitiesView.helpers({
 		parkedActivities: function() {
-			return getParkedActivities();
+			return getParkedActivities(Session.get("currentSchedule"));
 		}
 	});
 
@@ -68,7 +68,7 @@ if (Meteor.isClient) {
 			dayNumber = parseInt(this.dayNumber);
 			newTime = hmToMinutes(event.target.startHours.value, event.target.startMinutes.value);
 
-			Meteor.call("changeStartTime", dayNumber - 1, newTime);
+			Meteor.call("changeStartTime", dayNumber - 1, newTime, Session.get("currentSchedule"));
 
 			return false;
 		}

@@ -15,8 +15,8 @@ getSchedules = function(user) {
 	return schedules;
 }
 
-getParkedActivities = function() {
-	return Schedules.findOne(Session.get("currentSchedule")).parkedActivities;
+getParkedActivities = function(scheduleID) {
+	return Schedules.findOne(scheduleID).parkedActivities;
 }
 
 function dynamicSort(property) {
@@ -31,32 +31,12 @@ function dynamicSort(property) {
 	}
 }
 
-getDays = function() {
-	return Schedules.findOne(Session.get("currentSchedule")).days;
+getDays = function(scheduleID) {
+	return Schedules.findOne(scheduleID).days;
 }
 
-getDayWithTitle = function(title) {
-	var days = getDays();
-	for (var i = 0; i < days.length; i++) {
-		if (days[i].dayTitle === title) {
-			return days[i];
-		}
-	}
-	return false;
-}
-
-getDayPosWithTitle = function(title) {
-	var days = getDays();
-	for (var i = 0; i < days.length; i++) {
-		if (days[i].dayTitle === title) {
-			return i;
-		}
-	}
-	return false;
-}
-
-getScheduleInfo = function() {
-	schedule = Schedules.findOne(Session.get("currentSchedule"));
+getScheduleInfo = function(scheduleID) {
+	schedule = Schedules.findOne(scheduleID);
 
 	var scheduleInfo = {};
 
@@ -74,17 +54,17 @@ getListPos = function(target) {
 	}
 }
 
-getTotalListHeight = function(target) {
-	if (target === "parkedActivities") {
-		pas = getParkedActivities();
-		var totalHeight = 0;
-		for (var i = 0; i < pas.length; i++) {
-			totalHeight += getActivityHeight(pas[i]);
-			totalHeight += MARGIN_BETWEEN_ACTIVITIES;
-		}
-		return totalHeight;
-	}
-}
+// getTotalListHeight = function(target) {
+// 	if (target === "parkedActivities") {
+// 		pas = getParkedActivities();
+// 		var totalHeight = 0;
+// 		for (var i = 0; i < pas.length; i++) {
+// 			totalHeight += getActivityHeight(pas[i]);
+// 			totalHeight += MARGIN_BETWEEN_ACTIVITIES;
+// 		}
+// 		return totalHeight;
+// 	}
+// }
 
 getActivityHeight = function(activity) {
 	if (activity.activityLength >= 30) {
@@ -94,18 +74,18 @@ getActivityHeight = function(activity) {
 	}
 }
 
-getBiggestValueID = function(target) {
-	if (target === "parkedActivities") {
-		pas = getParkedActivities();
-		var biggestValue = 0;
-		for (var i = 0; i < pas.length; i++) {
-			if (parseInt(pas[i].id) > biggestValue) {
-				biggestValue = parseInt(pas[i].id);
-			}
-		}
-		return biggestValue;
-	}
-}
+// getBiggestValueID = function(target) {
+// 	if (target === "parkedActivities") {
+// 		pas = getParkedActivities();
+// 		var biggestValue = 0;
+// 		for (var i = 0; i < pas.length; i++) {
+// 			if (parseInt(pas[i].id) > biggestValue) {
+// 				biggestValue = parseInt(pas[i].id);
+// 			}
+// 		}
+// 		return biggestValue;
+// 	}
+// }
 
 makeActivityObject = function(title, length, type, location, description) {
 	return {
@@ -126,7 +106,7 @@ emptySchedule = function() {
 
 emptyDay = function() {
 	this.startTime = 540;
-	activities = [];
+	this.activities = [];
 }
 
 addActivityStartTimes = function(days) {
@@ -250,23 +230,24 @@ Meteor.methods({
 			throw new Error("You are not the owner of the schedule " + schedule.scheduleTitle + " and can therefore not delete it.");
 		}
 	},
-	addDay: function(startH, startM) {
+	addDay: function(startH, startM, scheduleID) {
 		var day = {
 			startTime: 540,
 			activities: []
 		}
 
-		Schedules.update( {"_id": Session.get("currentSchedule")}, { $push: {days: day}} )
+		Schedules.update( {"_id": scheduleID}, { $push: {days: day}} )
 	},
 	addActivity: function(activity, target, position, scheduleID) {
 		console.log("addActivity");
 
 		if (target === "parkedActivities") {
-			pas = getParkedActivities();
+			pas = getParkedActivities(scheduleID);
 			pas.splice(position, 0, activity);
 			Schedules.update( {"_id": scheduleID}, { $set: {parkedActivities: pas} });
 		} else {
-			day = getDays()[target]; // get the whole day
+			console.log(scheduleID);
+			day = getDays(scheduleID)[target]; // get the whole day
 			day.activities.push(activity);
 
 			var formattedInfo = {};
@@ -275,19 +256,19 @@ Meteor.methods({
 			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo }) // reupload the whole day
 		};
 	},
-	removeActivity: function(position) {
-		pas = getParkedActivities();
+	removeActivity: function(position, scheduleID) {
+		pas = getParkedActivities(scheduleID);
 		pas.splice(position, 1);
-		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
+		Schedules.update( {"_id": scheduleID}, { $set: {parkedActivities: pas} });
 	},
-	changeStartTime: function(position, newTime) {
-		day = Schedules.findOne(Session.get("currentSchedule")).days[position]; // get the day
+	changeStartTime: function(position, newTime, scheduleID) {
+		day = Schedules.findOne(scheduleID).days[position]; // get the day
 		day.startTime = newTime; // modify the day's start time
 
 		var formattedInfo = {};
 		formattedInfo["days." + position] = day; // create dict with a key named days[target] and push the new day (a necessary trick)
 
-		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
+		Schedules.update( {"_id": scheduleID}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
 	},
 	// updateActivityPos: function(targetList, activityID, leftPos, topPos) {
 	// 	if (targetList === "parkedActivities") {
@@ -314,7 +295,7 @@ Meteor.methods({
 			
 		} else {
 			var dayIndex = parseInt(target.replace(/\D/g,'')) - 1; //Replaces every non-digit characters with nothing.
-			var day = getDays()[dayIndex];
+			var day = getDays(scheduleID)[dayIndex];
 
 			day.activities = moveActivityInList(day.activities, startPos, endPos);
 
@@ -335,7 +316,7 @@ Meteor.methods({
 
 			var dayIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
 
-			var day = getDays()[dayIndex];
+			var day = getDays(scheduleID)[dayIndex];
 
 			var activity = pas.splice(startPos, 1)[0];
 			
@@ -353,7 +334,7 @@ Meteor.methods({
 
 			var dayIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
 
-			var day = getDays()[dayIndex];
+			var day = getDays(scheduleID)[dayIndex];
 
 			var activity = day.activities.splice(startPos, 1)[0];
 
@@ -370,8 +351,8 @@ Meteor.methods({
 			var dayStartIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
 			var dayEndIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
 
-			var dayStart = getDays()[dayStartIndex];
-			var dayEnd = getDays()[dayEndIndex];
+			var dayStart = getDays(scheduleID)[dayStartIndex];
+			var dayEnd = getDays(scheduleID)[dayEndIndex];
 
 			var activity = dayStart.activities.splice(startPos, 1)[0];
 

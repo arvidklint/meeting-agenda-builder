@@ -18,7 +18,7 @@ if (Meteor.isClient) {
 			if (this == "45") return true;
 		},
 		days: function() {
-			days = getDays();
+			days = getDays(Session.get("currentSchedule"));
 			days = addDayNumbers(days);
 			return days;
 		}
@@ -41,7 +41,7 @@ if (Meteor.isClient) {
 			// var newID = biggestID + 1;
 
 			// var listPos = getListPos(target);
-			// var topPos = getTotalListHeight(target) + listPos.top;
+			// var topPos = removeActivity(target) + listPos.top;
 			// var leftPos = listPos.left + MARGIN_ACTIVITY_LEFT;
 
 			var length = hmToMinutes(lengthH, lengthM);
