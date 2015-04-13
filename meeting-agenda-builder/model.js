@@ -35,6 +35,26 @@ getDays = function() {
 	return Schedules.findOne(Session.get("currentSchedule")).days;
 }
 
+getDayWithTitle = function(title) {
+	var days = getDays();
+	for (var i = 0; i < days.length; i++) {
+		if (days[i].dayTitle === title) {
+			return days[i];
+		}
+	}
+	return false;
+}
+
+getDayPosWithTitle = function(title) {
+	var days = getDays();
+	for (var i = 0; i < days.length; i++) {
+		if (days[i].dayTitle === title) {
+			return i;
+		}
+	}
+	return false;
+}
+
 getScheduleInfo = function() {
 	schedule = Schedules.findOne(Session.get("currentSchedule"));
 
@@ -45,6 +65,46 @@ getScheduleInfo = function() {
 	scheduleInfo["owner"] = schedule.owner;
 
 	return scheduleInfo;
+}
+
+getListPos = function(target) {
+	if (target === "parkedActivities") {
+		var position = $("#parkedActivities").offset();
+		return position;
+	}
+}
+
+getTotalListHeight = function(target) {
+	if (target === "parkedActivities") {
+		pas = getParkedActivities();
+		var totalHeight = 0;
+		for (var i = 0; i < pas.length; i++) {
+			totalHeight += getActivityHeight(pas[i]);
+			totalHeight += MARGIN_BETWEEN_ACTIVITIES;
+		}
+		return totalHeight;
+	}
+}
+
+getActivityHeight = function(activity) {
+	if (activity.activityLength >= 30) {
+		return activity.activityLength * 1.5 + 20;
+	} else {
+		return 45 + 20;
+	}
+}
+
+getBiggestValueID = function(target) {
+	if (target === "parkedActivities") {
+		pas = getParkedActivities();
+		var biggestValue = 0;
+		for (var i = 0; i < pas.length; i++) {
+			if (parseInt(pas[i].id) > biggestValue) {
+				biggestValue = parseInt(pas[i].id);
+			}
+		}
+		return biggestValue;
+	}
 }
 
 makeActivityObject = function(title, length, type, location, description) {
@@ -141,7 +201,7 @@ Meteor.methods({
 		Schedules.update( {"_id": Session.get("currentSchedule")}, { $push: {days: day}} )
 	},
 	addActivity: function(activity, target, position) {
-		if (target == "parkedActivities") {
+		if (target === "parkedActivities") {
 			pas = getParkedActivities();
 			pas.splice(position, 0, activity);
 			Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: {parkedActivities: pas} });
@@ -169,6 +229,22 @@ Meteor.methods({
 
 		Schedules.update( {"_id": Session.get("currentSchedule")}, { $set: formattedInfo }); // replace the whole day (the only way unfortunately)
 	},
+	// updateActivityPos: function(targetList, activityID, leftPos, topPos) {
+	// 	if (targetList === "parkedActivities") {
+	// 		Schedules.update(
+	// 			{
+	// 				"_id": queryID, 
+	// 				"parkedActivities.id": activityID
+	// 			}, 
+	// 			{
+	// 				"$set": {
+	// 					"parkedActivities.$.leftPos": leftPos + "px",
+	// 					"parkedActivities.$.topPos": topPos + "px"
+	// 				}
+	// 			}
+	// 		);
+	// 	}
+	// },
 	moveActivity: function(target, startPos, endPos) {
 		if (target == "parkedActivities") {
 			var pas = getParkedActivities();
@@ -180,12 +256,75 @@ Meteor.methods({
 				pas.splice(endPos, 0, activity);
 			}
 			
-			
-			for (var i = 0; i < pas.length; i++) {
-				console.log(i + " titel: " + pas[i].title);
-			}
-			Schedules.update( {"_id": Session.get("currentSchedule")}, {$set: {parkedActivities: pas} });
+			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+			Deps.flush();
 		}
+	},
+	moveActivityToList: function(startTarget, endTarget, startPos, endPos) {
+
+		if (startTarget === "parkedActivities") {
+			var pas = getParkedActivities();
+			var day = getDayWithTitle(endTarget);
+			console.log(day.dayTitle);
+
+			var activity = pas.splice(startPos, 1)[0];
+			console.log(activity);
+			if (endPos >= day.activities.length) {
+				day.activities.push(activity);
+			} else {
+				day.activities.splice(endPos, 0, activity);
+			}
+
+			var dayPos = getDayPosWithTitle(endTarget);
+
+			console.log(dayPos);
+			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+			var formattedInfo = {};
+			formattedInfo["days." + dayPos] = day;
+			console.log(formattedInfo);
+			Schedules.update( {"_id": queryID}, { $set: formattedInfo });
+
+		} else if (endTarget === "parkedActivities") {
+			var pas = getParkedActivities();
+			var day = getDayWithTitle(startTarget);
+
+			var activity = day.activities.splice(startPos, 1)[0];
+			if (endPos >= pas.length) {
+				pas.push(activity);
+			} else {
+				pas.splice(endPos, 0, activity);
+			}
+
+			var dayPos = getDayPosWithTitle(startTarget);
+
+			Schedules.update( {"_id": queryID}, {$set: {parkedActivities: pas} });
+
+			var formattedInfo = {};
+			formattedInfo["days." + dayPos] = day;
+			Schedules.update( {"_id": queryID}, {$set: formattedInfo});
+
+		} else {
+			var dayStart = getDayWithTitle(startTarget);
+			var dayEnd = getDayWithTitle(endTarget);
+
+			var activity = dayStart.activities.splice(startPos, 1)[0];
+			if (endPos >= dayEnd.activities.length) {
+				dayEnd.activities.push(activity);
+			} else {
+				dayEnd.activities.splice(endPos, 0, activity);
+			}
+
+			var dayStartPos = getDayPosWithTitle(startTarget);
+			var dayEndPos = getDayPosWithTitle(endTarget);
+
+			var formattedInfo = {};
+			formattedInfo["days." + dayStartPos] = dayStart;
+			formattedInfo["days." + dayEndPos] = dayEnd;
+
+			Schedules.update( {"_id": queryID}, {$set: formattedInfo});
+		}
+		
+		Deps.flush();
 	}
 	// updateRank: function(id, rank) {
 	// 	Schedules.update( {"_id": Session.get("currentSchedule"), parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});

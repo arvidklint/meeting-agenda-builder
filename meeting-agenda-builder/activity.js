@@ -37,11 +37,18 @@ if (Meteor.isClient) {
 			var target = event.target.target.value;
 			var description = event.target.description.value;
 
+			// var biggestID = getBiggestValueID(target);
+			// var newID = biggestID + 1;
+
+			// var listPos = getListPos(target);
+			// var topPos = getTotalListHeight(target) + listPos.top;
+			// var leftPos = listPos.left + MARGIN_ACTIVITY_LEFT;
+
 			var length = hmToMinutes(lengthH, lengthM);
 
 			if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
-			Meteor.call("addActivity", makeActivityObject(title, length, type, location, description), target);
+			Meteor.call("addActivity", makeActivityObject(title, length, type, location, description), target, 0);
 
 			Session.set("activityModal", false);
 			return false;
@@ -53,11 +60,7 @@ if (Meteor.isClient) {
 			return minutesToHuman(this.activityStart);
 		},
 		activityHeight: function() {
-			if (this.activityLength >= 30) {
-				return this.activityLength * 1.5 + 20;
-			} else {
-				return 45 + 20;
-			}
+			return getActivityHeight(this);
 		},
 		tooShort: function() {
 			if (this.activityLength < 30) {
@@ -67,6 +70,18 @@ if (Meteor.isClient) {
 		activityStartSet: function() {
 			if (this.activityStart != null) return true;
 			else return false;
+		},
+		leftPos: function() {
+			return this.leftPos;
+		},
+		topPos: function() {
+			return this.topPos;
+		},
+		activityID: function() {
+			return this.activityID;
+		},
+		target: function() {
+			return this.targetList;
 		}
 	});
 }
