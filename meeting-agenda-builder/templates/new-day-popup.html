@@ -1,0 +1,40 @@
+<template name="newDayView">
+	{{#if addDayModal}}
+	<div class="modal_overlay">
+		<div class="modal">
+
+			<div class="popupHeader">
+				<div class="popupHeader_title">Create new day</div>
+				<div class="popupHeader_button" id="closeModal">X</div>
+			</div>
+
+			<form class="popupForm" id="addNewDay">
+				<input class="modalinput" type="text" name="title" placeholder="Title"/>
+				<!-- <input class="modalinput" type="text" name="location" placeholder="Location"/> -->
+				<label class="modalLabel">Start time</label>
+				<select class="modalinput modalinputNumber" name="startTimeH">
+					{{#each hours}}
+						{{#if selectedHour}}
+							<option value="{{this}}" selected="selected">{{this}}</option>
+						{{else}}
+							<option value="{{this}}">{{this}}</option>
+						{{/if}}
+					{{/each}}
+				</select>
+				<select class="modalinput modalinputNumber" name="startTimeM">
+					{{#each minutes}}
+						{{#if selectedMinute}}
+							<option value="{{this}}" selected="selected">{{this}}</option>
+						{{else}}
+							<option value="{{this}}">{{this}}</option>
+						{{/if}}
+					{{/each}}
+				</select>
+				<br/>
+				<button class="btn" type="submit">Create new</button>
+			</form>
+
+		</div>
+	</div>
+	{{/if}}
+</template>
