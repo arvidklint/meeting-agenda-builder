@@ -2,8 +2,7 @@ if (Meteor.isClient) {
 	Meteor.subscribe("schedules");
 
 	Session.set("showPas", true);
-
-	
+	Session.set("addDayModal", false);
 
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
@@ -28,7 +27,36 @@ if (Meteor.isClient) {
 
 	Template.daysView.events({
 		"click #addDay": function() {
-			Meteor.call("addDay", null, null, Session.get("currentSchedule"));
+			Session.set("addDayModal", true);
+			//Meteor.call("addDay", null, null, Session.get("currentSchedule"));
+		}
+	});
+
+	Template.newDayView.helpers({
+		addDayModal: function(event) {
+			return Session.get("addDayModal");
+		}
+	});
+
+	Template.newDayView.events({
+		"click #closeModal": function() {
+			Session.set("addDayModal", false);
+		},
+		"submit #newDay": function(event) {
+			var title = event.target.title.value;
+
+			var startTimeH = event.target.startTimeH.value;
+			var startTimeM = event.target.startTimeM.value;
+
+			var startTime = hmToMinutes(startTimeH, startTimeM);
+
+			//if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
+
+			
+			//Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
+
+			Session.set("activityModal", false);
+			return false;
 		}
 	});
 
