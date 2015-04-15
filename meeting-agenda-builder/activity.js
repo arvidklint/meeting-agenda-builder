@@ -29,8 +29,8 @@ if (Meteor.isClient) {
 
 	Template.placementSelector.helpers({
 		days: function() {
-			days = getDays(Session.get("currentSchedule"));
-			days = addDayNumbers(days);
+			var days = getDays(Session.get("currentSchedule"));
+			var days = addDayNumbers(days);
 			return days;
 		},
 		selectedPlacement: function() {
@@ -66,8 +66,8 @@ if (Meteor.isClient) {
 
 			if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
-			var newActivity = makeActivityObject(title, length, type, location, description);
-			Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
+			var newActivity = new Activity(title, length, type, location, description);
+			Meteor.call("addActivity", newActivity, target, null, Session.get("currentSchedule"));
 
 			Session.set("activityModal", false);
 			return false;
@@ -106,7 +106,7 @@ if (Meteor.isClient) {
 
 	Template.activity.events({
 		"hover .activityObject": function(event) {
-			//
+			// Här är det tänkt att jag ska implementera att redigera knappen bara visas när man pekar på en aktivitet
 		},
 		"click .editActivity": function(event, ui) {
 			var day = event.target.parentElement.parentElement.parentElement.id;
@@ -127,10 +127,10 @@ if (Meteor.isClient) {
 			return Session.get("editActivityModal");
 		},
 		activity: function() {
-			currentActivity = getActivity(Session.get("currentSchedule"), Session.get("activityBeingEdited").day, Session.get("activityBeingEdited").activityIndex);
+			var currentActivity = getActivity(Session.get("currentSchedule"), Session.get("activityBeingEdited").day, Session.get("activityBeingEdited").activityIndex);
 
 			// Write some of the info to Session, so that it is accessible by other helpers without having to access the database again
-			activityInfo = Session.get("activityBeingEdited");
+			var activityInfo = Session.get("activityBeingEdited");
 			activityInfo["activityLengthHM"] = minutesToHuman(currentActivity.activityLength).split(":");
 			activityInfo["type"] = currentActivity.type;
 			Session.set("activityBeingEdited", activityInfo);
@@ -143,6 +143,25 @@ if (Meteor.isClient) {
 		"click .popupHeader_button": function() {
 			Session.set("editActivityModal", false);
 			Session.set("activityBeingEdited", null);
+		},
+		"submit .popupForm": function(event, ui) {
+			var title = event.target.title.value;
+			var location = event.target.location.value;
+			var length = hmToMinutes(event.target.lengthH.value, event.target.lengthM.value);
+			var type = event.target.type.value;
+			var target = event.target.target.value;
+			var description = event.target.description.value;
+			var position = Session.get("activityBeingEdited").activityIndex;
+
+			if (target != "parkedActivities") target--;
+
+			modifiedActivity = new Activity(title, length, type, location, description);
+
+			Meteor.call("modifyActivity", modifiedActivity, target, position, Session.get("activityBeingEdited"), Session.get("currentSchedule"));
+			Session.set("editActivityModal", false);
+			Session.set("activityBeingEdited", null);
+
+			return false;
 		}
 	})
 }
