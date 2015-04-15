@@ -81,7 +81,7 @@ if (Meteor.isClient) {
 		numDays: function() {
 			return Session.get("scheduleToDelete").days.length;
 		}
-	})
+	});
 
 	Template.deleteSchedule.events({
 		"click .closeDeleteScheduleModal": function() {

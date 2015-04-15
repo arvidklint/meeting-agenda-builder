@@ -48,3 +48,15 @@
 		{{/each}}
 	</select>
 </template>
+
+<template name="orderSelector">
+	<select class="modalinput" name="order">
+		{{#each items}}
+			{{#if selectedOrder}}
+				<option value="{{this}}" selected="selected">{{this}}</option>
+			{{else}}
+				<option value="{{this}}">{{this}}</option>
+			{{/if}}
+		{{/each}} 
+	</select>
+</template>
