@@ -12,41 +12,13 @@
 				<input class="modalinput" type="text" name="title" placeholder="Title"/>
 				<input class="modalinput" type="text" name="location" placeholder="Location"/>
 				<label class="modalLabel" for="length">Length</label>
-				<select class="modalinput modalinputNumber" name="lengthH">
-					{{#each hours}}
-						{{#if selectedHour}}
-							<option value="{{this}}" selected="selected">{{this}}</option>
-						{{else}}
-							<option value="{{this}}">{{this}}</option>
-						{{/if}}
-					{{/each}}
-				</select>
-				<select class="modalinput modalinputNumber" name="lengthM">
-					{{#each minutes}}
-						{{#if selectedMinute}}
-							<option value="{{this}}" selected="selected">{{this}}</option>
-						{{else}}
-							<option value="{{this}}">{{this}}</option>
-						{{/if}}
-					{{/each}}
-				</select>
-				<br/>
+				{{> lengthSelectors}}
 
 				<label class="modalLabel" for="type">Type</label>
-				<select class="modalinput" name="type">
-					<option value="presentation">Presentation</option>
-					<option value="group_work">Group work</option>
-					<option value="discussion">Discussion</option>
-					<option value="break">Break</option>
-				</select>
+				{{> activityTypeSelector}}
 
 				<label class="modalLabel" for="target">Create activity in</label>
-				<select class="modalinput" name="target">
-					<option value="parkedActivities">Parked activities</option>
-					{{#each days}}
-						<option value="{{dayNumber}}">Day {{dayNumber}}, {{dayTitle}}</option>
-					{{/each}}
-				</select>
+				{{> placementSelector}}
 
 				<label class="modalLabel" for="description">Description</label>
 				<textarea class="modalinput" name="description" rows="8" cols="40"></textarea>

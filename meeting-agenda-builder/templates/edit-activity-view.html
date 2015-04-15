@@ -1,0 +1,40 @@
+<template name="editActivityView">
+	{{#if editActivityModal}}
+		<div class="modal_overlay">
+			<div class="modal">
+
+				<div class="popupHeader">
+					<div class="popupHeader_title">
+						Edit activity "{{activity.title}}"
+					</div>
+					<div class="popupHeader_button">
+						X
+					</div>
+				</div>
+
+				<form class="popupForm">
+					<label class="modalLabel" for="title">Title</label>
+					<input type="text" name="title" class="modalinput" value="{{activity.title}}"/>
+
+					<label class="modalLabel" for="location">Location</label>
+					<input type="text" name="location" class="modalinput" value="{{activity.location}}"/>
+
+					<label class="modalLabel" for="length">Length</label>
+					{{> lengthSelectors}}
+
+					<label class="modalLabel" for="type">Type</label>
+					{{> activityTypeSelector}}
+
+					<label class="modalLabel" for="target">Activity placement</label>
+					{{> placementSelector}}
+
+					<label class="modalLabel" for="description">Description</label>
+					<textarea class="modalinput" name="description" rows="8" cols="40">{{activity.description}}</textarea>
+
+					<button type="submit" class="btn">Save</button>
+				</form>
+
+			</div>
+		</div>
+	{{/if}}
+</template>

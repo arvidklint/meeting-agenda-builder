@@ -21,6 +21,11 @@ if (Meteor.isClient) {
 			days = getDays(Session.get("currentSchedule"));
 			days = addActivityStartTimes(days);
 			days = addDayNumbers(days);
+
+			for (i in days) {
+				days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
+			}
+
 			return days;
 		}
 	});
@@ -62,7 +67,10 @@ if (Meteor.isClient) {
 
 	Template.parkedActivitiesView.helpers({
 		parkedActivities: function() {
-			return getParkedActivities(Session.get("currentSchedule"));
+			pas = getParkedActivities(Session.get("currentSchedule"));
+			pas = addActivityNumbers(pas);
+
+			return pas;
 		}
 	});
 
