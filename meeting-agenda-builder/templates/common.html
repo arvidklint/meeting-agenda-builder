@@ -1,4 +1,4 @@
-<template name="lengthSelectors">
+<template name="timeSelectors">
 	<select class="modalinput modalinputNumber" name="lengthH">
 		{{#each hours}}
 			{{#if selectedHour}}
@@ -44,6 +44,43 @@
 				<option value="{{this.dayNumber}}">
 					Day {{this.dayNumber}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
 				</option>
+			{{/if}}
+		{{/each}}
+	</select>
+</template>
+
+<template name="dateSelectors">
+	<table class="modalLabel">
+		<tr>
+			<td class="yearLabel">Year</td>
+			<td class="monthLabel">Month</td>
+			<td class="dayLabel">Day</td>
+		</tr>
+	</table>
+	<select class="modalinput modalinputNumber4" name="dateYear">
+		{{#each years}}
+			{{#if selectedYear}}
+				<option value="{{this}}" selected="selected">{{this}}</option>
+			{{else}}
+				<option value="{{this}}">{{this}}</option>
+			{{/if}}
+		{{/each}}
+	</select>
+	<select class="modalinput modalinputNumber" name="dateMonth">
+		{{#each months}}
+			{{#if selectedMonth}}
+				<option value="{{this}}" selected="selected">{{this}}</option>
+			{{else}}
+				<option value="{{this}}">{{this}}</option>
+			{{/if}}
+		{{/each}}
+	</select>
+	<select class="modalinput modalinputNumber" name="dateDay">
+		{{#each days}}
+			{{#if selectedDay}}
+				<option value="{{this}}" selected="selected">{{this}}</option>
+			{{else}}
+				<option value="{{this}}">{{this}}</option>
 			{{/if}}
 		{{/each}}
 	</select>

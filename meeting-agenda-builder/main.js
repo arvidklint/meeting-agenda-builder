@@ -38,8 +38,11 @@ if (Meteor.isClient) {
 	});
 
 	Template.newDayView.helpers({
-		addDayModal: function(event) {
+		addDayModal: function() {
 			return Session.get("addDayModal");
+		},
+		addDate: function() {
+			return Session.get("addDate");
 		}
 	});
 
@@ -47,21 +50,99 @@ if (Meteor.isClient) {
 		"click #closeModal": function() {
 			Session.set("addDayModal", false);
 		},
-		"submit #newDay": function(event) {
-			var title = event.target.title.value;
+		"change .dateCheckbox": function(event) {
+			Session.set("addDate", event.target.checked);
+		},
+		"submit #addNewDay": function(event) {
+			var title = event.target.dayTitle.value;
 
-			var startTimeH = event.target.startTimeH.value;
-			var startTimeM = event.target.startTimeM.value;
+			var startTimeH = event.target.lengthH.value;
+			var startTimeM = event.target.lengthM.value;
 
 			var startTime = hmToMinutes(startTimeH, startTimeM);
 
+			if(event.target.dateCheckbox.checked) {
+				var date = {
+					"year": event.target.dateYear.value,
+					"month": event.target.dateMonth.value,
+					"day": event.target.dateDay.value
+				};
+			} else {
+				var date = "undefined";
+			}
+
+			console.log(Session.get("currentSchedule"));
+
 			//if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
-			
+			Meteor.call("addDay", Session.get("currentSchedule"), title, startTime, date);
 			//Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
 
-			Session.set("activityModal", false);
+			Session.set("addDayModal", false);
+			Session.set("addDate", false);
+
+			Meteor.flush();
 			return false;
+		}
+	});
+
+	Template.timeSelectors.helpers({
+		hours: function() {
+			return numberList(0, 23, 1, 2);
+		},
+		minutes: function() {
+			return numberList(0, 59, 5, 2);
+		},
+		selectedHour: function() {
+			if (Session.get("activityModal")) {
+				if (this == "00") return true;
+			} else if (Session.get("editActivityModal")) {
+				if (this == Session.get("activityBeingEdited").activityLengthHM[0]) return true
+			} else if (Session.get("addDayModal")) {
+				if (this == "09") return true;
+			}
+		},
+		selectedMinute: function() {
+			if (Session.get("activityModal")) {
+				if (this == "45") return true;
+			} else if (Session.get("editActivityModal")) {
+				if (this == Session.get("activityBeingEdited").activityLengthHM[1]) return true;
+			} else if (Session.get("addDayModal")) {
+				if (this == "00") return true;
+			}
+		}
+	});
+
+	Template.dateSelectors.helpers({
+		years: function() {
+			return numberList(1899, getCurrentYear(), 1, 4);
+		},
+		months: function() {
+			return numberList(1, 12, 1, 2);
+		},
+		days: function() {
+			return numberList(1, 31, 1, 2);
+		},
+		selectedYear: function() {
+			if (Session.get("activityModal")) {
+				if (this == getCurrentYear()) return true;
+			} else if (Session.get("addDayModal")) {
+				if (this == getCurrentYear()) return true;
+			}
+		},
+		selectedMonth: function() {
+			if (Session.get("activityModal")) {
+				if (this == getCurrentMonth()) return true;
+			}  else if (Session.get("addDayModal")) {
+				if (this == getCurrentMonth()) return true;
+			}
+		},
+		selectedDay: function() {
+			if (Session.get("activityModal")) {
+				if (this == getCurrentDay()) return true;
+			} else if (Session.get("addDayModal")) {
+				if (this == getCurrentDay()) return true;
+			}
 		}
 	});
 
@@ -149,7 +230,7 @@ if (Meteor.isClient) {
 	// 	});
 	// }
 
-	Template.activity.rendered = function() {
+	Template.mainFrame.rendered = function() {
 		$('.activityList').sortable({
 			connectWith: ".connectLists",
 			dropOnEmpty: true,

@@ -7,28 +7,7 @@ if (Meteor.isClient) {
 		}
 	});
 
-	Template.lengthSelectors.helpers({
-		hours: function() {
-			return numberList(0, 23, 1, 2);
-		},
-		minutes: function() {
-			return numberList(0, 59, 5, 2);
-		},
-		selectedHour: function() {
-			if (Session.get("activityModal")) {
-				if (this == "00") return true;
-			} else if (Session.get("editActivityModal")) {
-				if (this == Session.get("activityBeingEdited").activityLengthHM[0]) return true
-			}
-		},
-		selectedMinute: function() {
-			if (Session.get("activityModal")) {
-				if (this == "45") return true;
-			} else if (Session.get("editActivityModal")) {
-				if (this == Session.get("activityBeingEdited").activityLengthHM[1]) return true;
-			}
-		}
-	});
+	
 
 	Template.activityTypeSelector.helpers({
 		activityTypes: function() {

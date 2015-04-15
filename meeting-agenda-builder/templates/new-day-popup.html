@@ -9,27 +9,15 @@
 			</div>
 
 			<form class="popupForm" id="addNewDay">
-				<input class="modalinput" type="text" name="title" placeholder="Title"/>
+				<input class="modalinput" type="text" name="dayTitle" placeholder="Title"/>
 				<!-- <input class="modalinput" type="text" name="location" placeholder="Location"/> -->
 				<label class="modalLabel">Start time</label>
-				<select class="modalinput modalinputNumber" name="startTimeH">
-					{{#each hours}}
-						{{#if selectedHour}}
-							<option value="{{this}}" selected="selected">{{this}}</option>
-						{{else}}
-							<option value="{{this}}">{{this}}</option>
-						{{/if}}
-					{{/each}}
-				</select>
-				<select class="modalinput modalinputNumber" name="startTimeM">
-					{{#each minutes}}
-						{{#if selectedMinute}}
-							<option value="{{this}}" selected="selected">{{this}}</option>
-						{{else}}
-							<option value="{{this}}">{{this}}</option>
-						{{/if}}
-					{{/each}}
-				</select>
+				{{> timeSelectors}}
+				<input class="dateCheckbox" name="dateCheckbox" type="checkbox"/><label class="modalLabel">Toggle date</label>
+				{{#if addDate}}
+					{{> dateSelectors}}
+				{{/if}}
+				
 				<br/>
 				<button class="btn" type="submit">Create new</button>
 			</form>

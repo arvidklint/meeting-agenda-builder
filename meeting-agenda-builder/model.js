@@ -114,11 +114,11 @@ emptySchedule = function() {
 }
 
 // Template for day objects
-emptyDay = function() {
-	this.dayTitle = "";
-	this.startTime = 540;
+Day = function(title, startTime, date) {
+	this.dayTitle = title;
+	this.startTime = startTime;
 	this.activities = [];
-	this.date = "";
+	this.date = date;
 }
 
 addActivityStartTimes = function(days) {
@@ -229,6 +229,21 @@ putActivityInList = function(list, activity, pos) {
 	return list;
 }
 
+getCurrentYear = function() {
+	var year = zeroPadding(new Date().getFullYear(), 4);
+	return year;
+}
+
+getCurrentMonth = function() {
+	var month = zeroPadding(new Date().getMonth() + 1, 2);
+	return month;
+}
+
+getCurrentDay = function() {
+	var day = zeroPadding(new Date().getDate(), 2);
+	return day;
+}
+
 Meteor.methods({
 	addSchedule: function(userID, scheduleTitle, numDays) {
 		var schedule = new emptySchedule;
@@ -252,8 +267,8 @@ Meteor.methods({
 			throw new Error("You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
 		}
 	},
-	addDay: function(startH, startM, scheduleID) {
-		var day = new emptyDay();
+	addDay: function(scheduleID, title, startTime, date) {
+		var day = new Day(title, startTime, date);
 
 		Schedules.update( {"_id": scheduleID}, { $push: {days: day}} )
 	},
