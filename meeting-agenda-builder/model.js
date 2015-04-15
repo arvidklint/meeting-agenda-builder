@@ -105,8 +105,10 @@ emptySchedule = function() {
 }
 
 emptyDay = function() {
+	this.dayTitle = "";
 	this.startTime = 540;
 	this.activities = [];
+	this.date = "";
 }
 
 addActivityStartTimes = function(days) {
@@ -231,10 +233,7 @@ Meteor.methods({
 		}
 	},
 	addDay: function(startH, startM, scheduleID) {
-		var day = {
-			startTime: 540,
-			activities: []
-		}
+		var day = new emptyDay();
 
 		Schedules.update( {"_id": scheduleID}, { $push: {days: day}} )
 	},
@@ -288,7 +287,7 @@ Meteor.methods({
 	// },
 	moveActivity: function(scheduleID, target, startPos, endPos) {
 		if (target === "parkedActivities") {
-			var pas = getParkedActivities();
+			var pas = getParkedActivities(scheduleID);
 			pas = moveActivityInList(pas, startPos, endPos);
 
 			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
@@ -312,7 +311,7 @@ Meteor.methods({
 
 		if(startTarget === "parkedActivities") {
 			console.log("parkedActivities till lista");
-			var pas = getParkedActivities();
+			var pas = getParkedActivities(scheduleID);
 
 			var dayIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
 
@@ -330,7 +329,7 @@ Meteor.methods({
 
 		} else if (endTarget === "parkedActivities") {
 			console.log("lista till parkedActivities");
-			var pas = getParkedActivities();
+			var pas = getParkedActivities(scheduleID);
 
 			var dayIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
 
