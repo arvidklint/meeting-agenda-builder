@@ -99,6 +99,6 @@ if (Meteor.isClient) {
 
 			return false;
 		}
-	})
+	});
 }
 

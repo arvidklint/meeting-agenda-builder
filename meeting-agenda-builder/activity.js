@@ -88,7 +88,7 @@ if (Meteor.isClient) {
 			if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
 			var newActivity = new Activity(title, length, type, location, description);
-			Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
+			Meteor.call("addActivity", newActivity, target, null, Session.get("currentSchedule"));
 
 			Session.set("activityModal", false);
 			return false;
@@ -172,12 +172,15 @@ if (Meteor.isClient) {
 			var type = event.target.type.value;
 			var target = event.target.target.value;
 			var description = event.target.description.value;
+			var position = Session.get("activityBeingEdited").activityIndex;
 
 			if (target != "parkedActivities") target--;
 
 			modifiedActivity = new Activity(title, length, type, location, description);
 
-			Meteor.call("modifyActivity", modifiedActivity, Session.get("activityBeingEdited"), Session.get("currentSchedule"));
+			Meteor.call("modifyActivity", modifiedActivity, target, position, Session.get("activityBeingEdited"), Session.get("currentSchedule"));
+			Session.set("editActivityModal", false);
+			Session.set("activityBeingEdited", null);
 
 			return false;
 		}

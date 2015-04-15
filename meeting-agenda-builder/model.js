@@ -268,16 +268,22 @@ Meteor.methods({
 		}
 	},
 	addActivity: function(activity, target, position, scheduleID) {
-		console.log("addActivity");
-
 		if (target === "parkedActivities") {
 			pas = getParkedActivities(scheduleID);
 			pas.splice(position, 0, activity);
 			Meteor.call("updateDay", target, pas, scheduleID);
 		} else {
-			console.log(scheduleID);
-			day = getDays(scheduleID)[target]; // get the whole day
-			day.activities.push(activity);
+			day = getDays(scheduleID)[target];
+
+			if (position == null) day.activities.push(activity);
+			else day.activities.splice(position, 0, activity);
+				// console.log("add activity to specific position");
+				// activities = day.activities;
+				// console.log(activities);
+				// activities.splice(position, 0, activity);
+				// day.activities = activities;
+				// console.log(day);
+
 			Meteor.call("updateDay", target, day, scheduleID);
 		};
 	},
@@ -288,7 +294,7 @@ Meteor.methods({
 			Meteor.call("updateDay", target, pas, scheduleID);
 		} else {
 			day = getDays(scheduleID)[target];
-			day.splice(position, 1);
+			day.activities.splice(position, 1);
 			Meteor.call("updateDay", target, day, scheduleID);
 		}
 	},
@@ -390,8 +396,11 @@ Meteor.methods({
 	// updateRank: function(id, rank) {
 	// 	Schedules.update( {"_id": Session.get("currentSchedule"), parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
 	// },
-	modifyActivity: function(newActivity, oldInfo, scheduleID) {
+	modifyActivity: function(newActivity, target, position, oldInfo, scheduleID) {
+		if (oldInfo.day !== target) position = null; // temporarily remove position info when changing days until reactive position chooser is implemented
+
 		Meteor.call("removeActivity", oldInfo.day, oldInfo.activityIndex, scheduleID);
+		Meteor.call("addActivity", newActivity, target, position, scheduleID);
 	}
 });
 
