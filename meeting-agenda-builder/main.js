@@ -3,6 +3,8 @@ if (Meteor.isClient) {
 
 	Session.set("showPas", true);
 
+	
+
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
 			return getScheduleInfo(Session.get("currentSchedule")).scheduleTitle;
@@ -119,7 +121,7 @@ if (Meteor.isClient) {
 	// 	});
 	// }
 
-	Template.mainFrame.rendered = function() {
+	Template.activity.rendered = function() {
 		$('.activityList').sortable({
 			connectWith: ".connectLists",
 			dropOnEmpty: true,
@@ -154,11 +156,11 @@ if (Meteor.isClient) {
 				endPos = ui.item.index();
 				endTarget = $(ui.item).parent().attr("id");
 				console.log("stop: " + endTarget + ", pos: " + endPos);
-				//$('.activityList').sortable('cancel');
-				//console.log("cancel sortable");
+				$('.activityList').sortable('cancel');
+				console.log("cancel sortable");
 				if(startTarget === endTarget) {
-					$('.activityList').sortable('cancel');
-					console.log("cancel sortable");
+					//$('.activityList').sortable('cancel');
+					//console.log("cancel sortable");
 					console.log(startTarget + ", " + startPos + ", " + endPos);
 					Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
 					console.log("Samma lista");
@@ -171,6 +173,12 @@ if (Meteor.isClient) {
 					// }
 					// console.log("removing");
 				}
+				//$(".activityList").empty();
+				
+			},
+			update: function(e, ui) {
+				console.log("update");
+
 			}
 			// receive: function(e, ui) {
 			// 	endTarget = this.id;

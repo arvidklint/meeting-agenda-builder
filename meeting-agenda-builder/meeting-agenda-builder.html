@@ -1,5 +1,7 @@
 <head>
 	<title>meeting-agenda-builder</title>
+	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
 </head>
 
 <body>
@@ -32,7 +34,10 @@
 
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
-		<button id="addActivityButton">✚ Add activity</button>
+		<div id="parkedActivitiesHeader">
+			<h3>Parked activities</h3>
+			<button id="addActivityButton">✚ Add activity</button>
+		</div>
 		<ul class="activityList connectLists" id="parkedActivities">
 			{{#each parkedActivities}}
 				{{> activity}}
