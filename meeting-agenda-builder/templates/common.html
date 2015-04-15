@@ -1,0 +1,50 @@
+<template name="lengthSelectors">
+	<select class="modalinput modalinputNumber" name="lengthH">
+		{{#each hours}}
+			{{#if selectedHour}}
+				<option value="{{this}}" selected="selected">{{this}}</option>
+			{{else}}
+				<option value="{{this}}">{{this}}</option>
+			{{/if}}
+		{{/each}}
+	</select>
+	<select class="modalinput modalinputNumber" name="lengthM">
+		{{#each minutes}}
+			{{#if selectedMinute}}
+				<option value="{{this}}" selected="selected">{{this}}</option>
+			{{else}}
+				<option value="{{this}}">{{this}}</option>
+			{{/if}}
+		{{/each}}
+	</select>
+	<br/>
+</template>
+
+<template name="activityTypeSelector">
+	<select class="modalinput" name="type">
+		{{#each activityTypes}}
+			{{#if selectedType}}
+				<option value="{{this.value}}" selected="selected">{{this.name}}</option>
+			{{else}}
+				<option value="{{this.value}}">{{this.name}}</option>
+			{{/if}}
+		{{/each}}
+	</select>
+</template>
+
+<template name="placementSelector">
+	<select class="modalinput" name="target">
+		<option value="parkedActivities">Parked activities</option>
+		{{#each days}}
+			{{#if selectedPlacement}}
+				<option value="{{this.dayNumber}}" selected="selected">
+					Day {{this.dayNumber}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
+				</option>
+			{{else}}
+				<option value="{{this.dayNumber}}">
+					Day {{this.dayNumber}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
+				</option>
+			{{/if}}
+		{{/each}}
+	</select>
+</template>

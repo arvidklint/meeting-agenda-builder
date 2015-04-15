@@ -35,6 +35,14 @@ getDays = function(scheduleID) {
 	return Schedules.findOne(scheduleID).days;
 }
 
+getActivity = function(scheduleID, day, activityIndex) {
+	if (day === "parkedActivities") {
+		return Schedules.findOne(scheduleID).parkedActivities[activityIndex];
+	} else {
+		return Schedules.findOne(scheduleID).days[day].activities[activityIndex];
+	}
+}
+
 getScheduleInfo = function(scheduleID) {
 	schedule = Schedules.findOne(scheduleID);
 
@@ -97,6 +105,7 @@ makeActivityObject = function(title, length, type, location, description) {
 	}
 }
 
+// Template for schedule objects
 emptySchedule = function() {
 	this.scheduleTitle = "";
 	this.parkedActivities = [];
@@ -104,6 +113,7 @@ emptySchedule = function() {
 	this.owner = "";
 }
 
+// Template for day objects
 emptyDay = function() {
 	this.startTime = 540;
 	this.activities = [];
@@ -132,6 +142,16 @@ addDayNumbers = function(days) {
 	}
 
 	return days;
+}
+
+addActivityNumbers = function(activities) {
+	// Receives an array of activities. Returns an array of activities with fields for activity numbers added.
+
+	for (i in activities) {
+		activities[i]["activityNumber"] = parseInt(i) + 1;
+	}
+
+	return activities;
 }
 
 dayLength = function(day) {
@@ -227,7 +247,7 @@ Meteor.methods({
 		if (schedule.owner == Meteor.user()._id) {
 			Schedules.remove(schedule._id);
 		} else {
-			throw new Error("You are not the owner of the schedule " + schedule.scheduleTitle + " and can therefore not delete it.");
+			throw new Error("You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
 		}
 	},
 	addDay: function(startH, startM, scheduleID) {

@@ -3,8 +3,6 @@ body {
 	font-size: 12pt;
 }
 
-
-
 ul {
 	list-style-type: none;
 	padding:0;
@@ -44,7 +42,6 @@ ul {
 	margin: 5px;
 	margin-top: 5px;
 	width: 280px;
-	cursor: pointer;
 }
 
 .activityTime {
@@ -240,4 +237,8 @@ ul {
 	margin-top: 0pt;
 	margin-bottom: 20px;
 	overflow: hidden;
+}
+
+.editActivity {
+	cursor: pointer;
 }

@@ -4,7 +4,10 @@ if (Meteor.isClient) {
 	Template.newActivityView.helpers({
 		addActivityModal: function() {
 			return Session.get("activityModal");
-		},
+		}
+	});
+
+	Template.lengthSelectors.helpers({
 		hours: function() {
 			return numberList(0, 23, 1, 2);
 		},
@@ -12,17 +15,53 @@ if (Meteor.isClient) {
 			return numberList(0, 59, 5, 2);
 		},
 		selectedHour: function() {
-			if (this == "00") return true;
+			if (Session.get("activityModal")) {
+				if (this == "00") return true;
+			} else if (Session.get("editActivityModal")) {
+				if (this == Session.get("activityBeingEdited").activityLengthHM[0]) return true
+			}
 		},
 		selectedMinute: function() {
-			if (this == "45") return true;
+			if (Session.get("activityModal")) {
+				if (this == "45") return true;
+			} else if (Session.get("editActivityModal")) {
+				if (this == Session.get("activityBeingEdited").activityLengthHM[1]) return true;
+			}
+		}
+	});
+
+	Template.activityTypeSelector.helpers({
+		activityTypes: function() {
+			return [
+				{"value": "presentation", "name": "Presentation"},
+				{"value": "group_work", "name": "Group work"},
+				{"value": "discussion", "name": "Discussion"},
+				{"value": "break", "name": "Break"}
+			];
 		},
+		selectedType: function() {
+			if (Session.get("activityModal")) {
+				if (this.value == "presentation") return true;
+			} else if (Session.get("editActivityModal")) {
+				if (this.value == Session.get("activityBeingEdited").type) return true;
+			}
+		}
+	});
+
+	Template.placementSelector.helpers({
 		days: function() {
 			days = getDays(Session.get("currentSchedule"));
 			days = addDayNumbers(days);
 			return days;
+		},
+		selectedPlacement: function() {
+			if (Session.get("activityModal")) {
+				return false;
+			} else if (Session.get("editActivityModal")) {
+				if (this.dayNumber == (parseInt(Session.get("activityBeingEdited").day) + 1)) return true;
+			}
 		}
-	});
+	})
 
 	Template.newActivityView.events({
 		"click #closeModal": function() {
@@ -85,4 +124,46 @@ if (Meteor.isClient) {
 			return this.targetList;
 		}
 	});
+
+	Template.activity.events({
+		"hover .activityObject": function(event) {
+			//
+		},
+		"click .editActivity": function(event, ui) {
+			var day = event.target.parentElement.parentElement.parentElement.id;
+
+			if (day !== "parkedActivities") {
+				day = parseInt(day.substr(4)) - 1; // convert "day_<dayNumber>" into day index
+			}
+
+			var activityIndex = parseInt(this.activityNumber) - 1;
+
+			Session.set("editActivityModal", true);
+			Session.set("activityBeingEdited", {"day": day, "activityIndex": activityIndex});
+		}
+	});
+
+	Template.editActivityView.helpers({
+		editActivityModal: function() {
+			return Session.get("editActivityModal");
+		},
+		activity: function() {
+			currentActivity = getActivity(Session.get("currentSchedule"), Session.get("activityBeingEdited").day, Session.get("activityBeingEdited").activityIndex);
+
+			// Write some of the info to Session, so that it is accessible by other helpers without having to access the database again
+			activityInfo = Session.get("activityBeingEdited");
+			activityInfo["activityLengthHM"] = minutesToHuman(currentActivity.activityLength).split(":");
+			activityInfo["type"] = currentActivity.type;
+			Session.set("activityBeingEdited", activityInfo);
+
+			return currentActivity;
+		}
+	});
+
+	Template.editActivityView.events({
+		"click .popupHeader_button": function() {
+			Session.set("editActivityModal", false);
+			Session.set("activityBeingEdited", null);
+		}
+	})
 }
