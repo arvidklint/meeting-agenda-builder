@@ -1,3 +1,14 @@
+$lightGrey: #ededed;
+$grey: #a5a5a5;
+$activityWidth: 280px;
+$yellow: #FFE11A;
+$blue: #004358;
+$green: #1F8A70;
+$orange: #FD7400;
+$lightGreen: #BEDB39;
+$lightBlue: #2e93c2;
+
+
 body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 12pt;
@@ -9,8 +20,15 @@ ul {
 	margin:0
 }
 
-h3 {
+h4 {
 	text-align: center;
+	margin: 0px;
+}
+
+h6 {
+	text-align: center;
+	margin: 0px;
+	margin-top: 2px;
 }
 
 p {
@@ -25,61 +43,70 @@ p {
 }
 
 #mainFrame {
-	background-color: yellow;
+	background-color: white;
 	height: 1000px;
 }
 
 #parkedActivitiesView {
-	background-color: gray;
+	background-color: white;
 	float: left;
 	width: 310px;
-	height: 100%;
+	//height: 100%;
+	min-height: 250px;
+	border: 1px solid $lightGrey;
+	border-radius: 5px;
+	padding-bottom: 5px;
 }
 
 #parkedActivitiesHeader {
 	height: 150px;
-	border: 1px solid red;
+	
 	margin: 5px;
+	padding: 5px;
 }
 
 .activityList {
 	margin: 5px;
-	min-height: 700px;
+	min-height: 20px;
 	min-width: 280px;
-	background-color: rgba(200, 200, 200, 1);
-}
-
-.activityPlaceholder {
-	width: 280px;
-	height: 50px;
-	background-color: #000000;
+	background-color: white;
 }
 
 #addActivityButton {
-	width: 300px;
+	width: 200px;
+	border-radius: 5px;
+	background-color: $lightBlue;
+	border: none;
+	padding: 8px;
+	color: #ffffff;
+	font-size: 14pt;
+	cursor: pointer;
+	margin-top: 30px;
 }
 
 .activityObject {
-	margin: 5px;
-	margin-top: 5px;
-	width: 280px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	width: $activityWidth;
 }
 
 .activityTime {
-	width: 50px;
-	height: 100%;
-	border: 1px solid white;
-	float: left;
+	width: $activityWidth;
+	height: 20px;
 	text-align: center;
-	vertical-align: center;
+	//vertical-align: center;
+	//padding-bottom: 0px;
+	float: left;
 }
 
 .activityInfo {
-	width: 220px;
+	width: $activityWidth;
 	height: 100%;
 	border: 1px solid white;
-	float: right;
-	vertical-align: center;
+	float: left;
 }
 
 .tooShort {
@@ -91,6 +118,16 @@ p {
 	padding: 3px;
 	background-color: rgba(255, 255, 255, 0.4);
 	text-align: center;
+}
+
+.activityPlaceholder {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	height: 50px;
+	width: $activityWidth;
+	background-color: $lightGrey;
+	float:left;
 }
 
 .activityLocation {
@@ -105,24 +142,52 @@ p {
 	display: inline;
 }
 
+/*.activityListFooter {
+	width: $activityWidth;
+	height: 40px;
+	background-color: $lightGrey;
+}*/
+
+#addDay {
+	width: 200px;
+	border-radius: 5px;
+	background-color: $lightBlue;
+	border: none;
+	padding: 8px;
+	color: #ffffff;
+	font-size: 14pt;
+	cursor: pointer;
+	margin-top: 30px;
+}
+
 #daysView {
-	background-color: gray;
+	background-color: white;
 	margin-left: 320px;
 	height: 100%;
 }
 
 .day {
+	border-radius: 5px;
 	background-color: white;
-	width: 350px;
-	height: 100%;
+	width: 290px;
+	//height: 100%;
+	min-height: 250px;
 	float: left;
 	margin: 5px;
 	margin-right: 0px;
+	padding-bottom: 5px;
+	border: 1px solid $lightGrey;
 }
 
 .dayHeader {
 	height: 150px;
-	border: 1px solid red;
+	border-bottom: 1px solid $lightGrey;
+	background-color: $lightGrey;
+	padding: 5px
+}
+
+.dayHeaderTitle {
+	text-align: center;
 }
 
 .dayActivities {
@@ -136,7 +201,7 @@ p {
 
 .btn {
 	border-radius: 0px;
-	background-color: #2da9ff;
+	background-color: $lightBlue;
 	border: none;
 	padding: 8px;
 	color: #ffffff;
@@ -162,13 +227,13 @@ p {
 	width: 400px;
 	position: relative;
 	margin: 5% auto;
-	background: #fff;
+	background-color: #fff;
 	max-height: 100%;
 	overflow: scroll;
 }
 
 .popupHeader {
-	background-color: #2da9ff;
+	background-color: $lightBlue;
 	padding: 10px;
 	overflow: hidden;
 }
@@ -201,7 +266,7 @@ p {
 }
 
 .modalLabel {
-	color: #9a9a9a;
+	color: $grey;
 }
 
 .yearLabel {
@@ -221,23 +286,23 @@ p {
 
 .popupForm {
 	padding: 20px 12px;
-	background-color: #ededed;
+	background-color: $lightGrey;
 }
 
 .presentation {
-	background-color: #004358;
+	background-color: $blue;
 }
 
 .group_work {
-	background-color: #FD7400;
+	background-color: $orange;
 }
 
 .discussion {
-	background-color: #1F8A70;
+	background-color: $green;
 }
 
 .break {
-	background-color: #FFE11A;
+	background-color: $yellow;
 }
 
 #scheduleList {
@@ -303,8 +368,7 @@ p {
 
 .weather {
 	border-radius: 5px;
-	margin: 5px;
 	padding: 5px;
-	background-color: #dbdbdb;
+	border: 1px solid $grey;
 	float: right;
 }

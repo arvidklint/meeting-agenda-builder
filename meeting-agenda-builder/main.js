@@ -73,7 +73,7 @@ if (Meteor.isClient) {
 					"day": event.target.dateDay.value
 				};
 			} else {
-				var date = "undefined";
+				var date = null;
 			}
 
 			console.log(Session.get("currentSchedule"));
@@ -204,14 +204,17 @@ if (Meteor.isClient) {
 			return minutesToHuman(this.startTime + dayLength(this));
 		},
 		addWeather: function() {
-			if(this.date !== "undefined") return true;
+			if(this.date && Session.get("weather")) return true;
 		},
 		date: function() {
-			if (this.date === "undefined") {
-				return this.date;
-			} else {
-				return this.date.year + "-" + this.date.month + "-" + this.date.day;
-			}
+			return this.date.year + "-" + this.date.month + "-" + this.date.day;
+		},
+		addDate: function() {
+			if (this.date) 
+				return true;
+		},
+		addDayTitle: function() {
+			if (this.dayTitle !== "") return true;
 		}
 	});
 
@@ -312,7 +315,7 @@ if (Meteor.isClient) {
 		$('.activityList').sortable({
 			connectWith: ".connectLists",
 			dropOnEmpty: true,
-			// placeholder: "activityPlaceholder",
+			placeholder: "activityPlaceholder",
 			start: function(e, ui) {
 				startPos = ui.item.index();
 				startTarget = $(ui.item).parent().attr("id"); //ID från den första listan

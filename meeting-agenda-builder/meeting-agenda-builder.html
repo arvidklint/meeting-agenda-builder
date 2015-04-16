@@ -48,8 +48,8 @@
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
 		<div id="parkedActivitiesHeader">
-			<h3>Parked activities</h3>
-			<button id="addActivityButton">✚ Add activity</button>
+			<h4>Parked activities</h4>
+			<button id="addActivityButton" class="center">✚ Add activity</button>
 		</div>
 		<ul class="activityList connectLists" id="parkedActivities">
 			{{#each parkedActivities}}
@@ -88,7 +88,6 @@
 
 <template name="daysView">
 	<div id="daysView">
-		daysView
 		{{#each days}}
 			{{> day}}
 		{{/each}}
@@ -99,7 +98,10 @@
 <template name="day">
 	<div class="day">
 		<div class="dayHeader">
-			<p>Dag {{dayNumber}} - {{dayTitle}}</p>
+			<h4>Dag {{dayNumber}}</h4>
+			{{#if addDayTitle}}
+				<h6>{{dayTitle}}</h6>
+			{{/if}}
 			{{#if addWeather}}
 				{{> weather}}
 			{{/if}}
@@ -114,7 +116,10 @@
 					{{> minutesList}}
 				</select>
 			</form>
-			Date: {{date}}<br/>
+			{{#if addDate}}
+				Date: {{date}}
+			{{/if}}
+			<br/>
 			
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
@@ -126,6 +131,8 @@
 				{{> activity}}
 			{{/each}}
 		</ul>
+
+
 	</div>
 </template>
 
