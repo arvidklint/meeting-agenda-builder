@@ -51,18 +51,12 @@ if (Meteor.isClient) {
 	Template.newDayView.helpers({
 		addDayModal: function() {
 			return Session.get("addDayModal");
-		},
-		addDate: function() {
-			return Session.get("addDate");
 		}
 	});
 
 	Template.newDayView.events({
 		"click #closeModal": function() {
-			Session.set("addDayModal", false);
-		},
-		"change .dateCheckbox": function(event) {
-			Session.set("addDate", event.target.checked);
+			stopAddingDay();
 		},
 		"submit #addNewDay": function(event) {
 			var title = event.target.dayTitle.value;
@@ -89,8 +83,7 @@ if (Meteor.isClient) {
 			Meteor.call("addDay", Session.get("currentSchedule"), title, startTime, date);
 			//Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
 
-			Session.set("addDayModal", false);
-			Session.set("addDate", false);
+			stopAddingDay();
 
 			Meteor.flush();
 			return false;
@@ -108,9 +101,11 @@ if (Meteor.isClient) {
 			if (Session.get("activityModal")) {
 				if (this == "00") return true;
 			} else if (Session.get("editActivityModal")) {
-				if (this == Session.get("activityBeingEdited").activityLengthHM[0]) return true
+				if (this == Session.get("activityBeingEdited").activityLengthHM[0]) return true;
 			} else if (Session.get("addDayModal")) {
 				if (this == "09") return true;
+			} else if (Session.get("editDayModal")) {
+				if (this == Session.get("dayBeingEdited").startTimeHM[0]) return true;
 			}
 		},
 		selectedMinute: function() {
@@ -120,6 +115,8 @@ if (Meteor.isClient) {
 				if (this == Session.get("activityBeingEdited").activityLengthHM[1]) return true;
 			} else if (Session.get("addDayModal")) {
 				if (this == "00") return true;
+			} else if (Session.get("editDayModal")) {
+				if (this == Session.get("dayBeingEdited").startTimeHM[1]) return true;
 			}
 		}
 	});
@@ -135,26 +132,47 @@ if (Meteor.isClient) {
 			return numberList(1, 31, 1, 2);
 		},
 		selectedYear: function() {
-			if (Session.get("activityModal")) {
-				if (this == getCurrentYear()) return true;
-			} else if (Session.get("addDayModal")) {
-				if (this == getCurrentYear()) return true;
+			if (Session.get("activityModal") || Session.get("addDayModal")) { // in edit activity modal and in add day modal
+				if (this == getCurrentYear()) return true; // select current year
+			} else if (Session.get("editDayModal")) { // in edit day modal
+				if (Session.get("dayBeingEdited").date) { // if the day currently has a date
+					if (this == Session.get("dayBeingEdited").date.year) return true // select it
+				} else {
+					if (this == getCurrentYear()) return true; // select current year
+				}
 			}
 		},
 		selectedMonth: function() {
-			if (Session.get("activityModal")) {
+			if (Session.get("activityModal") || Session.get("addDayModal")) {
 				if (this == getCurrentMonth()) return true;
-			}  else if (Session.get("addDayModal")) {
-				if (this == getCurrentMonth()) return true;
+			}  else if (Session.get("editDayModal")) {
+				if (Session.get("dayBeingEdited").date) { // if the day currently has a date
+					if (this == Session.get("dayBeingEdited").date.month) return true
+				} else {
+					if (this == getCurrentMonth()) return true;
+				}
 			}
 		},
 		selectedDay: function() {
-			if (Session.get("activityModal")) {
+			if (Session.get("activityModal") || Session.get("addDayModal")) {
 				if (this == getCurrentDay()) return true;
-			} else if (Session.get("addDayModal")) {
-				if (this == getCurrentDay()) return true;
+			} else if (Session.get("editDayModal")) {
+				if (Session.get("dayBeingEdited").date) {
+					if (this == Session.get("dayBeingEdited").date.day) return true
+				} else {
+					if (this == getCurrentDay()) return true;
+				}
 			}
+		},
+		addDate: function() {
+			return Session.get("addDate");
 		}
+	});
+
+	Template.dateSelectors.events({
+		"change .dateCheckbox": function(event) {
+			Session.set("addDate", event.target.checked);
+		},
 	});
 
 	Template.parkedActivitiesView.helpers({
@@ -210,6 +228,33 @@ if (Meteor.isClient) {
 
 			Meteor.call("changeStartTime", dayNumber - 1, newTime, Session.get("currentSchedule"));
 
+			return false;
+		},
+		"dblclick .dayHeader": function() {
+			editDay(parseInt(this.dayNumber) - 1);
+		},
+		"click .editDay": function() {
+			editDay(parseInt(this.dayNumber) - 1);
+		}
+	});
+
+	Template.editDayView.helpers({
+		editDayModal: function() {
+			return Session.get("editDayModal");
+		}, 
+		day: function() {
+			return Session.get("dayBeingEdited");
+		},
+		dayNumber: function() {
+			return Session.get("dayBeingEdited").dayNumber;
+		}
+	});
+
+	Template.editDayView.events({
+		"click .popupHeader_button": function() {
+			stopEditingDay();
+		},
+		"submit .popupForm": function() {
 			return false;
 		}
 	});

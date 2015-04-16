@@ -15,11 +15,12 @@
 <template name="mainFrame">
 	<div id="mainFrame">
 		{{> scheduleTitle}}
-
 		{{> parkedActivitiesView}}
 		{{> daysView}}
-		{{> newActivityView}}
+
 		{{> newDayView}}
+		{{> editDayView}}
+		{{> newActivityView}}
 		{{> editActivityView}}
 	</div>
 </template>
@@ -117,6 +118,7 @@
 			
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
+			<span class="editDay">✎</span>
 		</div>
 
 		<ul class="activityList connectLists" id="day_{{dayNumber}}">

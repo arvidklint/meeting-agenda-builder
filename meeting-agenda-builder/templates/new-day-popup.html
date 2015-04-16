@@ -12,13 +12,11 @@
 				<input class="modalinput" type="text" name="dayTitle" placeholder="Title"/>
 				<!-- <input class="modalinput" type="text" name="location" placeholder="Location"/> -->
 				<label class="modalLabel">Start time</label>
+
 				{{> timeSelectors}}
-				<input class="dateCheckbox" name="dateCheckbox" type="checkbox"/><label class="modalLabel">Toggle date</label>
-				{{#if addDate}}
-					{{> dateSelectors}}
-				{{/if}}
+
+				{{> dateSelectors}}
 				
-				<br/>
 				<button class="btn" type="submit">Create new</button>
 			</form>
 

@@ -44,7 +44,7 @@ if (Meteor.isClient) {
 }
 
 showError = function(msg){
-	alert(msg);
+	console.log(msg);
 }
 
 if(Meteor.isServer) {
