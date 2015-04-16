@@ -123,13 +123,20 @@ Day = function(title, startTime, date) {
 	this.date = date;
 }
 
+activityTypes = [
+	{"value": "presentation", "name": "Presentation"},
+	{"value": "group_work", "name": "Group work"},
+	{"value": "discussion", "name": "Discussion"},
+	{"value": "break", "name": "Break"}
+];
+
 addActivityStartTimes = function(days) {
 	// Receives an array of days. Returns an array of days, with fields for activity start times added
 
-	for (i in days) {
+	for (var i in days) {
 		startTime = days[i].startTime; // the startTime of the first activity is the startTime of the day
 
-		for (j in days[i].activities) {
+		for (var j in days[i].activities) {
 			days[i].activities[j]["activityStart"] = startTime; // add startTime to the activity object
 			startTime += days[i].activities[j].activityLength; // increase the startTime variable for the next activity, with the length of this activity
 		}
@@ -141,7 +148,7 @@ addActivityStartTimes = function(days) {
 addDayNumbers = function(days) {
 	// Receives an array of days. Returns an array of days, with fields for day number added.
 
-	for (i in days) {
+	for (var i in days) {
 		days[i]["dayNumber"] = parseInt(i) + 1;
 	}
 
@@ -151,7 +158,7 @@ addDayNumbers = function(days) {
 addActivityNumbers = function(activities) {
 	// Receives an array of activities. Returns an array of activities with fields for activity numbers added.
 
-	for (i in activities) {
+	for (var i in activities) {
 		activities[i]["activityNumber"] = parseInt(i) + 1;
 	}
 
@@ -161,7 +168,7 @@ addActivityNumbers = function(activities) {
 dayLength = function(day) {
 	length = 0;
 
-	for (i in day.activities) {
+	for (var i in day.activities) {
 		length += day.activities[i].activityLength;
 	}
 
@@ -212,11 +219,9 @@ moveActivityInList = function(list, startPos, endPos) {
 	list.splice(startPos, 1);
 
 	if (endPos >= list.length) {
-		console.log("push");
 		list.push(activity);
 	} else {
 		list.splice(endPos, 0, activity);
-		console.log("splice");
 	}
 	return list;
 }
@@ -297,7 +302,10 @@ dayInWeatherRange = function(daysFromNow) {
 	}
 }
 
-
+editActivity = function(target, activityIndex) {
+	Session.set("editActivityModal", true);
+	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
+}
 
 Meteor.methods({
 	addSchedule: function(userID, scheduleTitle, numDays) {
@@ -320,6 +328,23 @@ Meteor.methods({
 			Schedules.remove(schedule._id);
 		} else {
 			throw new Error("You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
+		}
+	},
+	editSchedule: function(scheduleID, newTitle, numDays) {
+		if (newTitle) {
+			Schedules.update( {"_id": scheduleID}, {$set: {scheduleTitle: newTitle}} );
+		}
+
+		if (numDays) {
+			oldLength = parseInt(getDays(scheduleID).length);
+			difference = numDays - oldLength;
+			newDays = [];
+
+			for (var i = 0; i < difference; i ++) {
+				newDays.push(new Day);
+			}
+
+			// ej klar än
 		}
 	},
 	addDay: function(scheduleID, title, startTime, date) {

@@ -7,12 +7,24 @@ if (Meteor.isClient) {
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
 			return getScheduleInfo(Session.get("currentSchedule")).scheduleTitle;
+		},
+		editScheduleTitle: function() {
+			return Session.get("editScheduleTitle");
 		}
 	});
 
 	Template.scheduleTitle.events({
 		"click #toScheduleChooser": function() {
 			Session.set("currentSchedule", null);
+		},
+		"dblclick #scheduleTitle": function() {
+			Session.set("editScheduleTitle", true);
+		},
+		"submit #scheduleTitleForm": function(event) {
+			newName = event.target.scheduleTitle.value;
+			Meteor.call("editSchedule", Session.get("currentSchedule"), newName, null);
+			Session.set("editScheduleTitle", false);
+			return false;
 		}
 	});
 
@@ -22,7 +34,7 @@ if (Meteor.isClient) {
 			days = addActivityStartTimes(days);
 			days = addDayNumbers(days);
 
-			for (i in days) {
+			for (var i in days) {
 				days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
 			}
 
@@ -147,7 +159,7 @@ if (Meteor.isClient) {
 
 	Template.parkedActivitiesView.helpers({
 		parkedActivities: function() {
-			pas = getParkedActivities(Session.get("currentSchedule"));
+			var pas = getParkedActivities(Session.get("currentSchedule"));
 			pas = addActivityNumbers(pas);
 
 			return pas;
@@ -193,8 +205,8 @@ if (Meteor.isClient) {
 			$(event.target).parent().submit();
 		},
 		"submit .startTime": function(event) {
-			dayNumber = parseInt(this.dayNumber);
-			newTime = hmToMinutes(event.target.startHours.value, event.target.startMinutes.value);
+			var dayNumber = parseInt(this.dayNumber);
+			var newTime = hmToMinutes(event.target.startHours.value, event.target.startMinutes.value);
 
 			Meteor.call("changeStartTime", dayNumber - 1, newTime, Session.get("currentSchedule"));
 
