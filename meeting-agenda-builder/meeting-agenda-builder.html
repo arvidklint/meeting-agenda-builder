@@ -1,7 +1,5 @@
 <head>
 	<title>meeting-agenda-builder</title>
-	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
-    </script>
 </head>
 
 <body>
@@ -87,10 +85,14 @@
 <template name="day">
 	<div class="day">
 		<div class="dayHeader">
-			Dag {{dayNumber}}<br/>
-			{{dayTitle}}<br/>
-			Start: 
+			<p>Dag {{dayNumber}} - {{dayTitle}}</p>
+			{{#if addWeather}}
+				{{> weather}}
+			{{/if}}
+			<br/>
+
 			<form class="startTime">
+				Start:
 				<select class="hoursList" name="startHours">
 					{{> hoursList}}
 				</select>
@@ -98,7 +100,8 @@
 					{{> minutesList}}
 				</select>
 			</form>
-			<br/>
+			Date: {{date}}<br/>
+			
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
 		</div>

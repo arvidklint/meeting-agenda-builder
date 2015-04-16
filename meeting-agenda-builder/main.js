@@ -33,7 +33,6 @@ if (Meteor.isClient) {
 	Template.daysView.events({
 		"click #addDay": function() {
 			Session.set("addDayModal", true);
-			//Meteor.call("addDay", null, null, Session.get("currentSchedule"));
 		}
 	});
 
@@ -173,6 +172,16 @@ if (Meteor.isClient) {
 		},
 		dayEnd: function() {
 			return minutesToHuman(this.startTime + dayLength(this));
+		},
+		addWeather: function() {
+			if(this.date !== "undefined") return true;
+		},
+		date: function() {
+			if (this.date === "undefined") {
+				return this.date;
+			} else {
+				return this.date.year + "-" + this.date.month + "-" + this.date.day;
+			}
 		}
 	});
 
@@ -191,7 +200,19 @@ if (Meteor.isClient) {
 
 			return false;
 		}
-	})
+	});
+
+	Template.weather.helpers({
+		temp: function() {
+			return getTemp(this.date);
+		},
+		description: function() {
+			return getWeatherDescription(this.date);
+		},
+		imgref: function() {
+			return getWeatherImgRef(this.date);
+		}
+	});
 
 	Template.hoursList.helpers({
 		hours: function() {
@@ -200,7 +221,7 @@ if (Meteor.isClient) {
 		selected: function() {
 			// Returns true if this hour should be selected in the menu
 
-			hour = minutesToHuman(Template.parentData(1).startTime).split(":")[0]; // get the day's selected hour from the parent template
+			var hour = minutesToHuman(Template.parentData(1).startTime).split(":")[0]; // get the day's selected hour from the parent template
 			return (this == hour);
 		}
 	});
@@ -212,7 +233,7 @@ if (Meteor.isClient) {
 		selected: function() {
 			// Returns true if this minute should be selected in the menu
 
-			minute = minutesToHuman(Template.parentData(1).startTime).split(":")[1]; // get the day's selected minute from the parent template
+			var minute = minutesToHuman(Template.parentData(1).startTime).split(":")[1]; // get the day's selected minute from the parent template
 			return (this == minute);
 		}
 	});

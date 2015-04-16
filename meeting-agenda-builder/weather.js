@@ -16,15 +16,13 @@ if (Meteor.isClient) {
 
 		//console.log(query);
 
-		// Meteor.call("getWeather", query, function (err, r) {
-		// 	if(r) {
-		// 		console.log(r.data.list);
-
-		// 		Session.set("weather", r.content);
-		// 	} else {
-		// 		console.log("error");
-		// 	}
-		// });
+		Meteor.call("getWeather", query, function (err, r) {
+			if(r) {
+				Session.set("weather", r.data);
+			} else {
+				console.log("error getting weather: " + err);
+			}
+		});
 	}
 
 	function locationError(error){

@@ -113,6 +113,10 @@ emptySchedule = function() {
 
 // Template for day objects
 Day = function(title, startTime, date) {
+	title = typeof title !== 'undefined' ? title : "";
+	startTime = typeof startTime !== 'undefined' ? startTime : 540;
+	date = typeof date !== 'undefined' ? b : 'undefined';
+
 	this.dayTitle = title;
 	this.startTime = startTime;
 	this.activities = [];
@@ -242,6 +246,59 @@ getCurrentDay = function() {
 	return day;
 }
 
+getDaysFromNow = function(date) {
+	var currentDate = new Date(parseInt(getCurrentYear()), parseInt(getCurrentMonth()), parseInt(getCurrentDay()));
+	var otherDate = new Date(parseInt(date.year), parseInt(date.month), parseInt(date.day));
+
+	var timeDiff = otherDate.getTime() - currentDate.getTime();
+	var dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+	return dayDiff;
+}
+
+getTemp = function(date) {
+	date = typeof date !== 'undefined' ? date : {"year": getCurrentYear(), "month": getCurrentMonth(), "day": getCurrentDay() };
+
+	var daysFromNow = getDaysFromNow(date);
+
+	if(dayInWeatherRange(daysFromNow)) {
+		return (parseInt(Session.get("weather").list[daysFromNow].temp.day) - 273).toString() + " °C";
+	}
+	return "none";
+}
+
+getWeatherDescription = function(date) {
+	date = typeof date !== 'undefined' ? date : {"year": getCurrentYear(), "month": getCurrentMonth(), "day": getCurrentDay() };
+
+	var daysFromNow = getDaysFromNow(date);
+
+	if(dayInWeatherRange(daysFromNow)) {
+		return Session.get("weather").list[daysFromNow].weather[0].description;
+	}
+	return "no description";
+}
+
+getWeatherImgRef = function(date) {
+	date = typeof date !== 'undefined' ? date : {"year": getCurrentYear(), "month": getCurrentMonth(), "day": getCurrentDay() };
+
+	var daysFromNow = getDaysFromNow(date);
+
+	if(dayInWeatherRange(daysFromNow)) {
+		return "http://openweathermap.org/img/w/" + Session.get("weather").list[daysFromNow].weather[0].icon + ".png";
+	}
+	return "no description";
+}
+
+dayInWeatherRange = function(daysFromNow) {
+	if(daysFromNow >= 0 && daysFromNow < Session.get("weather").cnt) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+
 Meteor.methods({
 	addSchedule: function(userID, scheduleTitle, numDays) {
 		var schedule = new emptySchedule;
@@ -250,7 +307,7 @@ Meteor.methods({
 		schedule.owner = userID;
 
 		for (var i = 0; i < numDays; i ++) {
-			schedule.days.push(new emptyDay);
+			schedule.days.push(new Day());
 		}
 
 		var scheduleID = Schedules.insert(schedule);
