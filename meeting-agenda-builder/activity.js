@@ -5,18 +5,11 @@ if (Meteor.isClient) {
 		addActivityModal: function() {
 			return Session.get("activityModal");
 		}
-	});
-
-	
+	});	
 
 	Template.activityTypeSelector.helpers({
 		activityTypes: function() {
-			return [
-				{"value": "presentation", "name": "Presentation"},
-				{"value": "group_work", "name": "Group work"},
-				{"value": "discussion", "name": "Discussion"},
-				{"value": "break", "name": "Break"}
-			];
+			return activityTypes;
 		},
 		selectedType: function() {
 			if (Session.get("activityModal")) {
@@ -40,6 +33,24 @@ if (Meteor.isClient) {
 				if (this.dayNumber == (parseInt(Session.get("activityBeingEdited").day) + 1)) return true;
 			}
 		}
+	});
+
+	Template.placementSelector.events({
+		"change target": function() {
+			//
+		}
+	})
+
+	Template.orderSelector.helpers({
+		items: function() {
+			if (Session.get("activityModal")) {
+				if (Session.get("chosenTarget") === "parkedActivities") {
+					var length = getParkedActivities(Session.get("currentSchedule")).length;
+				}
+				// console.log(numberList(1, length + 1, 1));
+				return numberList(1, length + 1, 1);
+			}
+		}
 	})
 
 	Template.newActivityView.events({
@@ -54,13 +65,6 @@ if (Meteor.isClient) {
 			var type = event.target.type.value;
 			var target = event.target.target.value;
 			var description = event.target.description.value;
-
-			// var biggestID = getBiggestValueID(target);
-			// var newID = biggestID + 1;
-
-			// var listPos = getListPos(target);
-			// var topPos = removeActivity(target) + listPos.top;
-			// var leftPos = listPos.left + MARGIN_ACTIVITY_LEFT;
 
 			var length = hmToMinutes(lengthH, lengthM);
 
@@ -108,17 +112,23 @@ if (Meteor.isClient) {
 		"hover .activityObject": function(event) {
 			// Här är det tänkt att jag ska implementera att redigera knappen bara visas när man pekar på en aktivitet
 		},
-		"click .editActivity": function(event, ui) {
-			var day = event.target.parentElement.parentElement.parentElement.id;
-
-			if (day !== "parkedActivities") {
-				day = parseInt(day.substr(4)) - 1; // convert "day_<dayNumber>" into day index
-			}
+		"click .editActivity": function() {
+			var target = Template.parentData(1);
+			if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
+			else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
 
 			var activityIndex = parseInt(this.activityNumber) - 1;
 
-			Session.set("editActivityModal", true);
-			Session.set("activityBeingEdited", {"day": day, "activityIndex": activityIndex});
+			editActivity(target, activityIndex);
+		},
+		"dblclick .activityObject": function() {
+			var target = Template.parentData(1);
+			if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
+			else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
+
+			var activityIndex = parseInt(this.activityNumber) - 1;
+
+			editActivity(target, activityIndex);
 		}
 	});
 

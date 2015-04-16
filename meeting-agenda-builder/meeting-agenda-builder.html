@@ -27,10 +27,23 @@
 </template>
 
 <template name="scheduleTitle">
-	<div class="title">
-		<button id="toScheduleChooser">&lt;</button>
-		{{scheduleTitle}}
-	</div>
+	<table>
+		<tr>
+			<td>
+				<button id="toScheduleChooser" class="floatLeft">&lt;</button>
+			</td>
+			<td>
+				{{#unless editScheduleTitle}}
+					<span class="title" id="scheduleTitle">{{scheduleTitle}}</span>
+				{{else}}
+					<form id="scheduleTitleForm">
+						<input id="scheduleTitleInput" type="text" value="{{scheduleTitle}}" name="scheduleTitle"/>
+						<button type="submit">Save</button>
+					</form>
+				{{/unless}}
+			</td>
+		</tr>
+	</table>
 </template>
 
 <template name="parkedActivitiesView">

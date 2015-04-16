@@ -152,8 +152,8 @@ h3 {
 	position: relative;
 	margin: 5% auto;
 	background: #fff;
-	overflow: scroll;
 	max-height: 100%;
+	overflow: scroll;
 }
 
 .popupHeader {
@@ -266,6 +266,10 @@ h3 {
 	margin-top: 0pt;
 	margin-bottom: 20px;
 	overflow: hidden;
+}
+
+#scheduleTitleInput {
+	font-size: 14pt;
 }
 
 .editActivity {
