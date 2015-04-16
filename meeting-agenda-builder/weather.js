@@ -16,6 +16,8 @@ if (Meteor.isClient) {
 
 		//console.log(query);
 
+		// Session.set("position", {"lat": lat, "lon": lon});
+
 		Meteor.call("getWeather", query, function (err, r) {
 			if(r) {
 				Session.set("weather", r.data);
