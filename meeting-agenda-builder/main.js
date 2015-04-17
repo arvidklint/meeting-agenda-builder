@@ -243,6 +243,9 @@ if (Meteor.isClient) {
 		editDayModal: function() {
 			return Session.get("editDayModal");
 		}, 
+		deleteDayModal: function() {
+			return Session.get("deleteDayModal");
+		},
 		day: function() {
 			return Session.get("dayBeingEdited");
 		},
@@ -264,6 +267,19 @@ if (Meteor.isClient) {
 			else var date = null;
 
 			Meteor.call("editDayInfo", Session.get("currentSchedule"), target, dayTitle, startTime, date);
+			stopEditingDay();
+			return false;
+		},
+		"click #delete1": function() {
+			Session.set("deleteDayModal", true);
+			return false;
+		},
+		"click #cancelDelete": function() {
+			Session.set("deleteDayModal", false);
+			return false;
+		},
+		"click #delete2": function() {
+			Meteor.call("deleteDay", Session.get("currentSchedule"), parseInt(Session.get("dayBeingEdited").dayNumber) - 1);
 			stopEditingDay();
 			return false;
 		}

@@ -12,7 +12,7 @@
 					</div>
 				</div>
 
-				<form class="popupForm">
+				<form class="popupForm" id="editActivityForm">
 					<label class="modalLabel" for="title">Title</label>
 					<input type="text" name="title" class="modalinput" value="{{activity.title}}"/>
 
@@ -35,9 +35,31 @@
 					<textarea class="modalinput" name="description" rows="8" cols="40">{{activity.description}}</textarea>
 
 					<button type="submit" class="btn">Save</button>
+					<button class="btn badBtn" id="delete1">Delete activity</button>
 				</form>
 
 			</div>
 		</div>
+
+		{{#if deleteActivityModal}}
+			<div class="modal_overlay">
+				<div class="modal">
+					<div class="popupHeader">
+						<div class="popupHeader_title">
+							Delete activity
+						</div>
+					</div>
+					<form class="popupForm" id="deleteForm">
+						Are you sure you want to delete the activity "{{activity.title}}"? The action can not be undone.
+						<br/>
+						<button class="btn badBtn" id="delete2">Delete</button>
+						<button class="btn" id="cancel">Cancel</button>
+					</form>
+				</div>
+			</div>
+		{{/if}}
+
 	{{/if}}
+
+	
 </template>

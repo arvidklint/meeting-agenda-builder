@@ -19,8 +19,28 @@
 					
 					{{> dateSelectors}}
 					<button class="btn" type="submit">Save</button>
+					<button class="btn badBtn" id="delete1">Delete day</button>
 				</form>
 			</div>
 		</div>
+
+		{{#if deleteDayModal}}
+			<div class="modal_overlay">
+				<div class="modal">
+					<div class="popupHeader">
+						<div class="popupHeader_title">
+							Delete day
+						</div>
+					</div>
+					<form class="popupForm" id="deleteForm">
+						Are you sure you want to delete day {{dayNumber}}{{#if day.dayTitle}}, "{{day.dayTitle}}"{{/if}}? All the activities in the day will be deleted as well. The action can not be undone.
+						<br/>
+						<button class="btn badBtn" id="delete2">Delete</button>
+						<button class="btn" id="cancelDelete">Cancel</button>
+					</form>
+				</div>
+			</div>
+		{{/if}}
+
 	{{/if}}
 </template>
