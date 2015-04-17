@@ -115,7 +115,7 @@ emptySchedule = function() {
 Day = function(title, startTime, date) {
 	title = typeof title !== 'undefined' ? title : "";
 	startTime = typeof startTime !== 'undefined' ? startTime : 540;
-	date = typeof date !== 'undefined' ? date : 'undefined';
+	date = typeof date !== 'undefined' ? date : null;
 
 	this.dayTitle = title;
 	this.startTime = startTime;
