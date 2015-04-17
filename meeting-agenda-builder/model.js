@@ -274,10 +274,8 @@ getDaysFromNow = function(date) {
 getTemp = function(date) {
 	date = typeof date !== 'undefined' ? date : {"year": getCurrentYear(), "month": getCurrentMonth(), "day": getCurrentDay() };
 
-	var daysFromNow = getDaysFromNow(date);
-
-	if(dayInWeatherRange(daysFromNow)) {
-		return (parseInt(Session.get("weather").list[daysFromNow].temp.day) - 273).toString() + " °C";
+	if(dayInWeatherRange(date)) {
+		return (parseInt(Session.get("weather").list[getDaysFromNow(date)].temp.day) - 273).toString() + " °C";
 	}
 	return "none";
 }
@@ -285,10 +283,8 @@ getTemp = function(date) {
 getWeatherDescription = function(date) {
 	date = typeof date !== 'undefined' ? date : {"year": getCurrentYear(), "month": getCurrentMonth(), "day": getCurrentDay() };
 
-	var daysFromNow = getDaysFromNow(date);
-
-	if(dayInWeatherRange(daysFromNow)) {
-		return Session.get("weather").list[daysFromNow].weather[0].description;
+	if(dayInWeatherRange(date)) {
+		return Session.get("weather").list[getDaysFromNow(date)].weather[0].description;
 	}
 	return "no description";
 }
@@ -296,17 +292,15 @@ getWeatherDescription = function(date) {
 getWeatherImgRef = function(date) {
 	date = typeof date !== 'undefined' ? date : {"year": getCurrentYear(), "month": getCurrentMonth(), "day": getCurrentDay() };
 
-	var daysFromNow = getDaysFromNow(date);
-
-	if(dayInWeatherRange(daysFromNow)) {
-		return "http://openweathermap.org/img/w/" + Session.get("weather").list[daysFromNow].weather[0].icon + ".png";
+	if(dayInWeatherRange(date)) {
+		return "http://openweathermap.org/img/w/" + Session.get("weather").list[getDaysFromNow(date)].weather[0].icon + ".png";
 	}
 	return "no description";
 }
 
-dayInWeatherRange = function(daysFromNow) {
+dayInWeatherRange = function(date) {
+	var daysFromNow = getDaysFromNow(date);
 	if(daysFromNow >= 0 && daysFromNow < Session.get("weather").cnt) {
-		console.log(daysFromNow + ", " + Session.ge("weather").cnt);
 		return true;
 	} else {
 		return false;
