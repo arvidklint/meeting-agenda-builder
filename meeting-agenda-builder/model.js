@@ -123,6 +123,12 @@ Day = function(title, startTime, date) {
 	this.date = date;
 }
 
+SimpleDate = function(year, month, day) {
+	this.year = year;
+	this.month = month;
+	this.day = day;
+}
+
 activityTypes = [
 	{"value": "presentation", "name": "Presentation"},
 	{"value": "group_work", "name": "Group work"},
@@ -401,6 +407,17 @@ Meteor.methods({
 			formattedInfo["days." + target] = modifiedDay; // create dict with a key named days[target] and push the new day (a necessary trick)
 			Schedules.update({"_id": scheduleID}, {$set: formattedInfo}) // reupload the whole day
 		}
+	},
+	editDayInfo: function(scheduleID, target, dayTitle, startTime, date) {
+		// Receives information about a day to edit and the new information to insert.
+		// Downloads the day, modifies it and updates it. 
+		var day = getDays(scheduleID)[target];
+
+		day.dayTitle = dayTitle;
+		day.startTime = startTime;
+		day.date = date;
+
+		Meteor.call("updateDay", target, day, scheduleID);
 	},
 	addActivity: function(activity, target, position, scheduleID) {
 		if (target === "parkedActivities") {

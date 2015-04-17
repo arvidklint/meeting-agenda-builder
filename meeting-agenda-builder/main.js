@@ -67,11 +67,7 @@ if (Meteor.isClient) {
 			var startTime = hmToMinutes(startTimeH, startTimeM);
 
 			if(event.target.dateCheckbox.checked) {
-				var date = {
-					"year": event.target.dateYear.value,
-					"month": event.target.dateMonth.value,
-					"day": event.target.dateDay.value
-				};
+				var date = new SimpleDate(event.target.dateYear.value, event.target.dateMonth.value, event.target.dateDay.value);
 			} else {
 				var date = null;
 			}
@@ -257,7 +253,16 @@ if (Meteor.isClient) {
 		"click .popupHeader_button": function() {
 			stopEditingDay();
 		},
-		"submit .popupForm": function() {
+		"submit .popupForm": function(event) {
+			var target = parseInt(Session.get("dayBeingEdited").dayNumber) - 1;
+			var dayTitle = event.target.dayTitle.value;
+			var startTime = hmToMinutes(event.target.lengthH.value, event.target.lengthM.value);
+
+			if (event.target.dateCheckbox.checked) var date = new SimpleDate(event.target.dateYear.value, event.target.dateMonth.value, event.target.dateDay.value);
+			else var date = null;
+
+			Meteor.call("editDayInfo", Session.get("currentSchedule"), target, dayTitle, startTime, date);
+			stopEditingDay();
 			return false;
 		}
 	});
