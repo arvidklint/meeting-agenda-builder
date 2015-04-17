@@ -143,6 +143,9 @@ if (Meteor.isClient) {
 			Session.set("activityBeingEdited", activityInfo);
 
 			return currentActivity;
+		},
+		deleteActivityModal: function() {
+			return Session.get("deleteActivityModal");
 		}
 	});
 
@@ -150,7 +153,11 @@ if (Meteor.isClient) {
 		"click .popupHeader_button": function() {
 			stopEditingActivity();
 		},
-		"submit .popupForm": function(event, ui) {
+		"click #delete1": function() {
+			Session.set("deleteActivityModal", true);
+			return false;
+		},
+		"submit #editActivityForm": function(event, ui) {
 			var title = event.target.title.value;
 			var location = event.target.location.value;
 			var length = hmToMinutes(event.target.lengthH.value, event.target.lengthM.value);
@@ -166,6 +173,19 @@ if (Meteor.isClient) {
 			Meteor.call("modifyActivity", modifiedActivity, target, position, Session.get("activityBeingEdited"), Session.get("currentSchedule"));
 			stopEditingActivity();
 
+			return false;
+		},
+		"click #cancel": function() {
+			Session.set("deleteActivityModal", false);
+			return false;
+		}, 
+		"click #delete2": function() {
+			var activity = Session.get("activityBeingEdited");
+			Meteor.call("deleteActivity", activity.day, activity.activityIndex, Session.get("currentSchedule"));
+			stopEditingActivity();
+			return false;
+		},
+		"submit #deleteForm": function() {
 			return false;
 		}
 	})
