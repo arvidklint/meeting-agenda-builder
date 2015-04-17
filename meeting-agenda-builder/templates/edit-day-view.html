@@ -1,0 +1,26 @@
+<template name="editDayView">
+	{{#if editDayModal}}
+		<div class="modal_overlay">
+			<div class="modal">
+				<div class="popupHeader">
+					<div class="popupHeader_title">
+						Edit day {{dayNumber}}
+					</div>
+					<div class="popupHeader_button">
+						X
+					</div>
+				</div>
+
+				<form class="popupForm">
+					<label class="modalLabel" for="dayTitle">Title</label>
+					<input class="modalinput" type="text" name="dayTitle" value="{{day.dayTitle}}"/>
+					<label class="modalLabel" for="startTime">Start time</label>
+					{{> timeSelectors}}
+					
+					{{> dateSelectors}}
+					<button class="btn" type="submit">Save</button>
+				</form>
+			</div>
+		</div>
+	{{/if}}
+</template>

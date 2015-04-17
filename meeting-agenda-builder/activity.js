@@ -109,9 +109,6 @@ if (Meteor.isClient) {
 	});
 
 	Template.activity.events({
-		"hover .activityObject": function(event) {
-			// Här är det tänkt att jag ska implementera att redigera knappen bara visas när man pekar på en aktivitet
-		},
 		"click .editActivity": function() {
 			var target = Template.parentData(1);
 			if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
@@ -151,8 +148,7 @@ if (Meteor.isClient) {
 
 	Template.editActivityView.events({
 		"click .popupHeader_button": function() {
-			Session.set("editActivityModal", false);
-			Session.set("activityBeingEdited", null);
+			stopEditingActivity();
 		},
 		"submit .popupForm": function(event, ui) {
 			var title = event.target.title.value;
@@ -168,8 +164,7 @@ if (Meteor.isClient) {
 			modifiedActivity = new Activity(title, length, type, location, description);
 
 			Meteor.call("modifyActivity", modifiedActivity, target, position, Session.get("activityBeingEdited"), Session.get("currentSchedule"));
-			Session.set("editActivityModal", false);
-			Session.set("activityBeingEdited", null);
+			stopEditingActivity();
 
 			return false;
 		}

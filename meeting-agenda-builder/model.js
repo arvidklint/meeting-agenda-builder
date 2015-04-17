@@ -187,6 +187,16 @@ minutesToHuman = function(inMinutes) {
 	return hours + ":" + minutes;
 }
 
+minutesToHM = function(inMinutes) {
+	hours = "" + Math.floor(inMinutes/60);
+	hours = zeroPadding(hours, 2);
+
+	minutes = "" + inMinutes % 60;
+	minutes = zeroPadding(minutes, 2);
+
+	return [hours, minutes];
+}
+
 hmToMinutes = function(hours, minutes) {
 	return parseInt(hours) * 60 + parseInt(minutes);
 }
@@ -306,6 +316,34 @@ dayInWeatherRange = function(daysFromNow) {
 editActivity = function(target, activityIndex) {
 	Session.set("editActivityModal", true);
 	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
+}
+
+stopEditingActivity = function() {
+	Session.set("editActivityModal", false);
+	Session.set("activityBeingEdited", null);
+}
+
+editDay = function(target) {
+	var dayBeingEdited = getDays(Session.get("currentSchedule"))[target];
+
+	dayBeingEdited["dayNumber"] = target + 1;
+	dayBeingEdited["startTimeHM"] = minutesToHM(dayBeingEdited.startTime);
+	Session.set("dayBeingEdited", dayBeingEdited);
+
+	if (dayBeingEdited.date) Session.set("addDate", true);
+	else Session.set("addDate", false);
+
+	Session.set("editDayModal", true);
+}
+
+stopEditingDay = function() {
+	Session.set("editDayModal", false);
+	Session.set("dayBeingEdited", null);
+}
+
+stopAddingDay = function() {
+	Session.set("addDayModal", false);
+	Session.set("addDate", false);
 }
 
 Meteor.methods({

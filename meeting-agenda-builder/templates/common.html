@@ -62,39 +62,45 @@
 </template>
 
 <template name="dateSelectors">
-	<table class="modalLabel">
-		<tr>
-			<td class="yearLabel">Year</td>
-			<td class="monthLabel">Month</td>
-			<td class="dayLabel">Day</td>
-		</tr>
-	</table>
-	<select class="modalinput modalinputNumber4" name="dateYear">
-		{{#each years}}
-			{{#if selectedYear}}
-				<option value="{{this}}" selected="selected">{{this}}</option>
-			{{else}}
-				<option value="{{this}}">{{this}}</option>
-			{{/if}}
-		{{/each}}
-	</select>
+	{{#unless addDate}}
+		<input class="dateCheckbox" name="dateCheckbox" type="checkbox"/><label class="modalLabel">Use date</label>
+	{{else}}
+		<input class="dateCheckbox" name="dateCheckbox" type="checkbox" checked="true"/><label class="modalLabel">Use date</label>
+		<table class="modalLabel">
+			<tr>
+				<td class="yearLabel">Year</td>
+				<td class="monthLabel">Month</td>
+				<td class="dayLabel">Day</td>
+			</tr>
+		</table>
+		<select class="modalinput modalinputNumber4" name="dateYear">
+			{{#each years}}
+				{{#if selectedYear}}
+					<option value="{{this}}" selected="selected">{{this}}</option>
+				{{else}}
+					<option value="{{this}}">{{this}}</option>
+				{{/if}}
+			{{/each}}
+		</select>
 
-	<select class="modalinput modalinputNumber" name="dateMonth">
-		{{#each months}}
-			{{#if selectedMonth}}
-				<option value="{{this}}" selected="selected">{{this}}</option>
-			{{else}}
-				<option value="{{this}}">{{this}}</option>
-			{{/if}}
-		{{/each}}
-	</select>
-	<select class="modalinput modalinputNumber" name="dateDay">
-		{{#each days}}
-			{{#if selectedDay}}
-				<option value="{{this}}" selected="selected">{{this}}</option>
-			{{else}}
-				<option value="{{this}}">{{this}}</option>
-			{{/if}}
-		{{/each}}
-	</select>
+		<select class="modalinput modalinputNumber" name="dateMonth">
+			{{#each months}}
+				{{#if selectedMonth}}
+					<option value="{{this}}" selected="selected">{{this}}</option>
+				{{else}}
+					<option value="{{this}}">{{this}}</option>
+				{{/if}}
+			{{/each}}
+		</select>
+		<select class="modalinput modalinputNumber" name="dateDay">
+			{{#each days}}
+				{{#if selectedDay}}
+					<option value="{{this}}" selected="selected">{{this}}</option>
+				{{else}}
+					<option value="{{this}}">{{this}}</option>
+				{{/if}}
+			{{/each}}
+		</select>
+	{{/unless}}
+	<br/>
 </template>

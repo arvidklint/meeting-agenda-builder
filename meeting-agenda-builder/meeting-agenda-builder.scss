@@ -351,8 +351,22 @@ p {
 	font-size: 14pt;
 }
 
+.editDay {
+	cursor: pointer;
+	display: none;
+}
+
 .editActivity {
 	cursor: pointer;
+	display: none;
+}
+
+.dayHeader:hover .editDay {
+	display: inline;
+}
+
+.activityObject:hover .editActivity {
+	display: inline;
 }
 
 .weather {
