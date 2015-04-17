@@ -115,7 +115,7 @@ emptySchedule = function() {
 Day = function(title, startTime, date) {
 	title = typeof title !== 'undefined' ? title : "";
 	startTime = typeof startTime !== 'undefined' ? startTime : 540;
-	date = typeof date !== 'undefined' ? b : 'undefined';
+	date = typeof date !== 'undefined' ? date : 'undefined';
 
 	this.dayTitle = title;
 	this.startTime = startTime;
@@ -296,6 +296,7 @@ getWeatherImgRef = function(date) {
 
 dayInWeatherRange = function(daysFromNow) {
 	if(daysFromNow >= 0 && daysFromNow < Session.get("weather").cnt) {
+		console.log(daysFromNow + ", " + Session.ge("weather").cnt);
 		return true;
 	} else {
 		return false;

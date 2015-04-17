@@ -186,7 +186,9 @@ if (Meteor.isClient) {
 			return minutesToHuman(this.startTime + dayLength(this));
 		},
 		addWeather: function() {
-			if(this.date && Session.get("weather")) return true;
+			if(this.date && Session.get("weather")) {
+				if(dayInWeatherRange(this.date)) return true;
+			}
 		},
 		date: function() {
 			return this.date.year + "-" + this.date.month + "-" + this.date.day;
@@ -270,7 +272,7 @@ if (Meteor.isClient) {
 		$('.activityList').sortable({
 			connectWith: ".connectLists",
 			dropOnEmpty: true,
-			placeholder: "activityPlaceholder",
+			//placeholder: "activityPlaceholder",
 			start: function(e, ui) {
 				startPos = ui.item.index();
 				startTarget = $(ui.item).parent().attr("id"); //ID från den första listan
