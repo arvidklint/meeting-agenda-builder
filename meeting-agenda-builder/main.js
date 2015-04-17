@@ -4,18 +4,33 @@ if (Meteor.isClient) {
 	Session.set("showPas", true);
 	Session.set("addDayModal", false);
 
+	Template.mainFrame.helpers({
+		viewAsList: function() {
+			return Session.get("viewAsList");
+		}
+	});
+
 	Template.scheduleTitle.helpers({
 		scheduleTitle: function() {
 			return getScheduleInfo(Session.get("currentSchedule")).scheduleTitle;
 		},
 		editScheduleTitle: function() {
 			return Session.get("editScheduleTitle");
+		},
+		viewAsList: function() {
+			return Session.get("viewAsList");
 		}
 	});
 
 	Template.scheduleTitle.events({
 		"click #toScheduleChooser": function() {
 			Session.set("currentSchedule", null);
+		},
+		"click #toListView": function() {
+			Session.set("viewAsList", true);
+		},
+		"click #toScheduleView": function() {
+			Session.set("viewAsList", false);
 		},
 		"dblclick #scheduleTitle": function() {
 			Session.set("editScheduleTitle", true);

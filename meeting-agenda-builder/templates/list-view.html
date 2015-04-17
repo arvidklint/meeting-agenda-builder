@@ -1,0 +1,72 @@
+<template name="listView">
+	Parked activities:
+	<table class="scheduleAsList">
+		<th>
+			Length
+		</th>
+		{{> scheduleListHeader}}
+		{{#each parkedActivities}}
+		<tr>
+			<td>
+				{{activityLength}} min
+			</td>
+			<td>
+				{{activityType}}
+			</td>
+			<td>
+				{{this.title}}
+			</td>
+			<td>
+				{{this.location}}
+			</td>
+			<td>
+				{{this.description}}
+			</td>
+		</tr>
+		{{/each}}
+	</table>
+
+	{{#each days}}
+		Day {{this.dayNumber}}
+		<table class="scheduleAsList">
+			<th>
+				Start time
+			</th>
+			{{> scheduleListHeader}}
+			{{#each activities}}
+				<tr>
+					<td>
+						{{activityStart}}
+					</td>
+					<td>
+						{{activityType}}
+					</td>
+					<td>
+						{{this.title}}
+					</td>
+					<td>
+						{{this.location}}
+					</td>
+					<td>
+						{{this.description}}
+					</td>
+				</tr>
+			{{/each}}
+		</table>
+	{{/each}}
+</template>
+
+<template name="scheduleListHeader">
+	<th>
+		Type
+	</th>
+	<th>
+		Title
+	</th>
+	<th>
+		Location
+	</th>
+	<th>
+		Description
+	</th>
+</template>
