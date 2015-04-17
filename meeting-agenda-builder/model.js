@@ -312,6 +312,7 @@ getWeatherImgRef = function(date) {
 
 dayInWeatherRange = function(daysFromNow) {
 	if(daysFromNow >= 0 && daysFromNow < Session.get("weather").cnt) {
+		console.log(daysFromNow + ", " + Session.ge("weather").cnt);
 		return true;
 	} else {
 		return false;
