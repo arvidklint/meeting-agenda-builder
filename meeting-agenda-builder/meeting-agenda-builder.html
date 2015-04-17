@@ -15,13 +15,18 @@
 <template name="mainFrame">
 	<div id="mainFrame">
 		{{> scheduleTitle}}
-		{{> parkedActivitiesView}}
-		{{> daysView}}
 
-		{{> newDayView}}
-		{{> editDayView}}
-		{{> newActivityView}}
-		{{> editActivityView}}
+		{{#unless viewAsList}}
+			{{> parkedActivitiesView}}
+			{{> daysView}}
+
+			{{> newDayView}}
+			{{> editDayView}}
+			{{> newActivityView}}
+			{{> editActivityView}}
+		{{else}}
+			{{> listView}}
+		{{/unless}}
 	</div>
 </template>
 
@@ -29,7 +34,12 @@
 	<table>
 		<tr>
 			<td>
-				<button id="toScheduleChooser" class="floatLeft btn">&lt;</button>
+				<button id="toScheduleChooser" class="floatLeft">&lt;</button>
+				{{#unless viewAsList}}
+					<button id="toListView" class="floatLeft">Ξ</button>
+				{{else}}
+					<button id="toScheduleView" class="floatLeft">⊞</button>
+				{{/unless}}
 			</td>
 			<td>
 				{{#unless editScheduleTitle}}

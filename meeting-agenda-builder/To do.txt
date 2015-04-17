@@ -5,7 +5,7 @@ To do
 
 -Login
 -Many schedules, manage schedules
-Drag and drop activities
+/Drag and drop activities
 Drag and drop days
 -API
 	Förslag:
@@ -18,7 +18,7 @@ URL field in activities
 Different view
 	Förslag:
 	RSS
-Good-looking interface for schedule
+/Good-looking interface for schedule
 Good-looking interface for login view
 År längre fram
 När man raderar dag – flytta alla dess aktiviteter till Parked activities
