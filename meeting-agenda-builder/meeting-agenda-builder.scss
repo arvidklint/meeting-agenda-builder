@@ -74,15 +74,15 @@ p {
 }
 
 #addActivityButton {
-	width: 200px;
+	width: 180px;
 	border-radius: 5px;
 	background-color: $lightBlue;
 	border: none;
-	padding: 8px;
+	padding: 10px;
 	color: #ffffff;
 	font-size: 14pt;
 	cursor: pointer;
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .activityObject {
@@ -99,8 +99,23 @@ p {
 	height: 20px;
 	text-align: center;
 	//vertical-align: center;
-	//padding-bottom: 0px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;	
+	margin-top: 5px;
 	float: left;
+}
+
+#toScheduleChooser {
+	border-radius: 5px;
+	background-color: $lightBlue;
+	border: none;
+	padding-top: 0px;
+	padding-bottom: 3px;
+	padding-right: 10px;
+	padding-left: 10px;
+	color: #ffffff;
+	font-size: 14pt;
+	cursor: pointer;
 }
 
 .activityInfo {
@@ -141,7 +156,7 @@ p {
 	padding: 3px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	display: inline;
+	//display: inline;
 }
 
 /*.activityListFooter {
@@ -151,22 +166,27 @@ p {
 }*/
 
 #addDay {
-	width: 200px;
-	border-radius: 5px;
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
 	background-color: $lightBlue;
 	border: none;
 	padding: 8px;
 	color: #ffffff;
 	font-size: 14pt;
 	cursor: pointer;
-	//margin-top: 30px;
-	float: right;
+	margin-top: 100px;
+	margin-left: 20px;
+	float: left;
 }
 
 #daysView {
 	background-color: white;
 	margin-left: 280px;
 	height: 100%;
+	width: 3000px;
+	position: absolute;
+	overflow: scroll; 
 }
 
 .day {
@@ -178,12 +198,13 @@ p {
 	float: left;
 	margin: 5px;
 	margin-right: 0px;
-	padding-bottom: 5px;
-	border: 1px solid $lightGrey;
+	padding-bottom: 10px;
+	border: 1px solid $grey;
 }
 
 .dayHeader {
 	height: 150px;
+	border-radius: 3px 3px 0px 0px;
 	border-bottom: 1px solid $lightGrey;
 	background-color: $lightGrey;
 	padding: 5px
@@ -203,7 +224,7 @@ p {
 }
 
 .btn {
-	border-radius: 0px;
+	border-radius: 5px;
 	background-color: $lightBlue;
 	border: none;
 	padding: 8px;
@@ -341,7 +362,7 @@ p {
 }
 
 .title {
-	font-size: 14pt;
+	font-size: 18pt;
 	margin-top: 0pt;
 	margin-bottom: 20px;
 	overflow: hidden;
@@ -357,16 +378,28 @@ p {
 }
 
 .editActivity {
+	position: relative;
+	top: 2px;
+	left: 2px;
 	cursor: pointer;
 	display: none;
 }
 
 .dayHeader:hover .editDay {
+	position: relative;
+	top: 2px;
+	left: 2px;
+	float: left;
 	display: inline;
 }
 
 .activityObject:hover .editActivity {
-	display: inline;
+	position: relative;
+	top: 2px;
+	left: 2px;
+	z-index: 50;
+	float: left;
+	display: inline-block;
 }
 
 .weather {

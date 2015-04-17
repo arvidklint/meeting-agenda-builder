@@ -59,7 +59,7 @@
 	<div id="parkedActivitiesView">
 		<div id="parkedActivitiesHeader">
 			<h4>Parked activities</h4>
-			<button id="addActivityButton" class="center">✚ Add activity</button>
+			<button id="addActivityButton" class="center">✚ Activity</button>
 		</div>
 		<ul class="activityList connectLists" id="parkedActivities">
 			{{#each parkedActivities}}
@@ -80,7 +80,9 @@
 		</div>
 
 		<div class="activityInfo {{type}}">
+			<span class="editActivity">✎</span>
 			<div class="activityTitle">
+			
 				{{title}}
 			</div>
 			{{#if location}}
@@ -91,24 +93,25 @@
 			<div class="activityDescription">
 				{{description}}
 			</div>
-			<span class="editActivity">✎</span>
 		</div>
 	</li>
 </template>
 
 <template name="daysView">
-	<button id="addDay">✚ Add day</button>
 	<div id="daysView">
 		{{#each days}}
 			{{> day}}
 		{{/each}}
+		<button id="addDay">✚ Day</button>
 	</div>
+
 </template>
 
 <template name="day">
 	<div class="day">
 		<div class="dayHeader">
-			<h4>Dag {{dayNumber}}</h4>
+		
+			<h4><span class="editDay">✎</span>Dag {{dayNumber}}</h4>
 			{{#if addDayTitle}}
 				<h6>{{dayTitle}}</h6>
 			{{/if}}
@@ -133,7 +136,7 @@
 			
 			Längd: {{dayLength}}<br/>
 			Slut: {{dayEnd}}<br/>
-			<span class="editDay">✎</span>
+			
 		</div>
 
 		<ul class="activityList connectLists" id="day_{{dayNumber}}">

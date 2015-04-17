@@ -215,7 +215,7 @@ if (Meteor.isClient) {
 			return minutesToHuman(this.startTime + dayLength(this));
 		},
 		addWeather: function() {
-			if(this.date && Session.get("weather")) {
+			if(this.date !== null && Session.get("weather")) {
 				if(dayInWeatherRange(this.date)) return true;
 			}
 		},
