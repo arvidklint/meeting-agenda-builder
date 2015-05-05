@@ -27,7 +27,7 @@ if (Meteor.isClient) {
 		});
 	}
 
-	function locationError(error){
+	function locationError(error) {
 		switch(error.code) {
 			case error.TIMEOUT:
 				showError("A timeout occured! Please try again!");
@@ -56,5 +56,4 @@ if(Meteor.isServer) {
 			return Meteor.http.get(query);
 		}
 	});
-
 }
