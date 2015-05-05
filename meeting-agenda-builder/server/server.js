@@ -160,6 +160,7 @@ Meteor.methods({
 
 			formattedInfo["days." + dayIndex] = day;
 			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo });
+			
 
 		} else if (endTarget === "parkedActivities") {
 			console.log("lista till parkedActivities");
@@ -194,7 +195,6 @@ Meteor.methods({
 			var formattedInfo = {};
 			formattedInfo["days." + dayStartIndex] = dayStart;
 			formattedInfo["days." + dayEndIndex] = dayEnd;
-
 			Schedules.update( {"_id": scheduleID}, {$set: formattedInfo});
 		}
 		
