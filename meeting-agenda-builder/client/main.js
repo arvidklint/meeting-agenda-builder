@@ -4,6 +4,8 @@ Session.set("showPas", true);
 Session.set("addDayModal", false);
 Session.set("activityModal", false);
 
+Session.set("refreshingLists", true);
+
 Template.mainFrame.helpers({
 	viewAsList: function() {
 		return Session.get("viewAsList");
@@ -232,119 +234,57 @@ Template.minutesList.helpers({
 // }
 
 Template.mainFrame.rendered = function() {
-	$('.activityList').sortable({
+	this.$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
-		//placeholder: "activityPlaceholder",
 		start: function(e, ui) {
 			startPos = ui.item.index();
-			startTarget = $(ui.item).parent().attr("id"); //ID från den första listan
-			endTarget = startTarget; //endTarget är vid detta tillfälle samma lista, om objektet dras till en annan lista så kommer "receive" att köras och ändra endTarget till den nya listan. "receive" körs innan "stop"
-			console.log("start: " + this.id + ", pos: " + startPos);
-			startItem = $(ui.item);
-
-			// var counter = 0;
-			// $.each(startItem.parent().children(), function(i, val) {
-			// 	counter++;
-			// 	console.log(val);
-			// })
-			// counter--;
-			// if(ui.item.index() + 1 === counter) {
-			// 	console.log("sista elementet");
-			// 	lastItem = true;
-			// } else {
-			// 	lastItem = false;
-			// }
-			// console.log("counter: " + counter);
-
-			// console.log(ui.item.next().get(0));
-			// if(ui.item.next().length === 0) {
-			// 	console.log("inget nästa värde");
-			// }
+			startTarget = $(ui.item).parent().attr("id");
+			console.log(startPos);
 		},
 		stop: function(e, ui) {
 			endPos = ui.item.index();
 			endTarget = $(ui.item).parent().attr("id");
-			console.log("stop: " + endTarget + ", pos: " + endPos);
 			$('.activityList').sortable('cancel');
-			console.log("cancel sortable");
+			//$('.activityList').sortable('refresh');
 			if(startTarget === endTarget) {
-				//$('.activityList').sortable('cancel');
-				//console.log("cancel sortable");
-				console.log(startTarget + ", " + startPos + ", " + endPos);
 				Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
-				console.log("Samma lista");
-			} 
-			else {
+			} else {
 				Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
-				console.log("Annan lista");
-				// if(lastItem) {
-				//$(ui.item).remove();
-				// }
-				// console.log("removing");
 			}
-			//$(".activityList").empty();
-			
-		},
-		update: function(e, ui) {
-			console.log("update");
-
+			console.log(endPos);
 		}
-		// receive: function(e, ui) {
-		// 	endTarget = this.id;
+
+		// //placeholder: "activityPlaceholder",
+		// start: function(e, ui) {
+		// 	startPos = ui.item.index();
+		// 	startTarget = $(ui.item).parent().attr("id"); //ID från den första listan
+		// 	endTarget = startTarget; //endTarget är vid detta tillfälle samma lista, om objektet dras till en annan lista så kommer "receive" att köras och ändra endTarget till den nya listan. "receive" körs innan "stop"
+		// 	console.log("start: " + this.id + ", pos: " + startPos);
+		// 	startItem = $(ui.item);
+		// },
+		// stop: function(e, ui) {
 		// 	endPos = ui.item.index();
+		// 	endTarget = $(ui.item).parent().attr("id");
+		// 	console.log("stop: " + endTarget + ", pos: " + endPos);
 		// 	$('.activityList').sortable('cancel');
 		// 	console.log("cancel sortable");
+		// 	if(startTarget === endTarget) {
+		// 		//$('.activityList').sortable('cancel');
+		// 		//console.log("cancel sortable");
+		// 		console.log(startTarget + ", " + startPos + ", " + endPos);
+		// 		Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
+		// 		console.log("Samma lista");
+		// 	} 
+		// 	else {
+		// 		Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
+		// 		console.log("Annan lista");
+		// 	}
+		// 	//$(".activityList").empty();
 			
-		// 	//console.log($(ui.item));
-		// 	//console.log("receive: " + this.id + ", pos: " + endPos);
-		// 	//$('.activityList').sortable('cancel');
-			
-		// 	Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
-		// 	//console.log("Annan lista");
+		// },
+		// update: function(e, ui) {
+		// 	console.log("update");
 		// }
 	});
- 	$('.activityList').disableSelection();
-// 	// this.$('#parkedActivities').sortable({
-// 	// 	stop: function(e, ui) {
-// 	// 		// get the dragged html element and the one before
-// 	// 		//	 and after it
-// 	// 		el = ui.item.get(0)
-// 	// 		before = ui.item.prev().get(0)
-// 	// 		after = ui.item.next().get(0)
- 
-// 	// 		// Here is the part that blew my mind!
-// 	// 		//	Blaze.getData takes as a parameter an html element
-// 	// 		//	and will return the data context that was bound when
-// 	// 		//	that html element was rendered!
-// 	// 		if(!before) {
-// 	// 			//if it was dragged into the first position grab the
-// 	// 			// next element's data context and subtract one from the rank
-// 	// 			newRank = Blaze.getData(after).rank - 1
-// 	// 		} else if(!after) {
-// 	// 			//if it was dragged into the last position grab the
-// 	// 			//	previous element's data context and add one to the rank
-// 	// 			newRank = Blaze.getData(before).rank + 1
-// 	// 		}
-// 	// 		else {
-// 	// 			//else take the average of the two ranks of the previous
-// 	// 			// and next elements
-// 	// 			newRank = (Blaze.getData(after).rank + Blaze.getData(before).rank)/2
-// 	// 		}
- 
-// 	// 		//update the dragged Item's rank
-// 	// 		Meteor.call("updateRank", Blaze.getData(el)._id, newRank);
-// 	// 	}
-// 	// })
 };
-
-Template.day.rendered = function() {
-	// this.$('.hoursList').append(numberOptionList(0, 23, 2));
-	// console.log(this.startTime);
-	// this.$('.hoursList').val(this.startTime);
-	// this.$('.minutesList').append(numberOptionList(0, 59, 2));
-
-
-	// console.log(numberOptionList(0, 23, 2));
-	// console.log(numberOptionList(0, 59, 2));
-}
