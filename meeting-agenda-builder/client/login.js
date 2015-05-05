@@ -1,3 +1,5 @@
+Session.set("anySchedules", false);
+
 Deps.autorun(function () {
 	if (Meteor.user()) Session.set("loggedIn", true);
 	else Session.set("loggedIn", false);
@@ -31,7 +33,7 @@ Template.loginView.helpers({
 
 Template.loginView.events({
 	"click .scheduleListClickable": function() {
-		Session.set("currentSchedule", this._id);
+		openSchedule(this._id);
 	},
 	"click #newSchedule": function() {
 		Session.set("newScheduleModal", true);
@@ -50,14 +52,23 @@ Template.loginView.events({
 
 Template.schedules.helpers({
 	schedules: function() {
-		return getSchedules(Meteor.user());
+		var schedules = getSchedules(Meteor.user());
+		if (schedules.length > 0) Session.set("anySchedules", true);
+		return schedules;
 	},
 	numberOfDays: function() {
 		return this.days.length;
 	},
 	editSchedules: function() {
 		return Session.get("editSchedules");
+	},
+	anySchedules: function() {
+		return Session.get("anySchedules");
 	}
+});
+
+Template.schedules.onDestroyed(function() {
+	logout();
 });
 
 Template.newSchedule.events({
@@ -65,8 +76,9 @@ Template.newSchedule.events({
 		Session.set("newScheduleModal", false);
 	},
 	"submit .popupForm": function(event) {
-		Meteor.call("addSchedule", Meteor.user()._id, event.target.scheduleName.value, event.target.numberOfDays.value);
-
+		Meteor.call("addSchedule", Meteor.user()._id, event.target.scheduleName.value, event.target.numberOfDays.value, function(error, scheduleID) {
+			openSchedule(scheduleID);
+		});
 		Session.set("newScheduleModal", false);
 
 		return false;
@@ -84,14 +96,13 @@ Template.deleteSchedule.helpers({
 
 Template.deleteSchedule.events({
 	"click .closeDeleteScheduleModal": function() {
-		Session.set("deleteScheduleModal", false);
-		Session.set("scheduleToDelete", null);
+		stopDeletingSchedule();
+		return false;
 	},
 	"submit .popupForm": function() {
 		try {
 			Meteor.call("deleteSchedule", Session.get("scheduleToDelete")._id);
-			Session.set("deleteScheduleModal", false);
-			Session.set("scheduleToDelete", null);
+			stopDeletingSchedule();
 		} catch(e) {
 			alert(e.message);
 		}

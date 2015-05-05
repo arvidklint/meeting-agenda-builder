@@ -42,10 +42,12 @@
 			{{/each}}
 		</table>
 		<button id="newSchedule">Create new schedule</button>
-		{{#if editSchedules}}
-			<button id="stopEditing">Done editing</button>
-		{{else}}
-			<button id="editSchedules">Edit schedules</button>
+		{{#if anySchedules}}
+			{{#if editSchedules}}
+				<button id="stopEditing">Done editing</button>
+			{{else}}
+				<button id="editSchedules">Edit schedules</button>
+			{{/if}}
 		{{/if}}
 	</div>
 </template>
@@ -86,6 +88,7 @@
 
 			<form class="popupForm">
 				Are you sure you want to delete the schedule "{{scheduleTitle}}"? The schedule contains {{numDays}} days. The action can not be undone.<br/>
+				<button class="btn closeDeleteScheduleModal">Cancel</button>
 				<button class="btn badBtn" type="submit">Delete</button>
 			</form>
 		</div>

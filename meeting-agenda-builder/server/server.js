@@ -10,7 +10,7 @@ Meteor.methods({
 		}
 
 		var scheduleID = Schedules.insert(schedule);
-		Session.set("currentSchedule", scheduleID);
+		return scheduleID;
 	},
 	deleteSchedule: function(scheduleID) {
 		var schedule = Schedules.findOne(scheduleID);

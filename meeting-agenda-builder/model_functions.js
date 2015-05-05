@@ -272,6 +272,10 @@ dayInWeatherRange = function(date) {
 	}
 }
 
+openSchedule = function(scheduleID) {
+	Session.set("currentSchedule", scheduleID);
+}
+
 editActivity = function(target, activityIndex) {
 	Session.set("editActivityModal", true);
 	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
@@ -307,4 +311,18 @@ stopAddingDay = function() {
 	Session.set("addDate", false);
 }
 
+stopEditingSchedules = function() {
+	Session.set("editSchedules", false);
+	Session.set("deleteScheduleModal", false);
+	Session.set("scheduleToDelete", null);
+}
 
+stopDeletingSchedule = function() {
+	Session.set("deleteScheduleModal", false);
+	Session.set("scheduleToDelete", null);
+}
+
+logout = function() {
+	Session.set("anySchedules", false);
+	stopEditingSchedules();
+}
