@@ -1,0 +1,64 @@
+Presentation of meeting agenda builder - notes
+
+Idea we chose
+Login - all your schedules
+Create new account asdf@asdf.com, asdf
+	Doesn't work
+	password: qwerty123
+Create new schedule “Floor conference”
+	2 days
+Edit schedule title “Floor 2.0 conference”
+Describe parked activities
+Add new activity
+	Introduction to floor 2.0
+	E1
+	Presentation
+	Description: “A very important introduction speech”
+Add new activity
+	Importance of floors
+	D22
+	Group work
+	1 h 30 min
+	A nice chat
+Longer day is longer
+Add new activity
+	Lunch
+	The cafeteria
+	Break
+	1 h
+	Meatballs with vanilla sauce
+Now I know what my activities will be, time to place them
+Drag Introduction to day 1
+Drag Lunch to day 1
+Drag Importance of floors to day 1
+Add new activity
+	asdf
+	asdf
+	Presentation
+	0h 30
+	asdf
+	Directly into Day 2
+Now, activity start times are calculated instead of activity length
+Day start times can be changed
+Day 1: 10:00
+Day 2: 08.30
+Edit day 1
+	Day 1: introduction day, date: 2015-04-18
+	Weather appears, describe
+Edit activity Lunch
+	Location: outside
+	Time: 01.30
+Delete activity Importance of Floors
+Add day
+	asdf
+Remove that day
+Different schedules
+Delete schedule Floor conference
+Log out
+Sign in as rajje
+Go to Konferens om damm
+Reveal second window, explain different session
+	Remove lunch
+	Day 1: 05.30
+List view
+	Not designed, but proves MVC separation
