@@ -47,6 +47,27 @@ Template.loginView.events({
 	"click .deleteSchedule": function() {
 		Session.set("deleteScheduleModal", true);
 		Session.set("scheduleToDelete", this);
+	},
+	"click #logOut": function() {
+		logout();
+	}
+});
+
+Template.loginForm.helpers({
+	loginError: function() {
+		return Session.get("loginError");
+	}
+});
+
+Template.loginForm.events({
+	"submit #loginForm": function(event) {
+		var email = event.target.email.value.trim();
+		var password = event.target.password.value;
+		// login(email, password);
+		Meteor.loginWithPassword(email, password, function(error) {
+        	if (error) Session.set("loginError", error.message);
+        });
+		return false;
 	}
 });
 

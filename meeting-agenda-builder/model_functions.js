@@ -323,6 +323,9 @@ stopDeletingSchedule = function() {
 }
 
 logout = function() {
+	Meteor.logout();
+
 	Session.set("anySchedules", false);
 	stopEditingSchedules();
+	stopDeletingSchedule();
 }

@@ -1,10 +1,11 @@
 <template name="loginView">
-	{{> loginButtons}}
+	<!-- {{> loginForm}} -->
+	
 
 	{{#if loggedIn}}
 		{{> schedules}}
 	{{else}}
-		Not logged in
+		{{> loginForm}}
 	{{/if}}
 
 	{{#if newScheduleModal}}
@@ -16,8 +17,20 @@
 	{{/if}}
 </template>
 
+<template name="loginForm">
+	<form class="form" id="loginForm">
+		<input type="email" placeholder="E-mail" name="email"/>
+		<input type="password" placeholder="Password" name="password"/>
+		<button type="submit" class="btn">Sign in</button>
+		<p id="createAccount">Create account</p>
+		<p id="forgotPassword">Forgot password</p>
+		<p class="errorText">{{loginError}}</p>
+	</form>
+</template>
+
 <template name="schedules">
 	<p>Skedules</p>
+	<button id="logOut">Sign out</button>
 
 	<div id="scheduleList">
 		<div class="title">

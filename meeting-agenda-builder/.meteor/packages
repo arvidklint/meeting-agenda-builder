@@ -8,6 +8,7 @@ meteor-platform
 jquery
 mrt:jquery-ui
 accounts-password
-accounts-ui
 http
 fourseven:scss
+accounts-ui-unstyled
+less
