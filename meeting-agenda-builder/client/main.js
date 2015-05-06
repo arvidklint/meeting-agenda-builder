@@ -6,7 +6,7 @@ Session.set("activityModal", false);
 
 Session.set("refreshingLists", true);
 
-Template.mainFrame.helpers({
+Template.scheduleView.helpers({
 	viewAsList: function() {
 		return Session.get("viewAsList");
 	}
@@ -26,7 +26,7 @@ Template.scheduleTitle.helpers({
 
 Template.scheduleTitle.events({
 	"click #toScheduleChooser": function() {
-		Session.set("currentSchedule", null);
+		closeSchedule();
 	},
 	"click #toListView": function() {
 		Session.set("viewAsList", true);
@@ -38,7 +38,7 @@ Template.scheduleTitle.events({
 		Session.set("editScheduleTitle", true);
 	},
 	"submit #scheduleTitleForm": function(event) {
-		newName = event.target.scheduleTitle.value;
+		var newName = event.target.scheduleTitle.value;
 		Meteor.call("editSchedule", Session.get("currentSchedule"), newName, null);
 		Session.set("editScheduleTitle", false);
 		return false;
@@ -47,7 +47,7 @@ Template.scheduleTitle.events({
 
 Template.daysView.helpers({
 	days: function() {
-		days = getDays(Session.get("currentSchedule"));
+		var days = getDays(Session.get("currentSchedule"));
 		days = addActivityStartTimes(days);
 		days = addDayNumbers(days);
 
@@ -233,7 +233,7 @@ Template.minutesList.helpers({
 // 	});
 // }
 
-Template.mainFrame.rendered = function() {
+Template.scheduleView.rendered = function() {
 	this.$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,

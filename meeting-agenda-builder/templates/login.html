@@ -1,7 +1,4 @@
 <template name="loginView">
-	<!-- {{> loginForm}} -->
-	
-
 	{{#if loggedIn}}
 		{{> schedules}}
 	{{else}}
@@ -18,19 +15,80 @@
 </template>
 
 <template name="loginForm">
-	<form class="form" id="loginForm">
-		<input type="email" placeholder="E-mail" name="email"/>
-		<input type="password" placeholder="Password" name="password"/>
-		<button type="submit" class="btn">Sign in</button>
-		<p id="createAccount">Create account</p>
-		<p id="forgotPassword">Forgot password</p>
-		<p class="errorText">{{loginError}}</p>
-	</form>
+	<img src="sni-sch.jpg" id="loginLogo"/>
+
+	{{#if createAccount}}
+		<form id="createAccountForm">
+			<div class="loginForm">
+				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="password" placeholder="Password" name="password"/>
+				<div class="errorText">{{loginError}}</div>
+				<button type="submit" class="btn">Create</button>
+				<button class="btn" name="cancel" id="cancel">Cancel</button>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="toLogin" class="floatLeft">Log in</a>
+		</div>
+	{{else}} {{#if forgotPassword}}
+		<form id="forgotPasswordForm">
+			<div class="loginForm">
+				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<div class="errorText {{friendly}}">{{loginError}}</div>
+				<div class="additionalFuckingDataIfOnly1FieldInLoginForm">
+					<button type="submit" class="btn">Send reset instructions</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="toLogin" class="floatLeft">Log in</a>
+			<a href="#" id="createAccount" class="floatRight">Create account</a>
+		</div>
+	{{else}} {{#if resetPassword}}
+		<form id="resetPasswordForm">
+			<div class="loginForm">
+				<input type="password" placeholder="Password" name="newPassword"/>
+				<div class="errorText">{{loginError}}</div>
+				<div class="additionalFuckingDataIfOnly1FieldInLoginForm">
+					<button type="submit" class="btn">Change password</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="toLogin" class="floatLeft">Log in</a>
+			<a href="#" id="createAccount" class="floatRight">Create account</a>
+		</div>
+	{{else}}
+		<form id="loginForm">
+			<div class="loginForm">
+				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="password" placeholder="Password" name="password"/>
+				<div class="errorText">{{loginError}}</div>
+				<button type="submit" class="btn">Sign in</button>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="forgotPassword" class="floatLeft">Forgot password</a>
+			<a href="#" id="createAccount" class="floatRight">Create account</a>
+		</div>
+	{{/if}}{{/if}}{{/if}}
+
 </template>
 
 <template name="schedules">
-	<p>Skedules</p>
-	<button id="logOut">Sign out</button>
+	<div id="userInfo">
+		<img src="user.png"/>
+		<span id="user">{{user}}</span><br/>
+		<a href="#" id="logOut">Sign out</a> | <a href="#" id="changePassword">Change password</a>
+
+		{{#if changePassword}}
+			{{> changePasswordView}}
+		{{/if}}
+	</div>
 
 	<div id="scheduleList">
 		<div class="title">

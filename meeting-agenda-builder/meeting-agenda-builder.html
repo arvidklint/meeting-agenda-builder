@@ -4,7 +4,7 @@
 
 <body>
 	{{#if scheduleChosen}}
-		{{> mainFrame}}
+		{{> scheduleView}}
 	{{else}}
 		{{> loginView}}
 	{{/if}}
@@ -12,7 +12,7 @@
 	{{fixed}}
 </body>
 
-<template name="mainFrame">
+<template name="scheduleView">
 	<div id="mainFrame">
 		{{> scheduleTitle}}
 

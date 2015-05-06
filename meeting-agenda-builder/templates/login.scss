@@ -1,0 +1,71 @@
+@import "constants";
+
+#loginLogo {
+	display: block;
+	margin-top: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+}
+
+.loginForm {
+	position: relative;
+	background-color: $lightGrey;
+	width: 250px;
+	height: 140px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 8px;
+	margin-bottom: auto;
+}
+
+.loginForm input {
+	display: block;
+	width: 230px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	height: $textInputHeight;
+}
+
+.loginForm button {
+	display: block;
+	float: right;
+	margin-right: $loginFormPadding;
+	margin-top: 10px;
+	top: 110px;
+}
+
+.additionalFuckingDataIfOnly1FieldInLoginForm {
+	margin-top: 34px;
+}
+
+.loginButtons {
+	position: absolute;
+	bottom: 0;
+}
+
+.errorText {
+	height: 15px;
+	text-align: center;
+	margin-top: $loginFormPadding;
+}
+
+.extraLoginLinks {
+	display: block;
+	width: 230px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}
+
+#userInfo {
+	text-align: left;
+	overflow: hidden;
+	padding: $loginFormPadding;
+}
+
+#userInfo img {
+	float: left;
+	margin-right: $loginFormPadding;
+}

@@ -8,7 +8,7 @@ Deps.autorun(function () {
 Template.body.helpers({
 	scheduleChosen: function() {
 		if (Session.get("currentSchedule")) { // if a current schedule is set
-			currentSchedule = Schedules.findOne(Session.get("currentSchedule")); // fetch it
+			var currentSchedule = Schedules.findOne(Session.get("currentSchedule")); // fetch it
 			if (currentSchedule.owner === Meteor.user()._id) return true; // return true if the logged in user owns it
 		} 
 		else return false; // results in the loginview showing instead of a schedule
@@ -34,6 +34,7 @@ Template.loginView.helpers({
 Template.loginView.events({
 	"click .scheduleListClickable": function() {
 		openSchedule(this._id);
+		return false;
 	},
 	"click #newSchedule": function() {
 		Session.set("newScheduleModal", true);
@@ -50,32 +51,119 @@ Template.loginView.events({
 	},
 	"click #logOut": function() {
 		logout();
+		return false;
+	},
+	"click #changePassword": function() {
+		Session.set("changePassword", true);
 	}
 });
+
+Template.loginForm.rendered = function() {
+	resetLoginForm();
+
+	if (Accounts._resetPasswordToken) {
+		Session.set("resetPassword", Accounts._resetPasswordToken);
+	} 
+}
 
 Template.loginForm.helpers({
 	loginError: function() {
 		return Session.get("loginError");
+	},
+	loginMessage: function() {
+		return Session.get("loginMessage");
+	},
+	createAccount: function() {
+		return Session.get("createAccount");
+	},
+	forgotPassword: function() {
+		return Session.get("forgotPassword");
+	},
+	resetPassword: function() {
+		return Session.get("resetPassword");
+	},
+	newPassword: function() {
+		return Session.get("newPassword");
 	}
 });
 
 Template.loginForm.events({
 	"submit #loginForm": function(event) {
-		var email = event.target.email.value.trim();
+		var email = trimInput(event.target.email.value);
 		var password = event.target.password.value;
-		// login(email, password);
-		Meteor.loginWithPassword(email, password, function(error) {
-        	if (error) Session.set("loginError", error.message);
-        });
+		login(email, password);
+
+		return false;
+	},
+	"click #createAccount": function() {
+		Session.set("createAccount", true);
+		Session.set("loginError", null);
+		return false;
+	},
+	"click #toLogin": function() {
+		resetLoginForm();
+		return false;
+	},
+	"click #forgotPassword": function() {
+		Session.set("forgotPassword", true);
+		Session.set("loginError", null);
+		return false;
+	},
+	"click #cancel": function() {
+		resetLoginForm();
+		return false;
+	},
+	"submit #createAccountForm": function(event) {
+		var email = trimInput(event.target.email.value);
+		var password = event.target.password.value;
+
+		try {
+			validateEmail(email);
+			validatePassword(password);
+			createUser(email, password);
+		} catch(error) {
+			loginError(error);
+		}
+
+		return false;
+	},
+	"submit #forgotPasswordForm": function(event) {
+		var email = trimInput(event.target.email.value);
+
+		try {
+			validateEmail(email);
+			forgotPassword(email);
+		} catch(error) {
+			loginError(error);
+		}
+
+		return false;
+	},
+	"submit #resetPasswordForm": function(event) {
+		var newPw = event.target.newPassword.value;
+
+		try {
+			validatePassword(newPw);
+			resetPassword(Session.get("resetPassword"), newPw);
+		} catch(error) {
+			loginError(error);
+		}
+
 		return false;
 	}
 });
 
 Template.schedules.helpers({
+	user: function() {
+		console.log(getUserEmail());
+		return getUserEmail();
+	},
 	schedules: function() {
-		var schedules = getSchedules(Meteor.user());
-		if (schedules.length > 0) Session.set("anySchedules", true);
-		return schedules;
+		if (Session.get("loggedIn")) {
+			var schedules = getSchedules(Meteor.user());
+			if (schedules.length > 0) Session.set("anySchedules", true);
+			return schedules;
+		}
 	},
 	numberOfDays: function() {
 		return this.days.length;
@@ -85,11 +173,10 @@ Template.schedules.helpers({
 	},
 	anySchedules: function() {
 		return Session.get("anySchedules");
+	},
+	changePassword: function() {
+		return Session.get("changePassword");
 	}
-});
-
-Template.schedules.onDestroyed(function() {
-	logout();
 });
 
 Template.newSchedule.events({

@@ -173,3 +173,35 @@ Template.editDayView.events({
 		return false;
 	}
 });
+
+Template.changePasswordView.rendered = function() {
+	Session.set("loginError", null);
+}
+
+Template.changePasswordView.helpers({
+	loginError: function() {
+		return Session.get("loginError");
+	}
+})
+
+Template.changePasswordView.events({
+	"click .popupHeader_button": function() {
+		closeChangePassword();
+	},
+	"submit #changePasswordForm": function(event) {
+		var oldPassword = event.target.oldPassword.value;
+		var newPassword1 = event.target.newPassword1.value;
+		var newPassword2 = event.target.newPassword2.value;
+		Session.set("loginError", null);
+
+		try {
+			if (!(newPassword1 === newPassword2)) throw "The new passwords do not match";
+			validatePassword(newPassword1);
+			changePassword(oldPassword, newPassword1);
+		} catch(error) {
+			loginError(error);
+		}
+
+		return false;
+	}
+});
