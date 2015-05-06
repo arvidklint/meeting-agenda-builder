@@ -114,11 +114,17 @@ Template.dateSelectors.helpers({
 	},
 	addDate: function() {
 		return Session.get("addDate");
+	},
+	displayWeather: function() {
+		return Session.get("dayBeingEdited").displayWeather;
 	}
 });
 
 Template.dateSelectors.events({
 	"change .dateCheckbox": function(event) {
 		Session.set("addDate", event.target.checked);
+	},
+	"change weatherCheckbox": function(event) {
+		Session.set("addWeather", event.target.checked);
 	}
 });

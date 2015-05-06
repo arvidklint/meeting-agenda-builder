@@ -51,6 +51,9 @@
 					</form>
 				{{/unless}}
 			</td>
+			<td>
+				<button id="syncDays" class="topButton">⇄</button>
+			</td>
 		</tr>
 	</table>
 </template>
@@ -61,7 +64,7 @@
 			<h4>Parked activities</h4>
 			<button id="addActivityButton" class="center">✚ Activity</button>
 		</div>
-		<ul class="activityList connectLists" id="parkedActivities">
+		<ul class="activityList connectLists" id="{{listID}}">
 			{{#each parkedActivities}}
 				{{> activity}}
 			{{/each}}
@@ -70,28 +73,29 @@
 </template>
 
 <template name="activity">
-	<li class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
+	<li parentid="{{parentID}}" position="{{index}}" class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
 		<div class="activityTime">
 			{{#if activityStartSet}}
 				{{startTimeHuman}}
 			{{else}}
-				{{activityLength}} min
+				{{activity.activityLength}} min
 			{{/if}}
 		</div>
 
-		<div class="activityInfo {{type}}">
+		<div class="activityInfo">
 			<span class="editActivity">✎</span>
+			<div class="{{activity.type}}_color"></div>
 			<div class="activityTitle">
 			
-				{{title}}
+				{{activity.title}}
 			</div>
-			{{#if location}}
+			{{#if activity.location}}
 				<div class="activityLocation">
-					{{location}}
+					{{activity.location}}
 				</div>
 			{{/if}}
 			<div class="activityDescription">
-				{{description}}
+				{{activity.description}}
 			</div>
 		</div>
 	</li>
@@ -109,6 +113,15 @@
 <template name="day">
 	<div class="day">
 		<div class="dayHeader">
+			{{#if anyActivities}}
+				<div class="diagramContainer">
+					<div class="diagramLine"></div>
+					<div class="diagram diagramPresentation" style="height: {{presentationHeight}}%"></div>
+					<div class="diagram diagramGroupWork" style="height: {{groupWorkHeight}}%"></div>
+					<div class="diagram diagramDiscussion" style="height: {{discussionHeight}}%"></div>
+					<div class="diagram diagramBreak" style="height: {{breakHeight}}%"></div>
+				</div>
+			{{/if}}
 
 			<h4><span class="editDay">✎</span>Day {{dayNumber}}</h4>
 			{{#if addDayTitle}}
@@ -138,7 +151,7 @@
 			
 		</div>
 
-		<ul class="activityList connectLists" id="day_{{dayNumber}}">
+		<ul class="activityList connectLists" id="{{listID}}">
 			{{#each activities}}
 				{{> activity}}
 			{{/each}}

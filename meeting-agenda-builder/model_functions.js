@@ -72,9 +72,9 @@ getListPos = function(target) {
 // 	}
 // }
 
-getActivityHeight = function(activity) {
-	if (activity.activityLength >= 30) {
-		return activity.activityLength * 1.5 + 20;
+getActivityHeight = function(length) {
+	if (length >= 30) {
+		return length * 1.5 + 20;
 	} else {
 		return 45 + 20;
 	}
@@ -305,6 +305,22 @@ stopEditingDay = function() {
 stopAddingDay = function() {
 	Session.set("addDayModal", false);
 	Session.set("addDate", false);
+}
+
+getDiagramActivityHeightPercent = function(type, activities) {
+	if (typeof activities === 'undefined') {
+		return 0;
+	}
+	var length = 0;
+	var totalLength = 0;
+	for (var i in activities) {
+		if (activities[i]["type"] === type) {
+			length += activities[i]["activityLength"];
+		}
+		totalLength += activities[i]["activityLength"];
+	}
+	var percent = (length / totalLength) * 100;
+	return percent;
 }
 
 

@@ -110,6 +110,11 @@ Template.newDayView.events({
 
 		if(event.target.dateCheckbox.checked) {
 			var date = new SimpleDate(event.target.dateYear.value, event.target.dateMonth.value, event.target.dateDay.value);
+			if (event.target.weatherCheckbox.checked) {
+				var displayWeather = true;
+			} else {
+				var displayWeather = false;
+			}
 		} else {
 			var date = null;
 		}
@@ -118,7 +123,7 @@ Template.newDayView.events({
 
 		//if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
-		Meteor.call("addDay", Session.get("currentSchedule"), title, startTime, date);
+		Meteor.call("addDay", Session.get("currentSchedule"), title, startTime, date, displayWeather);
 		//Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
 
 		stopAddingDay();
@@ -152,10 +157,17 @@ Template.editDayView.events({
 		var dayTitle = event.target.dayTitle.value;
 		var startTime = hmToMinutes(event.target.lengthH.value, event.target.lengthM.value);
 
-		if (event.target.dateCheckbox.checked) var date = new SimpleDate(event.target.dateYear.value, event.target.dateMonth.value, event.target.dateDay.value);
+		if (event.target.dateCheckbox.checked) {
+			var date = new SimpleDate(event.target.dateYear.value, event.target.dateMonth.value, event.target.dateDay.value);
+			if (event.target.weatherCheckbox.checked) {
+				var displayWeather = true;
+			} else {
+				var displayWeather = false;
+			}
+		}
 		else var date = null;
 
-		Meteor.call("editDayInfo", Session.get("currentSchedule"), target, dayTitle, startTime, date);
+		Meteor.call("editDayInfo", Session.get("currentSchedule"), target, dayTitle, startTime, date, displayWeather);
 		stopEditingDay();
 		return false;
 	},

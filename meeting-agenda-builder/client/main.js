@@ -51,9 +51,9 @@ Template.daysView.helpers({
 		days = addActivityStartTimes(days);
 		days = addDayNumbers(days);
 
-		for (var i in days) {
-			days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
-		}
+		// for (var i in days) {
+		// 	days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
+		// }
 
 		return days;
 	}
@@ -68,9 +68,18 @@ Template.daysView.events({
 Template.parkedActivitiesView.helpers({
 	parkedActivities: function() {
 		var pas = getParkedActivities(Session.get("currentSchedule"));
-		pas = addActivityNumbers(pas);
-
-		return pas;
+		var array = [];
+		for (var i in pas) {
+			array.push({
+				'activity': pas[i],
+				'index': i,
+				'parentID': "parkedActivities"
+			});
+		}
+		return array;
+	},
+	listID: function() {
+		return "parkedActivities";
 	}
 });
 
@@ -94,7 +103,7 @@ Template.day.helpers({
 		return minutesToHuman(this.startTime + dayLength(this));
 	},
 	addWeather: function() {
-		if(this.date !== null && Session.get("weather")) {
+		if(this.date !== null && Session.get("weather") && this.displayWeather) {
 			if(dayInWeatherRange(this.date)) return true;
 		}
 	},
@@ -107,6 +116,39 @@ Template.day.helpers({
 	},
 	addDayTitle: function() {
 		if (this.dayTitle !== "") return true;
+	},
+	presentationHeight: function() {
+		return getDiagramActivityHeightPercent(ActivityType[0], this.activities);
+	},
+	groupWorkHeight: function() {
+		return getDiagramActivityHeightPercent(ActivityType[1], this.activities);
+	},
+	discussionHeight: function() {
+		return getDiagramActivityHeightPercent(ActivityType[2], this.activities);
+	},
+	breakHeight: function() {
+		return getDiagramActivityHeightPercent(ActivityType[3], this.activities);
+	},
+	anyActivities: function() {
+		if (this.activities.length == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	},
+	listID: function() {
+		return "day_" + this.dayNumber;
+	},
+	activities: function() {
+		var array = [];
+		for (var i in this.activities) {
+			array.push({
+				'activity': this.activities[i],
+				'index': i,
+				'parentID': "day_" + this.dayNumber
+			});
+		}
+		return array;
 	}
 });
 
@@ -135,31 +177,31 @@ Template.day.events({
 
 Template.activity.helpers({
 	startTimeHuman: function() {
-		return minutesToHuman(this.activityStart);
+		return minutesToHuman(this.activity.activityStart);
 	},
 	activityHeight: function() {
-		return getActivityHeight(this);
+		return getActivityHeight(this.activity.activityLength);
 	},
 	tooShort: function() {
-		if (this.activityLength < 30) {
+		if (this.activity.activityLength < 30) {
 			return "tooShort";
 		}
 	},
 	activityStartSet: function() {
-		if (this.activityStart != null) return true;
+		if (this.activity.activityStart != null) return true;
 		else return false;
 	},
 	leftPos: function() {
-		return this.leftPos;
+		return this.activity.leftPos;
 	},
 	topPos: function() {
-		return this.topPos;
+		return this.activity.topPos;
 	},
 	activityID: function() {
-		return this.activityID;
+		return this.activity.activityID;
 	},
 	target: function() {
-		return this.targetList;
+		return this.activity.targetList;
 	}
 });
 
@@ -169,18 +211,14 @@ Template.activity.events({
 		if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
 		else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
 
-		var activityIndex = parseInt(this.activityNumber) - 1;
-
-		editActivity(target, activityIndex);
+		editActivity(target, this.index);
 	},
 	"dblclick .activityObject": function() {
 		var target = Template.parentData(1);
 		if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
 		else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
 
-		var activityIndex = parseInt(this.activityNumber) - 1;
-
-		editActivity(target, activityIndex);
+		editActivity(target, this.index);
 	}
 });
 
@@ -234,57 +272,58 @@ Template.minutesList.helpers({
 // }
 
 Template.mainFrame.rendered = function() {
-	this.$('.activityList').sortable({
+	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
-		start: function(e, ui) {
-			startPos = ui.item.index();
-			startTarget = $(ui.item).parent().attr("id");
-			console.log(startPos);
-		},
+		// helper: "clone",
 		stop: function(e, ui) {
-			endPos = ui.item.index();
-			endTarget = $(ui.item).parent().attr("id");
-			$('.activityList').sortable('cancel');
-			//$('.activityList').sortable('refresh');
+			// startItem = ui.item;
+			// console.log($(ui.item).parent().attr("id") + ": start");
+			// startPos = ui.item.index();
+			// startTarget = $(ui.item).parent().attr("id");
+			// console.log(startPos);
+			var $this = $(this);
+			var endPos = ui.item.index();
+			var endTarget = $(ui.item).parent().attr("id");
+			var startPos = $(ui.item).attr('position');
+			var startTarget = $(ui.item).attr('parentid');
+			var activities = $this.sortable('toArray');
+			console.log($this.attr("id") + ": update, startTarget: " + startTarget + ", " + startPos + ", endTarget, endPos: " + endTarget + ", " + endPos);
+
 			if(startTarget === endTarget) {
 				Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
 			} else {
 				Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
 			}
-			console.log(endPos);
-		}
 
-		// //placeholder: "activityPlaceholder",
-		// start: function(e, ui) {
-		// 	startPos = ui.item.index();
-		// 	startTarget = $(ui.item).parent().attr("id"); //ID från den första listan
-		// 	endTarget = startTarget; //endTarget är vid detta tillfälle samma lista, om objektet dras till en annan lista så kommer "receive" att köras och ändra endTarget till den nya listan. "receive" körs innan "stop"
-		// 	console.log("start: " + this.id + ", pos: " + startPos);
-		// 	startItem = $(ui.item);
-		// },
+			// _.each(activities, function(activity, index) {
+
+			// });
+
+
+		}
 		// stop: function(e, ui) {
-		// 	endPos = ui.item.index();
-		// 	endTarget = $(ui.item).parent().attr("id");
-		// 	console.log("stop: " + endTarget + ", pos: " + endPos);
-		// 	$('.activityList').sortable('cancel');
-		// 	console.log("cancel sortable");
-		// 	if(startTarget === endTarget) {
-		// 		//$('.activityList').sortable('cancel');
-		// 		//console.log("cancel sortable");
-		// 		console.log(startTarget + ", " + startPos + ", " + endPos);
-		// 		Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
-		// 		console.log("Samma lista");
-		// 	} 
-		// 	else {
-		// 		Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
-		// 		console.log("Annan lista");
-		// 	}
-		// 	//$(".activityList").empty();
-			
-		// },
-		// update: function(e, ui) {
-		// 	console.log("update");
-		// }
-	});
-};
+		// 	console.log($(ui.item).parent().attr("id") + ": stop");
+		// 	var parent = ui.item.parent();
+		// 	var id = parent.attr('id');
+			//$('#' + id).find('li[parentID!=' + id + ']').remove();
+			// endPos = ui.item.index();
+			// endTarget = $(ui.item).parent().attr("id");
+			// //$(startItem).remove();
+			// $('.activityList').sortable('cancel');
+			// //$('.activityList').sortable('refresh');
+			// if(startTarget === endTarget) {
+			// 	Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
+			// } else {
+			// 	Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
+			// }
+			// console.log(endPos);
+			// initSortable();
+		//}
+	}).disableSelection();
+}
+
+Meteor.startup(function() {
+	console.log("Startup");
+	//initSortable();
+});

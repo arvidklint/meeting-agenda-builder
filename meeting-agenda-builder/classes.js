@@ -15,7 +15,7 @@ emptySchedule = function() {
 }
 
 // Template for day objects
-Day = function(title, startTime, date) {
+Day = function(title, startTime, date, displayWeather) {
 	title = typeof title !== 'undefined' ? title : "";
 	startTime = typeof startTime !== 'undefined' ? startTime : 540;
 	date = typeof date !== 'undefined' ? date : null;
@@ -24,6 +24,7 @@ Day = function(title, startTime, date) {
 	this.startTime = startTime;
 	this.activities = [];
 	this.date = date;
+	this.displayWeather = displayWeather;
 }
 
 SimpleDate = function(year, month, day) {
