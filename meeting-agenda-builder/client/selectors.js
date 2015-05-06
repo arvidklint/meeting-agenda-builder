@@ -71,7 +71,7 @@ Template.timeSelectors.helpers({
 
 Template.dateSelectors.helpers({
 	years: function() {
-		return numberList(1899, getCurrentYear(), 1, 4);
+		return numberList(1899, getCurrentYear() + 100, 1, 4);
 	},
 	months: function() {
 		return numberList(1, 12, 1, 2);

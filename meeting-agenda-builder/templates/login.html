@@ -1,10 +1,8 @@
 <template name="loginView">
-	{{> loginButtons}}
-
 	{{#if loggedIn}}
 		{{> schedules}}
 	{{else}}
-		Not logged in
+		{{> loginForm}}
 	{{/if}}
 
 	{{#if newScheduleModal}}
@@ -16,8 +14,81 @@
 	{{/if}}
 </template>
 
+<template name="loginForm">
+	<img src="sni-sch.jpg" id="loginLogo"/>
+
+	{{#if createAccount}}
+		<form id="createAccountForm">
+			<div class="loginForm">
+				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="password" placeholder="Password" name="password"/>
+				<div class="errorText">{{loginError}}</div>
+				<button type="submit" class="btn">Create</button>
+				<button class="btn" name="cancel" id="cancel">Cancel</button>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="toLogin" class="floatLeft">Log in</a>
+		</div>
+	{{else}} {{#if forgotPassword}}
+		<form id="forgotPasswordForm">
+			<div class="loginForm">
+				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<div class="errorText {{friendly}}">{{loginError}}</div>
+				<div class="additionalFuckingDataIfOnly1FieldInLoginForm">
+					<button type="submit" class="btn">Send reset instructions</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="toLogin" class="floatLeft">Log in</a>
+			<a href="#" id="createAccount" class="floatRight">Create account</a>
+		</div>
+	{{else}} {{#if resetPassword}}
+		<form id="resetPasswordForm">
+			<div class="loginForm">
+				<input type="password" placeholder="Password" name="newPassword"/>
+				<div class="errorText">{{loginError}}</div>
+				<div class="additionalFuckingDataIfOnly1FieldInLoginForm">
+					<button type="submit" class="btn">Change password</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="toLogin" class="floatLeft">Log in</a>
+			<a href="#" id="createAccount" class="floatRight">Create account</a>
+		</div>
+	{{else}}
+		<form id="loginForm">
+			<div class="loginForm">
+				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="password" placeholder="Password" name="password"/>
+				<div class="errorText">{{loginError}}</div>
+				<button type="submit" class="btn">Sign in</button>
+			</div>
+		</form>
+
+		<div class="extraLoginLinks">
+			<a href="#" id="forgotPassword" class="floatLeft">Forgot password</a>
+			<a href="#" id="createAccount" class="floatRight">Create account</a>
+		</div>
+	{{/if}}{{/if}}{{/if}}
+
+</template>
+
 <template name="schedules">
-	<p>Skedules</p>
+	<div id="userInfo">
+		<img src="user.png"/>
+		<span id="user">{{user}}</span><br/>
+		<a href="#" id="logOut">Sign out</a> | <a href="#" id="changePassword">Change password</a>
+
+		{{#if changePassword}}
+			{{> changePasswordView}}
+		{{/if}}
+	</div>
 
 	<div id="scheduleList">
 		<div class="title">
@@ -42,10 +113,12 @@
 			{{/each}}
 		</table>
 		<button id="newSchedule">Create new schedule</button>
-		{{#if editSchedules}}
-			<button id="stopEditing">Done editing</button>
-		{{else}}
-			<button id="editSchedules">Edit schedules</button>
+		{{#if anySchedules}}
+			{{#if editSchedules}}
+				<button id="stopEditing">Done editing</button>
+			{{else}}
+				<button id="editSchedules">Edit schedules</button>
+			{{/if}}
 		{{/if}}
 	</div>
 </template>
@@ -86,6 +159,7 @@
 
 			<form class="popupForm">
 				Are you sure you want to delete the schedule "{{scheduleTitle}}"? The schedule contains {{numDays}} days. The action can not be undone.<br/>
+				<button class="btn closeDeleteScheduleModal">Cancel</button>
 				<button class="btn badBtn" type="submit">Delete</button>
 			</form>
 		</div>

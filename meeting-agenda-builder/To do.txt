@@ -20,5 +20,23 @@ Different view
 	RSS
 /Good-looking interface for schedule
 Good-looking interface for login view
-År längre fram
+-År längre fram
+Drag runt scheman
 När man raderar dag – flytta alla dess aktiviteter till Parked activities
+
+Design schedule chooser view
+Customise design of login button, add logo
+-Removie edit schedules button if there are no schedules
+Automatically focus input boxes where appropriate, e.g. Title when creating new event
+Maybe add labels instead of having placeholders in modals, because people forget what the fields are for when the're so many and are filled out.
+Explanation of colors
+Make modals remember stuff, e.g. latest choice of "create activity in:"
+Diagram över hur pass stor del av varje dag som innehåller vilken typ av aktivitet
+Förtydliga Length-val i New activity. 
+Välj bättre färger som går att läsa, t.ex. blått på svart syns inte
+Vädergrejen ska vara samma storlek
+Vädergrejen ska vara frivillig och man ska se att det går att ta fram den så att man inte blir förvånad över att den bara dyker upp
+Vädergrejen ska utgå ifrån en plats man väljer, istf alltid ens nuvarande plats
+Ha en standardrast som alltid går att dra in någonstans ifrån?
+Dela scheman med andra användare
+Duplicera dagar

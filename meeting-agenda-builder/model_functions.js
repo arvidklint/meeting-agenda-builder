@@ -2,7 +2,7 @@ Schedules = new Mongo.Collection("schedules");
 
 // Main model functions
 
-leTest = function() {
+testFunc = function() {
 	console.log("leTest");
 	loggedIn = true;
 }
@@ -272,39 +272,37 @@ dayInWeatherRange = function(date) {
 	}
 }
 
-editActivity = function(target, activityIndex) {
-	Session.set("editActivityModal", true);
-	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
+trimInput = function(val) {
+	return val.replace(/^\s*|\s*$/g, "");
 }
 
-stopEditingActivity = function() {
-	Session.set("editActivityModal", false);
-	Session.set("deleteActivityModal", false);
-	Session.set("activityBeingEdited", null);
+validateEmail = function(email) {
+	if (email == "") throw "E-mail is required.";
+	if (!emailSyntax.test(email)) throw "Bad e-mail.";
+	return true;
 }
 
-editDay = function(target) {
-	var dayBeingEdited = getDays(Session.get("currentSchedule"))[target];
-
-	dayBeingEdited["dayNumber"] = target + 1;
-	dayBeingEdited["startTimeHM"] = minutesToHM(dayBeingEdited.startTime);
-	Session.set("dayBeingEdited", dayBeingEdited);
-
-	if (dayBeingEdited.date) Session.set("addDate", true);
-	else Session.set("addDate", false);
-
-	Session.set("editDayModal", true);
+validatePassword = function(password) {
+	if (password.length < 6) throw "Password must be ≥ 6 characters.";
+	return true;
 }
 
-stopEditingDay = function() {
-	Session.set("editDayModal", false);
-	Session.set("deleteDayModal", false);
-	Session.set("dayBeingEdited", null);
+createUser = function(email, password) {
+	Accounts.createUser({email: email, password: password}, function(error) {
+		if (error) loginError(error.message);
+		else login(email, password);
+	});
 }
 
-stopAddingDay = function() {
-	Session.set("addDayModal", false);
-	Session.set("addDate", false);
+getUserEmail = function() {
+	return Meteor.user().emails[0].address;
+}
+
+forgotPassword = function(email) {
+	Accounts.forgotPassword({email: email}, function(error) {
+		if (error) loginError(error.message);
+		else loginError("OK, check e-mail for reset instructions");
+	});
 }
 
 getDiagramActivityHeightPercent = function(type, activities) {
@@ -323,4 +321,15 @@ getDiagramActivityHeightPercent = function(type, activities) {
 	return percent;
 }
 
+resetPassword = function(resetToken, newPw) {
+	Accounts.resetPassword(resetToken, newPw, function(error) {
+		if (error) loginError(error.message);
+	});
+}
 
+changePassword = function(oldPassword, newPassword) {
+	Accounts.changePassword(oldPassword, newPassword, function(error) {
+		if (error) loginError(error.message);
+		else closeChangePassword();;
+	});
+}
