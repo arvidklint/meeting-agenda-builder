@@ -1,28 +1,36 @@
-Activity = function(title, length, type, location, description) {
+Activity = function(scheduleID, position, parentList, title, length, type, location, description) {
+	this.scheduleID = scheduleID;
 	this.title = title;
 	this.activityLength = length;
 	this.type = type;
 	this.location = location;
 	this.description = description;
+	this.position = position;
+	this.parentList = parentList;
+}
+
+Schedule = function(userID, title) {
+	this.owner = userID;
+	this.scheduleTitle = title;
 }
 
 // Template for schedule objects
 emptySchedule = function() {
 	this.scheduleTitle = "";
-	this.parkedActivities = [];
-	this.days = [];
 	this.owner = "";
 }
 
 // Template for day objects
-Day = function(title, startTime, date, displayWeather) {
+Day = function(scheduleID, position, title, startTime, date, displayWeather) {
 	title = typeof title !== 'undefined' ? title : "";
 	startTime = typeof startTime !== 'undefined' ? startTime : 540;
 	date = typeof date !== 'undefined' ? date : null;
+	displayWeather = typeof displayWeather !== 'undefined' ? displayWeather : false;
 
+	this.scheduleID = scheduleID;
+	this.position = position;
 	this.dayTitle = title;
 	this.startTime = startTime;
-	this.activities = [];
 	this.date = date;
 	this.displayWeather = displayWeather;
 }

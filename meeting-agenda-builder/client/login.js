@@ -166,7 +166,7 @@ Template.schedules.helpers({
 		}
 	},
 	numberOfDays: function() {
-		return this.days.length;
+		return getDays(this._id).length;
 	},
 	editSchedules: function() {
 		return Session.get("editSchedules");
@@ -184,7 +184,13 @@ Template.newSchedule.events({
 		Session.set("newScheduleModal", false);
 	},
 	"submit .popupForm": function(event) {
-		Meteor.call("addSchedule", Meteor.user()._id, event.target.scheduleName.value, event.target.numberOfDays.value, function(error, scheduleID) {
+		var newSchedule = new Schedule(Meteor.user()._id, event.target.scheduleName.value);
+		Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
+			console.log("lägger till dag");
+			for (var i = 0; i < event.target.numberOfDays.value; i++) {
+				var position = getNewDayPosition(scheduleID);
+				Meteor.call("addDay", new Day(scheduleID, position, "", 540, null, false));
+			}
 			openSchedule(scheduleID);
 		});
 		Session.set("newScheduleModal", false);

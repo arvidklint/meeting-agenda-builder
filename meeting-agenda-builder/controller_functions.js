@@ -6,9 +6,9 @@ closeSchedule = function() {
 	Session.set("currentSchedule", null);
 }
 
-editActivity = function(target, activityIndex) {
+editActivity = function(activityID) {
 	Session.set("editActivityModal", true);
-	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
+	Session.set("activityBeingEdited", getActivity(activityID));
 }
 
 stopEditingActivity = function() {
@@ -17,10 +17,10 @@ stopEditingActivity = function() {
 	Session.set("activityBeingEdited", null);
 }
 
-editDay = function(target) {
-	var dayBeingEdited = getDays(Session.get("currentSchedule"))[target];
+editDay = function(dayID) {
+	var dayBeingEdited = getDay(dayID);
 
-	dayBeingEdited["dayNumber"] = target + 1;
+	dayBeingEdited["dayNumber"] = dayBeingEdited.position + 1;
 	dayBeingEdited["startTimeHM"] = minutesToHM(dayBeingEdited.startTime);
 	Session.set("dayBeingEdited", dayBeingEdited);
 

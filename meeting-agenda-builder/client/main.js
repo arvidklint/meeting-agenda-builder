@@ -1,4 +1,6 @@
 Meteor.subscribe("schedules");
+Meteor.subscribe("activities");
+Meteor.subscribe("days");
 
 Session.set("showPas", true);
 Session.set("addDayModal", false);
@@ -48,13 +50,6 @@ Template.scheduleTitle.events({
 Template.daysView.helpers({
 	days: function() {
 		var days = getDays(Session.get("currentSchedule"));
-		days = addActivityStartTimes(days);
-		//days = addDayNumbers(days);
-
-		// for (var i in days) {
-		// 	days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
-		// }
-
 		return days;
 	}
 });
@@ -68,15 +63,7 @@ Template.daysView.events({
 Template.parkedActivitiesView.helpers({
 	parkedActivities: function() {
 		var pas = getActivities(Session.get("currentSchedule"), "parkedActivities");
-		var array = [];
-		for (var i in pas) {
-			array.push({
-				'activity': pas[i],
-				'index': i,
-				'parentID': "parkedActivities"
-			});
-		}
-		return array;
+		return pas;
 	},
 	listID: function() {
 		return "parkedActivities";
@@ -94,7 +81,7 @@ Template.day.helpers({
 		return minutesToHuman(this.startTime);
 	},
 	dayNumber: function() {
-		return this.dayNumber;
+		return this.position + 1;
 	},
 	dayLength: function() {
 		return minutesToHuman(dayLength(this));
@@ -118,19 +105,23 @@ Template.day.helpers({
 		if (this.dayTitle !== "") return true;
 	},
 	presentationHeight: function() {
-		return getDiagramActivityHeightPercent(ActivityType[0], this.activities);
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
+		return getDiagramActivityHeightPercent(ActivityType[0], activities);
 	},
 	groupWorkHeight: function() {
-		return getDiagramActivityHeightPercent(ActivityType[1], this.activities);
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
+		return getDiagramActivityHeightPercent(ActivityType[1], activities);
 	},
 	discussionHeight: function() {
-		return getDiagramActivityHeightPercent(ActivityType[2], this.activities);
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
+		return getDiagramActivityHeightPercent(ActivityType[2], activities);
 	},
 	breakHeight: function() {
-		return getDiagramActivityHeightPercent(ActivityType[3], this.activities);
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
+		return getDiagramActivityHeightPercent(ActivityType[3], activities);
 	},
 	anyActivities: function() {
-		var activities = getActivities(Session.get("currentSchedule"), 'day_' + (parseInt(this.position) + 1));
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
 		if (activities.length == 0) {
 			return false;
 		} else {
@@ -138,20 +129,12 @@ Template.day.helpers({
 		}
 	},
 	listID: function() {
-		return "day_" + this.dayNumber;
+		return this._id;
 	},
 	activities: function() {
-		var array = [];
-		var activities = getActivities(Session.get("currentSchedule"), 'day_' + (parseInt(this.position) + 1));
-		console.log(activities);
-		for (var i in activities) {
-			array.push({
-				'activity': activities[i],
-				'index': i,
-				'parentID': "day_" + this.position
-			});
-		}
-		return array;
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
+		activities = addActivityStartTimes(this.startTime, activities);
+		return activities;
 	}
 });
 
@@ -163,65 +146,50 @@ Template.day.events({
 		$(event.target).parent().submit();
 	},
 	"submit .startTime": function(event) {
-		var dayNumber = parseInt(this.dayNumber);
 		var newTime = hmToMinutes(event.target.startHours.value, event.target.startMinutes.value);
 
-		Meteor.call("changeStartTime", dayNumber - 1, newTime, Session.get("currentSchedule"));
+		Meteor.call("changeStartTime", this._id, newTime);
 
 		return false;
 	},
 	"dblclick .dayHeader": function() {
-		editDay(parseInt(this.dayNumber) - 1);
+		editDay(this._id);
 	},
 	"click .editDay": function() {
-		editDay(parseInt(this.dayNumber) - 1);
+		editDay(this._id);
 	}
 });
 
 Template.activity.helpers({
 	startTimeHuman: function() {
-		return minutesToHuman(this.activity.activityStart);
+		return minutesToHuman(this.activityStart);
 	},
 	activityHeight: function() {
-		return getActivityHeight(this.activity.activityLength);
+		return getActivityHeight(this.activityLength);
 	},
 	tooShort: function() {
-		if (this.activity.activityLength < 30) {
+		if (this.activityLength < 30) {
 			return "tooShort";
 		}
 	},
 	activityStartSet: function() {
-		if (this.activity.activityStart != null) return true;
+		if (this.activityStart != null) return true;
 		else return false;
 	},
-	leftPos: function() {
-		return this.activity.leftPos;
-	},
-	topPos: function() {
-		return this.activity.topPos;
-	},
 	activityID: function() {
-		return this.activity.activityID;
+		return this._id;
 	},
-	target: function() {
-		return this.activity.targetList;
+	pos: function() {
+		return this.position;
 	}
 });
 
 Template.activity.events({
 	"click .editActivity": function() {
-		var target = Template.parentData(1);
-		if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
-		else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
-
-		editActivity(target, this.index);
+		editActivity(this._id);
 	},
 	"dblclick .activityObject": function() {
-		var target = Template.parentData(1);
-		if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
-		else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
-
-		editActivity(target, this.index);
+		editActivity(this._id);
 	}
 });
 
@@ -261,72 +229,23 @@ Template.minutesList.helpers({
 	}
 });
 
-// Template.activity.rendered = function() {
-// 	this.$(".activityObject").draggable({
-// 		stop: function(e, ui) {
-// 			var leftPos = ui.position.left;
-// 			var topPos = ui.position.top;
-// 			var activityID = $(this).attr('id');
-// 			console.log(activityID);
-// 			var target = "parkedActivities";
-// 			Meteor.call("updateActivityPos", target, activityID, leftPos, topPos);
-// 		}
-// 	});
-// }
-
-Template.scheduleView.rendered = function() {
-	this.$('.activityList').sortable({
+Template.activity.rendered = function() {
+	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
 		// helper: "clone",
-		stop: function(e, ui) {
-			// startItem = ui.item;
-			// console.log($(ui.item).parent().attr("id") + ": start");
-			// startPos = ui.item.index();
-			// startTarget = $(ui.item).parent().attr("id");
-			// console.log(startPos);
+		update: function(event, ui) {
 			var $this = $(this);
-			var endPos = ui.item.index();
-			var endTarget = $(ui.item).parent().attr("id");
-			var startPos = $(ui.item).attr('position');
-			var startTarget = $(ui.item).attr('parentid');
 			var activities = $this.sortable('toArray');
-			console.log($this.attr("id") + ": update, startTarget: " + startTarget + ", " + startPos + ", endTarget, endPos: " + endTarget + ", " + endPos);
-
-			if(startTarget === endTarget) {
-				Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
-			} else {
-				Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
-			}
-
-			// _.each(activities, function(activity, index) {
-
-			// });
-
-
+			var parentList = $this.attr('id');
+			_.each(activities, function(activityID, index){
+				Meteor.call("updateActivityPos", activityID, parentList, index);
+			});
+		},
+		stop: function(e, ui) {
+			var parent = ui.item.parent();
+            var id = parent.attr('id');
+			$('.activityList').sortable('refresh');
 		}
-		// stop: function(e, ui) {
-		// 	console.log($(ui.item).parent().attr("id") + ": stop");
-		// 	var parent = ui.item.parent();
-		// 	var id = parent.attr('id');
-			//$('#' + id).find('li[parentID!=' + id + ']').remove();
-			// endPos = ui.item.index();
-			// endTarget = $(ui.item).parent().attr("id");
-			// //$(startItem).remove();
-			// $('.activityList').sortable('cancel');
-			// //$('.activityList').sortable('refresh');
-			// if(startTarget === endTarget) {
-			// 	Meteor.call("moveActivity", Session.get("currentSchedule"), startTarget, startPos, endPos);
-			// } else {
-			// 	Meteor.call("moveActivityToList", Session.get("currentSchedule"), startTarget, endTarget, startPos, endPos);
-			// }
-			// console.log(endPos);
-			// initSortable();
-		//}
 	}).disableSelection();
 }
-
-Meteor.startup(function() {
-	console.log("Startup");
-	//initSortable();
-});

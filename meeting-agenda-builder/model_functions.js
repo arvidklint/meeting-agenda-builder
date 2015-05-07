@@ -1,4 +1,6 @@
 Schedules = new Mongo.Collection("schedules");
+Activities = new Mongo.Collection("activities");
+Days = new Mongo.Collection("days");
 
 // Main model functions
 
@@ -13,23 +15,22 @@ getSchedules = function(user) {
 	return schedules;
 }
 
+
+
 // getParkedActivities = function(scheduleID) {
 // 	return Schedules.findOne(scheduleID).parkedActivities;
 // }
 
 getActivities = function(scheduleID, parentList) {
-	console.log(scheduleID + " " + parentList);
-	var schedule = Schedules.findOne({'_id': scheduleID});
-	console.log(schedule);
-	var allActivities = schedule.activities;
-	allActivities.sort(dynamicSort('position'));
-	var activities = [];
-	for (var i in allActivities) {
-		if (allActivities[i].parentList === parentList) {
-			activities.push(allActivities[i]);
-		}
-	}
-	return activities;
+	return Activities.find({'scheduleID': scheduleID, 'parentList': parentList}, {'sort': {'position': 1}}).fetch();
+}
+
+getActivity = function(activityID) {
+	return Activities.findOne({'_id': activityID});
+}
+
+getNewActivityPosition = function(scheduleID, parentList) {
+	return getActivities(scheduleID, parentList).length;
 }
 
 function dynamicSort(property) {
@@ -45,16 +46,18 @@ function dynamicSort(property) {
 }
 
 getDays = function(scheduleID) {
-	return Schedules.findOne(scheduleID).days;
+	return Days.find({'scheduleID': scheduleID}, {'sort': {'position': 1}}).fetch();
 }
 
-getActivity = function(scheduleID, day, activityIndex) {
-	if (day === "parkedActivities") {
-		return Schedules.findOne(scheduleID).parkedActivities[activityIndex];
-	} else {
-		return Schedules.findOne(scheduleID).days[day].activities[activityIndex];
-	}
+getDay = function(dayID) {
+	return Days.findOne({'_id': dayID});
 }
+
+getNewDayPosition = function(scheduleID) {
+	return getDays(scheduleID).length;
+}
+
+
 
 getScheduleInfo = function(scheduleID) {
 	schedule = Schedules.findOne(scheduleID);
@@ -110,19 +113,13 @@ getActivityHeight = function(length) {
 
 
 
-addActivityStartTimes = function(days) {
+addActivityStartTimes = function(startTime, activities) {
 	// Receives an array of days. Returns an array of days, with fields for activity start times added
-
-	for (var i in days) {
-		startTime = days[i].startTime; // the startTime of the first activity is the startTime of the day
-
-		for (var j in days[i].activities) {
-			days[i].activities[j]["activityStart"] = startTime; // add startTime to the activity object
-			startTime += days[i].activities[j].activityLength; // increase the startTime variable for the next activity, with the length of this activity
-		}
+	for (var i in activities) {
+		activities[i]["activityStart"] = startTime; // add startTime to the activity object
+		startTime += activities[i].activityLength; // increase the startTime variable for the next activity, with the length of this activity
 	}
-
-	return days;
+	return activities;
 }
 
 addDayNumbers = function(days) {
