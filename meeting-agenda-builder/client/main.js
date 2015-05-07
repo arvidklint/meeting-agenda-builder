@@ -49,7 +49,7 @@ Template.daysView.helpers({
 	days: function() {
 		var days = getDays(Session.get("currentSchedule"));
 		days = addActivityStartTimes(days);
-		days = addDayNumbers(days);
+		//days = addDayNumbers(days);
 
 		// for (var i in days) {
 		// 	days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
@@ -67,7 +67,7 @@ Template.daysView.events({
 
 Template.parkedActivitiesView.helpers({
 	parkedActivities: function() {
-		var pas = getParkedActivities(Session.get("currentSchedule"));
+		var pas = getActivities(Session.get("currentSchedule"), "parkedActivities");
 		var array = [];
 		for (var i in pas) {
 			array.push({
@@ -130,7 +130,8 @@ Template.day.helpers({
 		return getDiagramActivityHeightPercent(ActivityType[3], this.activities);
 	},
 	anyActivities: function() {
-		if (this.activities.length == 0) {
+		var activities = getActivities(Session.get("currentSchedule"), 'day_' + (parseInt(this.position) + 1));
+		if (activities.length == 0) {
 			return false;
 		} else {
 			return true;
@@ -141,11 +142,13 @@ Template.day.helpers({
 	},
 	activities: function() {
 		var array = [];
-		for (var i in this.activities) {
+		var activities = getActivities(Session.get("currentSchedule"), 'day_' + (parseInt(this.position) + 1));
+		console.log(activities);
+		for (var i in activities) {
 			array.push({
-				'activity': this.activities[i],
+				'activity': activities[i],
 				'index': i,
-				'parentID': "day_" + this.dayNumber
+				'parentID': "day_" + this.position
 			});
 		}
 		return array;

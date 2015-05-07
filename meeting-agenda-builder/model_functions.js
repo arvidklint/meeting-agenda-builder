@@ -13,8 +13,23 @@ getSchedules = function(user) {
 	return schedules;
 }
 
-getParkedActivities = function(scheduleID) {
-	return Schedules.findOne(scheduleID).parkedActivities;
+// getParkedActivities = function(scheduleID) {
+// 	return Schedules.findOne(scheduleID).parkedActivities;
+// }
+
+getActivities = function(scheduleID, parentList) {
+	console.log(scheduleID + " " + parentList);
+	var schedule = Schedules.findOne({'_id': scheduleID});
+	console.log(schedule);
+	var allActivities = schedule.activities;
+	allActivities.sort(dynamicSort('position'));
+	var activities = [];
+	for (var i in allActivities) {
+		if (allActivities[i].parentList === parentList) {
+			activities.push(allActivities[i]);
+		}
+	}
+	return activities;
 }
 
 function dynamicSort(property) {
