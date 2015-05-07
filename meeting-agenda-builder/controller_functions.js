@@ -6,7 +6,15 @@ closeSchedule = function() {
 	Session.set("currentSchedule", null);
 }
 
+checkClickOfActivityObject = function(target) {
+	if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
+	else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
+	return target;
+}
+
 editActivity = function(target, activityIndex) {
+	console.log(target)
+	console.log(activityIndex);
 	Session.set("editActivityModal", true);
 	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
 }

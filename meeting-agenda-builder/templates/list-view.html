@@ -1,72 +1,96 @@
 <template name="listView">
-	Parked activities:
+	<p class="listViewDayTitle">Parked activities</p>
 	<table class="scheduleAsList">
-		<th>
-			Length
-		</th>
-		{{> scheduleListHeader}}
-		{{#each parkedActivities}}
-		<tr>
-			<td>
-				{{activityLength}} min
-			</td>
-			<td>
-				{{activityType}}
-			</td>
-			<td>
-				{{this.title}}
-			</td>
-			<td>
-				{{this.location}}
-			</td>
-			<td>
-				{{this.description}}
-			</td>
+		<tr class="tableHeader">
+			<th class="col0 leftRoundCorner">
+				Length
+			</th>
+			{{> scheduleListHeader}}
 		</tr>
+		{{#each parkedActivities}}
+			{{> activity_listView}}
 		{{/each}}
 	</table>
 
 	{{#each days}}
-		Day {{this.dayNumber}}
+<!-- 		<table class="listViewDayInfo">
+			<tr>
+				<td>
+					
+					
+				</td>
+				<td>
+					Date
+				</td>
+				<td>
+					Length
+				</td>
+				<td>
+					End
+				</td>
+			</tr>
+		</table> -->
+
+		<div class="listViewDayTitle">Day {{this.dayNumber}}</div>
+		<div class="listViewDayInfo">
+			{{#if this.dayTitle}}"{{this.dayTitle}}" | {{/if}}
+			{{#if this.date}}{{this.date.year}}-{{this.date.month}}-{{this.date.day}} | {{/if}}
+			Start: {{startTimeHuman}} | 
+			Length: {{dayLength}} | 
+			End: {{dayEnd}} | 
+			<span class="editDay_listView">✎</span>
+		</div>
+
 		<table class="scheduleAsList">
-			<th>
-				Start time
-			</th>
-			{{> scheduleListHeader}}
+			<tr>
+				<th class="col0 leftRoundCorner">
+					Start time
+				</th>
+				{{> scheduleListHeader}}
+			</tr>
 			{{#each activities}}
-				<tr>
-					<td>
-						{{activityStart}}
-					</td>
-					<td>
-						{{activityType}}
-					</td>
-					<td>
-						{{this.title}}
-					</td>
-					<td>
-						{{this.location}}
-					</td>
-					<td>
-						{{this.description}}
-					</td>
-				</tr>
+				{{> activity_listView}}
 			{{/each}}
 		</table>
 	{{/each}}
 </template>
 
+<template name="activity_listView">
+	<tr>
+		<td>
+			{{#if activityStartSet}}
+				{{activityStart}}
+			{{else}}
+				{{activityLength}} min
+			{{/if}}
+		</td>
+		<td>
+			<div class="blob {{this.type}}"></div>
+			{{activityType}}
+		</td>
+		<td>
+			{{this.title}}
+		</td>
+		<td>
+			{{this.location}}
+		</td>
+		<td>
+			{{this.description}}
+		</td>
+	</tr>
+</template>
+
 <template name="scheduleListHeader">
-	<th>
+	<th class="col1">
 		Type
 	</th>
-	<th>
+	<th class="col2">
 		Title
 	</th>
-	<th>
+	<th class="col3">
 		Location
 	</th>
-	<th>
+	<th class="col4 rightRoundCorner">
 		Description
 	</th>
 </template>

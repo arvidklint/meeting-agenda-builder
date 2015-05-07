@@ -207,17 +207,11 @@ Template.activity.helpers({
 
 Template.activity.events({
 	"click .editActivity": function() {
-		var target = Template.parentData(1);
-		if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
-		else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
-
+		var target = checkClickOfActivityObject(Template.parentData(1))
 		editActivity(target, this.index);
 	},
 	"dblclick .activityObject": function() {
-		var target = Template.parentData(1);
-		if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
-		else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
-
+		var target = checkClickOfActivityObject(Template.parentData(1));
 		editActivity(target, this.index);
 	}
 });

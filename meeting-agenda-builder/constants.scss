@@ -18,3 +18,24 @@ $loginFormPadding: 7px;
 $activityInfoTop: 5px;
 $activityTypeColorMargin: 4px;
 $borderRadius: 5px;
+
+$presentation: $blue;
+$group_work: $orange;
+$break: $yellow;
+$discussion: $green;
+
+.presentation {
+	background-color: $presentation;
+}
+
+.group_work {
+	background-color: $group_work;
+}
+
+.discussion {
+	background-color: $discussion;
+}
+
+.break {
+	background-color: $break;
+}

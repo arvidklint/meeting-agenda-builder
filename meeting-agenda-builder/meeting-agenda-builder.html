@@ -19,14 +19,14 @@
 		{{#unless viewAsList}}
 			{{> parkedActivitiesView}}
 			{{> daysView}}
-
-			{{> newDayView}}
-			{{> editDayView}}
-			{{> newActivityView}}
-			{{> editActivityView}}
 		{{else}}
 			{{> listView}}
 		{{/unless}}
+
+		{{> newDayView}}
+		{{> editDayView}}
+		{{> newActivityView}}
+		{{> editActivityView}}
 	</div>
 </template>
 
@@ -65,7 +65,7 @@
 	<div id="parkedActivitiesView">
 		<div id="parkedActivitiesHeader">
 			<h4>Parked activities</h4>
-			<button id="addActivityButton" class="center">✚ Activity</button>
+			<button class="btn center" id="addActivityButton">✚ Activity</button>
 		</div>
 		<ul class="activityList connectLists" id="{{listID}}">
 			{{#each parkedActivities}}
@@ -89,7 +89,7 @@
 			<div class="activityTitle">
 				<div class="editActivity">✎</div>
 				<div class="activityName">{{activity.title}}</div>
-				<div class="{{activity.type}}_color"></div>
+				<div class="typeIndicator {{activity.type}}"></div>
 			</div>
 			{{#if activity.location}}
 				<div class="activityLocation">
@@ -118,10 +118,10 @@
 			<div class="diagramContainer">
 				{{#if anyActivities}}
 					<div class="diagramLine"></div>
-					<div class="diagram diagramPresentation" style="height: {{presentationHeight}}%"></div>
-					<div class="diagram diagramGroupWork" style="height: {{groupWorkHeight}}%"></div>
-					<div class="diagram diagramDiscussion" style="height: {{discussionHeight}}%"></div>
-					<div class="diagram diagramBreak" style="height: {{breakHeight}}%"></div>
+					<div class="diagram presentation" style="height: {{presentationHeight}}%"></div>
+					<div class="diagram group_work" style="height: {{groupWorkHeight}}%"></div>
+					<div class="diagram discussion" style="height: {{discussionHeight}}%"></div>
+					<div class="diagram break" style="height: {{breakHeight}}%"></div>
 				{{/if}}
 			</div>
 

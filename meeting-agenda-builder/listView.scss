@@ -1,3 +1,93 @@
+@import "constants";
+
+.listViewDayTitle {
+	font-weight: bold;
+	font-size: 11pt;
+	margin-top: 15px;
+	margin-bottom: 3px;
+	margin-left: 4px;
+}
+
+.listViewDayInfo {
+	margin-top: -4px;
+	margin-bottom: 3px;
+	margin-left: 4px;
+}
+
 .scheduleAsList {
-	border: 1px solid black;
+	background-color: $lightGray;
+	border-radius: $borderRadius;
+	width: 900px;
+	border-collapse: collapse;
+}
+
+.scheduleAsList .tableHeader {
+	background-color: $gray;
+}
+
+.scheduleAsList tr {
+	border-bottom: 1px solid $gray;
+}
+
+tr:last-child
+{
+   border-bottom: none;
+}
+
+.scheduleAsList th {
+	padding: 5px;
+	vertical-align: middle;
+	text-align: left;
+	word-break:break-all;
+	background-color: $gray;
+}
+
+.leftRoundCorner {
+	border-top-left-radius: $borderRadius;
+}
+
+.rightRoundCorner {
+	border-top-right-radius: $borderRadius;
+}
+
+.scheduleAsList td {
+	height: 15px;
+	padding: 5px;
+	vertical-align: middle;
+	text-align: left;
+	word-break:break-all;
+}
+
+.col0 {
+	width: 70px;
+}
+
+.col1 {
+	width: 100px;
+}
+
+.col2 {
+	width: 160px;
+}
+
+.col3 {
+	width: 160px;
+}
+
+.col4 {
+/*	width: 200px;
+*/}
+
+.editDay_listView {
+	cursor: pointer;
+}
+
+.blob {
+	width: 10px;
+	height: 10px;
+	border: none;
+	float: left;
+	border-radius: $borderRadius;
+	margin-top: 2px;
+	margin-right: 5px;
 }

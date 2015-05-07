@@ -81,15 +81,12 @@ a:hover {
 }
 
 #addActivityButton {
-	width: 180px;
-	border-radius: $borderRadius;
-	background-color: $blue;
-	border: none;
-	padding: 10px;
-	color: #ffffff;
-	font-size: 14pt;
-	cursor: pointer;
-	margin-top: 20px;
+	position: relative;
+	float: none;
+	margin-top: 25px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 100px;
 }
 
 .activityObject {
@@ -141,7 +138,7 @@ a:hover {
 }
 
 .tooShort {
-	border-bottom: 1px dotted orange;
+	border-bottom: 1px solid black;
 }
 
 .activityTitle {
@@ -411,35 +408,7 @@ a:hover {
 	padding: 20px 12px;
 }
 
-.presentation_color {
-	background-color: $blue;
-	height: 10px;
-	width: 30px;
-	border-radius: $borderRadius;
-	float: right;
-	margin-top: $activityTypeColorMargin;
-}
-
-.group_work_color {
-	background-color: $orange;
-	height: 10px;
-	width: 30px;
-	border-radius: $borderRadius;
-	float: right;
-	margin-top: $activityTypeColorMargin;
-}
-
-.discussion_color {
-	background-color: $green;
-	height: 10px;
-	width: 30px;
-	border-radius: $borderRadius;
-	float: right;
-	margin-top: $activityTypeColorMargin;
-}
-
-.break_color {
-	background-color: $yellow;
+.typeIndicator {
 	height: 10px;
 	width: 30px;
 	border-radius: $borderRadius;
@@ -551,20 +520,24 @@ a:hover {
 	background-color: red;	
 }
 
-.diagramPresentation {
+.presentation {
 	background-color: $blue;
 }
 
-.diagramGroupWork {
-	background-color: $orange;
+.presentation {
+	background-color: $presentation;
 }
 
-.diagramDiscussion {
-	background-color: $green;
+.group_work {
+	background-color: $group_work;
 }
 
-.diagramBreak {
-	background-color: $yellow;
+.discussion {
+	background-color: $discussion;
+}
+
+.break {
+	background-color: $break;
 }
 
 .diagramLine {
