@@ -2,7 +2,7 @@
 
 
 body {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: "Helvetica Neue Thin", "Helvetica", Arial, sans-serif;
 	font-size: 10pt;
 	background-color: $veryLightBlue;
 }
@@ -18,11 +18,12 @@ h4 {
 	margin: 0px;
 }
 
-h6 {
+.dayName {
 	text-align: center;
-	font-size: 8pt;
+	font-size: 9pt;
 	margin: 0px;
 	margin-top: 2px;
+	height: 20px;
 }
 
 p {
@@ -45,6 +46,10 @@ a:hover {
 	text-align: center;
 }
 
+.border {
+	border: 1px solid black;
+}
+
 #mainFrame {
 	/*background-color: $lightGreen;*/
 	height: 1000px;
@@ -57,15 +62,16 @@ a:hover {
 	//height: 100%;
 	min-height: 250px;
 	/*border: 1px solid $gray;*/
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	padding-bottom: 5px;
 }
 
 #parkedActivitiesHeader {
-	height: 150px;
-	margin: 5px;
+	height: $dayHeaderHeight;
+	border-radius: 5px 5px 0px 0px;
 	padding: 5px;
 }
+
 
 .activityList {
 	margin: 5px;
@@ -76,14 +82,14 @@ a:hover {
 
 #addActivityButton {
 	width: 180px;
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	background-color: $blue;
 	border: none;
 	padding: 10px;
 	color: #ffffff;
 	font-size: 14pt;
 	cursor: pointer;
-	margin-top: 40px;
+	margin-top: 20px;
 }
 
 .activityObject {
@@ -109,11 +115,10 @@ a:hover {
 }
 
 .topButton {
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	background-color: $blue;
 	border: none;
 	padding-top: 0px;
-	padding-bottom: 3px;
 	padding-right: 10px;
 	padding-left: 10px;
 	color: #ffffff;
@@ -121,13 +126,18 @@ a:hover {
 	cursor: pointer;
 }
 
+/*.buttonImage {
+	margin-top: 6px;
+}*/
+
 .activityInfo {
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	width: $activityWidth;
 	height: 100%;
 	border: 1px solid white;
 	float: left;
 	background-color: $gray;
+	margin-top: 2px;
 }
 
 .tooShort {
@@ -135,10 +145,19 @@ a:hover {
 }
 
 .activityTitle {
-	height: 20px;
-	padding: 3px;
-	background-color: rgba(255, 255, 255, 0.4);
+	padding: $activityInfoTop;
+	height: 17px;
+	background-color: $darkGray;
+	border-top-right-radius: $borderRadius;
+	border-top-left-radius: $borderRadius;
 	text-align: center;
+}
+
+.activityName {
+	float: left;
+	width: 170px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .activityPlaceholder {
@@ -194,7 +213,7 @@ a:hover {
 }
 
 .day {
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	background-color: $lightGray;
 	width: $listWidth + 10px;
 	//height: 100%;
@@ -207,7 +226,7 @@ a:hover {
 }
 
 .dayHeader {
-	height: 150px;
+	height: $dayHeaderHeight;
 	border-radius: 5px 5px 0px 0px;
 	/*border-bottom: 1px solid $lightGray;*/
 	background-color: $gray;
@@ -218,9 +237,41 @@ a:hover {
 	text-align: center;
 }
 
+.dayInfoTable {
+	font-size: 9pt;
+}
+
 .dayActivities {
 	border: 1px solid black;
 	margin-top: 10px;
+}
+
+.smallSelect {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	margin: 0px;
+	min-width: 24px;
+	padding: 3px;
+	color: white;
+	border: none;
+	text-indent: 2px;
+	background: $blue;
+}
+
+.noBorderRight {
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.noBorderLeft {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+.betweenSelects {
+	margin-right: -3px;
+	margin-left: -3px;
 }
 
 .marked {
@@ -228,13 +279,16 @@ a:hover {
 }
 
 .btn {
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	background-color: $blue;
 	border: none;
 	padding: 8px;
 	color: #ffffff;
-	font-size: 14pt;
+	font-size: 12pt;
 	cursor: pointer;
+	float: right;
+	margin-bottom: 10px;
+	margin-left: 5px;
 }
 
 .badBtn {
@@ -251,19 +305,25 @@ a:hover {
 	z-index: 100;
 }
 
-.modal {
+.modal {	
 	width: 400px;
 	position: relative;
 	margin: 5% auto;
-	background-color: #fff;
+	background-color: $lightGray;
 	max-height: 100%;
 	overflow: scroll;
+	border-top-right-radius: $borderRadius;
+	border-top-left-radius: $borderRadius;
 }
 
 .popupHeader {
-	background-color: $blue;
+	background-color: $gray;
+	border-top-right-radius: $borderRadius;
+	border-top-left-radius: $borderRadius;
 	padding: 10px;
+	margin-top: -1px;
 	overflow: hidden;
+	color: black;
 }
 
 .popupHeader_title {
@@ -278,79 +338,113 @@ a:hover {
 .modalinput {
 	position: relative;
 	width: 360px;
-	padding: 8px 5px;
+	padding: 5px 5px;
 	margin-bottom: 10px;
-	border: solid #d6d6d6 1px;
+	border: 1px solid $gray;
+	border-radius: $borderRadius;
 	resize: none;
-	font-size: 12pt;
+	font-size: 10pt;
 }
 
-.modalinputNumber {
-	width: 55px;
+.modalSelect {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	color: white;
+	border: none;
+	text-indent: 2px;
+	background: $blue url("popupmenuarrow_white.png") no-repeat 98% 50%;
+	border-top-right-radius: $borderRadius;
+}
+
+.modalinputNumberLeft {
+	width: 30px;
+	background: $blue;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-left: 5px;
+}
+
+.modalinputNumberRight {
+	width: 30px;
+	background: $blue;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.modalinputNumberMiddle {
+	width: 30px;
+	background: $blue;
+	border-radius: 0;
 }
 
 .modalinputNumber4 {
-	width: 80px;
+	width: 45px;
+	background: $blue;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 .modalLabel {
-	color: $gray;
+	color: black;
 }
 
 .yearLabel {
-	width: 80px;
+	text-align: center;
+	width: 40px;
 	padding-bottom: 0px;
 }
 
 .monthLabel {
-	width: 55px;
+	text-align: center;
+	width: 29px;
 	padding-bottom: 0px;
 }
 
 .dayLabel {
-	width: 55px;
+	text-align: center;
+	width: 29px;
 	padding-bottom: 0px;
 }
 
 .popupForm {
 	padding: 20px 12px;
-	background-color: $lightGray;
 }
 
 .presentation_color {
 	background-color: $blue;
 	height: 10px;
 	width: 30px;
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	float: right;
-	margin: 5px;
+	margin-top: $activityTypeColorMargin;
 }
 
 .group_work_color {
 	background-color: $orange;
 	height: 10px;
 	width: 30px;
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	float: right;
-	margin: 5px;
+	margin-top: $activityTypeColorMargin;
 }
 
 .discussion_color {
 	background-color: $green;
 	height: 10px;
 	width: 30px;
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	float: right;
-	margin: 5px;
+	margin-top: $activityTypeColorMargin;
 }
 
 .break_color {
 	background-color: $yellow;
 	height: 10px;
 	width: 30px;
-	border-radius: 5px;
+	border-radius: $borderRadius;
 	float: right;
-	margin: 5px;
+	margin-top: $activityTypeColorMargin;
 }
 
 #scheduleList {
@@ -397,50 +491,57 @@ a:hover {
 }
 
 .editDay {
+	position: relative;
+	top: 2px;
+	left: 2px;
+	height: 20px;
+	float: left;
 	cursor: pointer;
-	display: none;
+	visibility: hidden;
 }
 
 .editActivity {
 	position: relative;
-	top: 2px;
-	left: 2px;
+	z-index: 50;
 	cursor: pointer;
-	display: none;
+	float: left;
+	visibility: hidden;
+	width: 26px;
+	text-align: left;
 }
 
 .dayHeader:hover .editDay {
-	position: relative;
-	top: 2px;
-	left: 2px;
-	float: left;
-	display: inline;
+	visibility: visible;
+}
+
+.dayHeader td {
+	height: 16px;
+	padding-right: 7px;
 }
 
 .activityObject:hover .editActivity {
-	position: relative;
-	top: 2px;
-	left: 2px;
-	z-index: 50;
-	float: left;
-	display: inline-block;
+	visibility: visible;
 }
 
 .weather {
-	border-radius: 5px;
-	padding: 5px;
-	border: 1px solid $gray;
+/*	border-radius: $borderRadius;*/
+	/*padding: 5px;*/
+	position: absolute;
+	margin-top: -11px;
+	margin-left: 165px;
 	float: right;
+	font-size: 9pt;
 }
 
-.scheduleAsList {
-	border: 1px solid black;
+.weatherInfo {
+	margin-top: -10px;
+	text-overflow: ellipsis;
 }
 
 .diagramContainer {
 	float: right;
 	position: relative;
-	height: 160px;
+	height: $dayHeaderHeight + 10;
 	margin-right: -5px;
 	margin-top: -5px;
 }
@@ -472,5 +573,5 @@ a:hover {
 	height: 2px;
 	width: 36px;
 	margin-left: -3px;
-	top: 119px;
+	top: ($dayHeaderHeight + 10) * 0.7;
 }

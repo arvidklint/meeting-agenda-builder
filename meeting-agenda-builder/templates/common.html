@@ -1,5 +1,5 @@
 <template name="timeSelectors">
-	<select class="modalinput modalinputNumber" name="lengthH">
+	<select class="modalinput modalinputNumberLeft modalSelect noBorderRight" name="lengthH">
 		{{#each hours}}
 			{{#if selectedHour}}
 				<option value="{{this}}" selected="selected">{{this}}</option>
@@ -8,7 +8,7 @@
 			{{/if}}
 		{{/each}}
 	</select>
-	<select class="modalinput modalinputNumber" name="lengthM">
+	<select class="modalinput modalinputNumberRight modalSelect noBorderLeft" name="lengthM">
 		{{#each minutes}}
 			{{#if selectedMinute}}
 				<option value="{{this}}" selected="selected">{{this}}</option>
@@ -21,7 +21,7 @@
 </template>
 
 <template name="activityTypeSelector">
-	<select class="modalinput" name="type">
+	<select class="modalinput modalSelect" name="type">
 		{{#each activityTypes}}
 			{{#if selectedType}}
 				<option value="{{this.value}}" selected="selected">{{this.name}}</option>
@@ -33,7 +33,7 @@
 </template>
 
 <template name="placementSelector">
-	<select class="modalinput" name="target">
+	<select class="modalinput modalSelect" name="target">
 		<option value="parkedActivities">Parked activities</option>
 		{{#each days}}
 			{{#if selectedPlacement}}
@@ -50,7 +50,7 @@
 </template>
 
 <template name="orderSelector">
-	<select class="modalinput" name="order">
+	<select class="modalinput modalSelect" name="order">
 		{{#each items}}
 			{{#if selectedOrder}}
 				<option value="{{this}}" selected="selected">{{this}}</option>
@@ -68,12 +68,12 @@
 		<input class="dateCheckbox" name="dateCheckbox" type="checkbox" checked="true"/><label class="modalLabel">Use date</label>
 		<table class="modalLabel">
 			<tr>
-				<td class="yearLabel">Year</td>
-				<td class="monthLabel">Month</td>
-				<td class="dayLabel">Day</td>
+				<td class="yearLabel">Y</td>
+				<td class="monthLabel">M</td>
+				<td class="dayLabel">D</td>
 			</tr>
 		</table>
-		<select class="modalinput modalinputNumber4" name="dateYear">
+		<select class="modalinput modalinputNumber4 modalSelect" name="dateYear">
 			{{#each years}}
 				{{#if selectedYear}}
 					<option value="{{this}}" selected="selected">{{this}}</option>
@@ -83,7 +83,7 @@
 			{{/each}}
 		</select>
 
-		<select class="modalinput modalinputNumber" name="dateMonth">
+		<select class="modalinput modalinputNumberMiddle modalSelect" name="dateMonth">
 			{{#each months}}
 				{{#if selectedMonth}}
 					<option value="{{this}}" selected="selected">{{this}}</option>
@@ -92,7 +92,7 @@
 				{{/if}}
 			{{/each}}
 		</select>
-		<select class="modalinput modalinputNumber" name="dateDay">
+		<select class="modalinput modalinputNumberRight modalSelect" name="dateDay">
 			{{#each days}}
 				{{#if selectedDay}}
 					<option value="{{this}}" selected="selected">{{this}}</option>
