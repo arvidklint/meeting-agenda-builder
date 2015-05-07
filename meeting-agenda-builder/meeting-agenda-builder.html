@@ -19,26 +19,32 @@
 		{{#unless viewAsList}}
 			{{> parkedActivitiesView}}
 			{{> daysView}}
-
-			{{> newDayView}}
-			{{> editDayView}}
-			{{> newActivityView}}
-			{{> editActivityView}}
 		{{else}}
 			{{> listView}}
 		{{/unless}}
+
+		{{> newDayView}}
+		{{> editDayView}}
+		{{> newActivityView}}
+		{{> editActivityView}}
 	</div>
 </template>
 
 <template name="scheduleTitle">
-	<table>
+	<table class="scheduleViewTop">
 		<tr>
 			<td>
-				<button id="toScheduleChooser" class="floatLeft topButton">&lt;</button>
+				<button id="toScheduleChooser" class="floatLeft topButton">
+					<img src="arrow_left.png"/>
+				</button>
 				{{#unless viewAsList}}
-					<button id="toListView" class="floatLeft topButton">Ξ</button>
+					<button id="toListView" class="floatLeft topButton">
+						<img src="list_view_icon_4.png"/>
+					</button>
 				{{else}}
-					<button id="toScheduleView" class="floatLeft topButton">⊞</button>
+					<button id="toScheduleView" class="floatLeft topButton">
+						<img src="schedule_view_icon.png" class="buttonImage"/>
+					</button>
 				{{/unless}}
 			</td>
 			<td>
@@ -51,18 +57,35 @@
 					</form>
 				{{/unless}}
 			</td>
-			<td>
-				<button id="syncDays" class="topButton">⇄</button>
-			</td>
 		</tr>
 	</table>
+	<div class="infoBox">
+		<table class="infoBoxTable">
+			<tr>
+				<td>
+					<div class="blob presentation"></div>Presentation
+				</td>
+				<td>
+					<div class="blob discussion"></div>Discussion
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="blob group_work"></div>Group work
+				</td>
+				<td>
+					<div class="blob break"></div>Break
+				</td>
+			</tr>
+		</table>
+	</div>
 </template>
 
 <template name="parkedActivitiesView">
 	<div id="parkedActivitiesView">
 		<div id="parkedActivitiesHeader">
 			<h4>Parked activities</h4>
-			<button id="addActivityButton" class="center">✚ Activity</button>
+			<button class="btn center" id="addActivityButton">✚ Activity</button>
 		</div>
 		<ul class="activityList connectLists" id="{{listID}}">
 			{{#each parkedActivities}}
@@ -83,11 +106,10 @@
 		</div>
 
 		<div class="activityInfo">
-			<span class="editActivity">✎</span>
-			<div class="{{type}}_color"></div>
 			<div class="activityTitle">
-			
-				{{title}}
+				<div class="editActivity">✎</div>
+				<div class="activityName">{{activity.title}}</div>
+				<div class="typeIndicator {{activity.type}}"></div>
 			</div>
 			{{#if location}}
 				<div class="activityLocation">
@@ -113,41 +135,54 @@
 <template name="day">
 	<div class="day">
 		<div class="dayHeader">
-			{{#if anyActivities}}
-				<div class="diagramContainer">
+			<div class="diagramContainer">
+				{{#if anyActivities}}
 					<div class="diagramLine"></div>
-					<div class="diagram diagramPresentation" style="height: {{presentationHeight}}%"></div>
-					<div class="diagram diagramGroupWork" style="height: {{groupWorkHeight}}%"></div>
-					<div class="diagram diagramDiscussion" style="height: {{discussionHeight}}%"></div>
-					<div class="diagram diagramBreak" style="height: {{breakHeight}}%"></div>
-				</div>
-			{{/if}}
+					<div class="diagram presentation" style="height: {{presentationHeight}}%"></div>
+					<div class="diagram group_work" style="height: {{groupWorkHeight}}%"></div>
+					<div class="diagram discussion" style="height: {{discussionHeight}}%"></div>
+					<div class="diagram break" style="height: {{breakHeight}}%"></div>
+				{{/if}}
+			</div>
 
-			<h4><span class="editDay">✎</span>Day {{dayNumber}}</h4>
-			{{#if addDayTitle}}
-				<h6>{{dayTitle}}</h6>
-			{{/if}}
+			<div class="editDay">✎</div>
+			<h4>Day {{dayNumber}}</h4>
+			<div class="dayName">
+				{{#if addDayTitle}}{{dayTitle}}{{/if}}
+			</div>
 			{{#if addWeather}}
 				{{> weather}}
 			{{/if}}
-			<br/>
-
-			<form class="startTime">
-				Start:
-				<select class="hoursList" name="startHours">
-					{{> hoursList}}
-				</select>
-				<select class="minutesList" name="startMinutes">
-					{{> minutesList}}
-				</select>
-			</form>
-			{{#if addDate}}
-				Date: {{date}}
-			{{/if}}
-			<br/>
-			
-			Längd: {{dayLength}}<br/>
-			Slut: {{dayEnd}}<br/>
+			<table class="dayInfoTable">
+				<tr>
+					<td colspan="2">
+						<form class="startTime">
+							Start time
+							<select class="smallSelect hoursList noBorderRight" name="startHours">
+								{{> hoursList}}
+							</select>
+							<select class="smallSelect minutesList noBorderLeft" name="startMinutes">
+								{{> minutesList}}
+							</select>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						{{#if addDate}}
+							{{date}}
+						{{/if}}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Length {{dayLength}}
+					</td>
+					<td>
+						End {{dayEnd}}
+					</td>
+				</tr>
+			</table>
 			
 		</div>
 

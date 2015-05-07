@@ -345,3 +345,10 @@ changePassword = function(oldPassword, newPassword) {
 		else closeChangePassword();;
 	});
 }
+
+activityTypesTranslation = {
+	"presentation": "Presentation",
+	"group_work": "Group work",
+	"discussion": "Discussion",
+	"break": "Break"
+}

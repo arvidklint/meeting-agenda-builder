@@ -1,8 +1,9 @@
 <template name="weather">
 	<div class="weather">
-		<p class="center">Weather</p>
-		<img src="{{imgref}}" class="center"/>
-		<p class="center">Temp: {{temp}}</p>
-		<p class="center">{{description}}</p>
+		<img src="{{imgref}}" class="weatherIcon"/>
+		<div class="weatherInfo">
+			<div class="center">{{temp}}</div>
+			<div class="center">{{description}}</div>
+		</div>
 	</div>
 </template>

@@ -1,6 +1,8 @@
 $lightGray: #fafafa;
-$gray: #d9d9d9;
+$gray: #E5E5E5;
+$darkGray: #BFBFBF;
 $activityWidth: 240px;
+$dayHeaderHeight: 100px;
 $listWidth: 250px;
 $yellow: #FFE11A;
 $blue: #004358;
@@ -8,7 +10,32 @@ $green: #1F8A70;
 $orange: #FD7400;
 $lightGreen: #BEDB39;
 $lightBlue: #2e93c2;
-$veryLightBlue: #47abdf;
+/*$veryLightBlue: #47abdf;*/
+$veryLightBlue: #9FBFD5;
 
 $textInputHeight: 23px;
 $loginFormPadding: 7px;
+$activityInfoTop: 5px;
+$activityTypeColorMargin: 4px;
+$borderRadius: 5px;
+
+$presentation: $blue;
+$group_work: $orange;
+$break: $yellow;
+$discussion: $green;
+
+.presentation {
+	background-color: $presentation;
+}
+
+.group_work {
+	background-color: $group_work;
+}
+
+.discussion {
+	background-color: $discussion;
+}
+
+.break {
+	background-color: $break;
+}
