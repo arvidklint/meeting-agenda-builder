@@ -157,6 +157,9 @@ Template.day.events({
 	},
 	"click .editDay": function() {
 		editDay(this._id);
+	},
+	"click .diagramContainer": function() {
+		diagramExplanation();
 	}
 });
 

@@ -47,6 +47,14 @@ stopAddingDay = function() {
 	Session.set("addDate", false);
 }
 
+diagramExplanation = function() {
+	Session.set("diagramExplanation", true);
+}
+
+closeDiagramExplanation = function() {
+	Session.set("diagramExplanation", false);
+}
+
 stopEditingSchedules = function() {
 	Session.set("editSchedules", false);
 	Session.set("deleteScheduleModal", false);

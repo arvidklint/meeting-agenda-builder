@@ -225,3 +225,16 @@ Template.changePasswordView.events({
 		return false;
 	}
 });
+
+Template.diagramExplanationModal.helpers({
+	diagramExplanation: function() {
+		return Session.get("diagramExplanation");
+	}
+});
+
+Template.diagramExplanationModal.events({
+	"click .closeExplanation": function() {
+		closeDiagramExplanation();
+		return false;
+	}
+});

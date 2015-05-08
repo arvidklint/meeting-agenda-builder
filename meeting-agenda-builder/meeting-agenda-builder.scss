@@ -494,7 +494,17 @@ a:hover {
 	height: 20px;
 	float: left;
 	cursor: pointer;
-	visibility: hidden;
+
+	opacity: 0.0;
+	filter: alpha(opacity=0);
+
+	/*for making edit button fade in*/
+	-o-transition: all $fadeTime linear;
+	-moz-transition: all $fadeTime linear;
+	-khtml-transition: all $fadeTime linear;
+	-webkit-transition: all $fadeTime linear;
+	-ms-transition: all $fadeTime linear;
+	transition: all $fadeTime linear;
 }
 
 .editActivity {
@@ -502,13 +512,24 @@ a:hover {
 	z-index: 50;
 	cursor: pointer;
 	float: left;
-	visibility: hidden;
 	width: 26px;
 	text-align: left;
+
+	opacity: 0.0;
+	filter: alpha(opacity=0);
+
+	/*for making edit button fade in*/
+	-o-transition: all $fadeTime linear;
+	-moz-transition: all $fadeTime linear;
+	-khtml-transition: all $fadeTime linear;
+	-webkit-transition: all $fadeTime linear;
+	-ms-transition: all $fadeTime linear;
+	transition: all $fadeTime linear;
 }
 
 .dayHeader:hover .editDay {
-	visibility: visible;
+	opacity: 1.0;
+	filter: alpha(opacity=100);
 }
 
 .dayHeader td {
@@ -517,7 +538,8 @@ a:hover {
 }
 
 .activityObject:hover .editActivity {
-	visibility: visible;
+	opacity: 1.0;
+	filter: alpha(opacity=100);
 }
 
 .weather {
@@ -542,11 +564,37 @@ a:hover {
 	margin-right: -5px;
 	margin-top: -5px;
 	overflow: hidden;
+	cursor: help;
 }
 
 .diagram {
 	width: 10px;
-	background-color: red;	
+	background-color: red;
+}
+
+.diagramInfo {
+	font-size: 8pt;
+	position: absolute;
+	float: none;
+	color: red;
+	margin-left: 165px;
+	margin-top: 67px;
+
+	opacity: 0.0;
+	filter: alpha(opacity=0);
+
+	/*for making edit button fade in*/
+	-o-transition: all $fadeTime linear;
+	-moz-transition: all $fadeTime linear;
+	-khtml-transition: all $fadeTime linear;
+	-webkit-transition: all $fadeTime linear;
+	-ms-transition: all $fadeTime linear;
+	transition: all $fadeTime linear;
+}
+
+.diagramContainer:hover .diagramInfo {
+	opacity: 1.0;
+	filter: alpha(opacity=100);
 }
 
 /* I cant understand why, but these must be defined here again, despite also being defined in constants */

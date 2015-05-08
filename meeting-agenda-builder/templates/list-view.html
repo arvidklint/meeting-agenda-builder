@@ -13,25 +13,7 @@
 	</table>
 
 	{{#each days}}
-<!-- 		<table class="listViewDayInfo">
-			<tr>
-				<td>
-					
-					
-				</td>
-				<td>
-					Date
-				</td>
-				<td>
-					Length
-				</td>
-				<td>
-					End
-				</td>
-			</tr>
-		</table> -->
-
-		<div class="listViewDayTitle">Day {{this.dayNumber}}</div>
+		<div class="listViewDayTitle">Day {{dayNumber}}</div>
 		<div class="listViewDayInfo">
 			{{#if this.dayTitle}}"{{this.dayTitle}}" | {{/if}}
 			{{#if this.date}}{{this.date.year}}-{{this.date.month}}-{{this.date.day}} | {{/if}}
@@ -77,6 +59,9 @@
 		<td>
 			{{this.description}}
 		</td>
+		<td>
+			<span class="editActivity_listView">✎</span>
+		</td>
 	</tr>
 </template>
 
@@ -90,7 +75,9 @@
 	<th class="col3">
 		Location
 	</th>
-	<th class="col4 rightRoundCorner">
+	<th class="col4">
 		Description
+	</th>
+	<th class="col5 rightRoundCorner">
 	</th>
 </template>

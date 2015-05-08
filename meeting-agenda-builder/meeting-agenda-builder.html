@@ -130,6 +130,8 @@
 		{{/each}}
 		<button id="addDay">✚ Day</button>
 	</div>
+
+	{{> diagramExplanationModal}}
 </template>
 
 <template name="day">
@@ -143,6 +145,9 @@
 					<div class="diagram discussion" style="height: {{discussionHeight}}%"></div>
 					<div class="diagram break" style="height: {{breakHeight}}%"></div>
 				{{/if}}
+			</div>
+			<div class="diagramInfo">
+				30 % breaks ➤
 			</div>
 
 			<div class="editDay">✎</div>

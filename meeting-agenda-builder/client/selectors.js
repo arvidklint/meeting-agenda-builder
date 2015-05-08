@@ -22,6 +22,9 @@ Template.placementSelector.helpers({
 		} else if (Session.get("editActivityModal")) {
 			if (this._id == Session.get("activityBeingEdited").parentList) return true;
 		}
+	},
+	dayNumber: function() {
+		return this.position + 1;
 	}
 });
 

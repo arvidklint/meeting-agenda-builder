@@ -1,0 +1,21 @@
+<template name="diagramExplanationModal">
+	{{#if diagramExplanation}}
+		<div class="modal_overlay">
+			<div class="modal">
+				<div class="popupHeader">
+					<div class="popupHeader_title">
+						Type proportion diagram
+					</div>
+					<div class="popupHeader_button closeExplanation">
+						X
+					</div>
+				</div>
+				<form class="popupForm" id="deleteForm">
+					The diagram shows the proportions of the different types of activities in a day. According to studies [citation needed], a day should consist of at least 30 % breaks, which it does if the proportion of breaks reaches the red line.
+					<br/>
+					<button class="btn closeExplanation">OK</button>
+				</form>
+			</div>
+		</div>
+	{{/if}}
+</template>

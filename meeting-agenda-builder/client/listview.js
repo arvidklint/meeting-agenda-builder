@@ -3,18 +3,15 @@ Template.listView.helpers({
 		return "jag är test";
 	},
 	parkedActivities: function() {
-		return getParkedActivities(Session.get("currentSchedule"));
+		return getActivities(Session.get("currentSchedule"), "parkedActivities");
 	},
 	days: function() {
-		var days = getDays(Session.get("currentSchedule"));
-		days = addActivityStartTimes(days);
-		days = addDayNumbers(days);
-
-		for (var i in days) {
-			days[i]["activities"] = addActivityNumbers(days[i]["activities"]);
-		}
-
-		return days;
+		return getDays(Session.get("currentSchedule"));;
+	},
+	activities: function() {
+		var activities = getActivities(Session.get("currentSchedule"), this._id);
+		activities = addActivityStartTimes(this.startTime, activities);
+		return activities;
 	},
 	dayLength: function() {
 		return minutesToHuman(dayLength(this));
@@ -24,13 +21,15 @@ Template.listView.helpers({
 	},
 	startTimeHuman: function() {
 		return minutesToHuman(this.startTime);
+	},
+	dayNumber: function() {
+		return this.position + 1;
 	}
 });
 
 Template.listView.events({
 	"click .editDay_listView": function() {
-		console.log(this);
-		editDay(parseInt(this.dayNumber) - 1);
+		editDay(this._id);
 	}
 });
 
@@ -49,7 +48,6 @@ Template.activity_listView.helpers({
 
 Template.activity_listView.events({
 	"dblclick tr": function() {
-		var target = checkClickOfActivityObject(Template.parentData(1));
-		console.log(target);
+		editActivity(this._id);
 	}
 });
