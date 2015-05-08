@@ -536,13 +536,16 @@ a:hover {
 .diagramContainer {
 	float: right;
 	position: relative;
-	height: $dayHeaderHeight + 10;
-	margin-right: -5px;
-	margin-top: -5px;
+	height: $dayHeaderHeight;
+	//margin-right: -5px;
+	margin-top: -2px;
+	border-radius: $borderRadius;
+	border: 1px solid $lightGray;
+	overflow: hidden;
 }
 
 .diagram {
-	width: 30px;
+	width: 10px;
 	background-color: red;	
 }
 
