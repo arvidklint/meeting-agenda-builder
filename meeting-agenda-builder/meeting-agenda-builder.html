@@ -96,28 +96,28 @@
 </template>
 
 <template name="activity">
-	<li parentid="{{parentID}}" position="{{index}}" class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
+	<li id="{{activityID}}" parentid="{{parentList}}" position="{{pos}}" class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
 		<div class="activityTime">
 			{{#if activityStartSet}}
 				{{startTimeHuman}}
 			{{else}}
-				{{activity.activityLength}} min
+				{{activityLength}} min
 			{{/if}}
 		</div>
 
 		<div class="activityInfo">
 			<div class="activityTitle">
 				<div class="editActivity">✎</div>
-				<div class="activityName">{{activity.title}}</div>
-				<div class="typeIndicator {{activity.type}}"></div>
+				<div class="activityName">{{title}}</div>
+				<div class="typeIndicator {{type}}"></div>
 			</div>
-			{{#if activity.location}}
+			{{#if location}}
 				<div class="activityLocation">
-					{{activity.location}}
+					{{location}}
 				</div>
 			{{/if}}
 			<div class="activityDescription">
-				{{activity.description}}
+				{{description}}
 			</div>
 		</div>
 	</li>

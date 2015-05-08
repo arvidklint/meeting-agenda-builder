@@ -37,12 +37,12 @@
 		<option value="parkedActivities">Parked activities</option>
 		{{#each days}}
 			{{#if selectedPlacement}}
-				<option value="{{this.dayNumber}}" selected="selected">
-					Day {{this.dayNumber}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
+				<option value="{{this._id}}" selected="selected">
+					Day {{this.position}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
 				</option>
 			{{else}}
-				<option value="{{this.dayNumber}}">
-					Day {{this.dayNumber}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
+				<option value="{{this._id}}">
+					Day {{this.position}}{{#if this.dayTitle}}, {{this.dayTitle}}{{/if}}
 				</option>
 			{{/if}}
 		{{/each}}

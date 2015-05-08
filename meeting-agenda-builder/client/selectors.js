@@ -14,14 +14,13 @@ Template.activityTypeSelector.helpers({
 Template.placementSelector.helpers({
 	days: function() {
 		var days = getDays(Session.get("currentSchedule"));
-		var days = addDayNumbers(days);
 		return days;
 	},
 	selectedPlacement: function() {
 		if (Session.get("activityModal")) {
 			return false;
 		} else if (Session.get("editActivityModal")) {
-			if (this.dayNumber == (parseInt(Session.get("activityBeingEdited").day) + 1)) return true;
+			if (this._id == Session.get("activityBeingEdited").parentList) return true;
 		}
 	}
 });

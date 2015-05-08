@@ -6,17 +6,15 @@ closeSchedule = function() {
 	Session.set("currentSchedule", null);
 }
 
-checkClickOfActivityObject = function(target) {
-	if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
-	else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
-	return target;
-}
+// checkClickOfActivityObject = function(target) {
+// 	if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
+// 	else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
+// 	return target;
+// }
 
-editActivity = function(target, activityIndex) {
-	console.log(target)
-	console.log(activityIndex);
+editActivity = function(activityID) {
 	Session.set("editActivityModal", true);
-	Session.set("activityBeingEdited", {"day": target, "activityIndex": activityIndex});
+	Session.set("activityBeingEdited", getActivity(activityID));
 }
 
 stopEditingActivity = function() {
@@ -25,10 +23,10 @@ stopEditingActivity = function() {
 	Session.set("activityBeingEdited", null);
 }
 
-editDay = function(target) {
-	var dayBeingEdited = getDays(Session.get("currentSchedule"))[target];
+editDay = function(dayID) {
+	var dayBeingEdited = getDay(dayID);
 
-	dayBeingEdited["dayNumber"] = target + 1;
+	dayBeingEdited["dayNumber"] = dayBeingEdited.position + 1;
 	dayBeingEdited["startTimeHM"] = minutesToHM(dayBeingEdited.startTime);
 	Session.set("dayBeingEdited", dayBeingEdited);
 

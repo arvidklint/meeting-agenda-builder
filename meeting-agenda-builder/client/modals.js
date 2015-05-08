@@ -14,15 +14,20 @@ Template.newActivityView.events({
 		var lengthH = event.target.lengthH.value;
 		var lengthM = event.target.lengthM.value;
 		var type = event.target.type.value;
-		var target = event.target.target.value;
+		var parentList = event.target.target.value;
 		var description = event.target.description.value;
-
 		var length = hmToMinutes(lengthH, lengthM);
 
-		if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
+		// if (target != "parkedActivities") {
+		// 	target--; // the page number is human readable but now index must start at 0
+		// 	target = 'day_' + target;
+		// }
 
-		var newActivity = new Activity(title, length, type, location, description);
-		Meteor.call("addActivity", newActivity, target, null, Session.get("currentSchedule"));
+		var position = getNewActivityPosition(Session.get("currentSchedule"), parentList);
+
+		//scheduleID, position, parentList, title, length, type, location, description
+		var newActivity = new Activity(Session.get("currentSchedule"), position, parentList, title, length, type, location, description);
+		Meteor.call("addActivity", newActivity);
 
 		Session.set("activityModal", false);
 		return false;
@@ -34,12 +39,11 @@ Template.editActivityView.helpers({
 		return Session.get("editActivityModal");
 	},
 	activity: function() {
-		var currentActivity = getActivity(Session.get("currentSchedule"), Session.get("activityBeingEdited").day, Session.get("activityBeingEdited").activityIndex);
+		var currentActivity = Session.get("activityBeingEdited");
 
 		// Write some of the info to Session, so that it is accessible by other helpers without having to access the database again
-		var activityInfo = Session.get("activityBeingEdited");
+		var activityInfo = currentActivity;
 		activityInfo["activityLengthHM"] = minutesToHuman(currentActivity.activityLength).split(":");
-		activityInfo["type"] = currentActivity.type;
 		Session.set("activityBeingEdited", activityInfo);
 
 		return currentActivity;
@@ -62,15 +66,13 @@ Template.editActivityView.events({
 		var location = event.target.location.value;
 		var length = hmToMinutes(event.target.lengthH.value, event.target.lengthM.value);
 		var type = event.target.type.value;
-		var target = event.target.target.value;
+		var parentList = event.target.target.value;
 		var description = event.target.description.value;
-		var position = Session.get("activityBeingEdited").activityIndex;
+		var position = Session.get("activityBeingEdited").position;
 
-		if (target != "parkedActivities") target--;
+		var modifiedActivity = new Activity(Session.get("currentSchedule"), position, parentList, title, length, type, location, description);
 
-		modifiedActivity = new Activity(title, length, type, location, description);
-
-		Meteor.call("modifyActivity", modifiedActivity, target, position, Session.get("activityBeingEdited"), Session.get("currentSchedule"));
+		Meteor.call("modifyActivity", Session.get("activityBeingEdited")._id, modifiedActivity);
 		stopEditingActivity();
 
 		return false;
@@ -80,8 +82,8 @@ Template.editActivityView.events({
 		return false;
 	}, 
 	"click #delete2": function() {
-		var activity = Session.get("activityBeingEdited");
-		Meteor.call("deleteActivity", activity.day, activity.activityIndex, Session.get("currentSchedule"));
+		var activityID = Session.get("activityBeingEdited")._id;
+		Meteor.call("deleteActivity", activityID)
 		stopEditingActivity();
 		return false;
 	},
@@ -119,16 +121,18 @@ Template.newDayView.events({
 			var date = null;
 		}
 
-		console.log(Session.get("currentSchedule"));
+		var position = getNewDayPosition(Session.get("currentSchedule"));
+
+		var newDay = new Day(Session.get("currentSchedule"), position, title, startTime, date, displayWeather);
 
 		//if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
 
-		Meteor.call("addDay", Session.get("currentSchedule"), title, startTime, date, displayWeather);
+		Meteor.call("addDay", newDay);
 		//Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
 
 		stopAddingDay();
 
-		Meteor.flush();
+		//Meteor.flush();
 		return false;
 	}
 });
@@ -144,7 +148,7 @@ Template.editDayView.helpers({
 		return Session.get("dayBeingEdited");
 	},
 	dayNumber: function() {
-		return Session.get("dayBeingEdited").dayNumber;
+		return Session.get("dayBeingEdited").position + 1;
 	}
 });
 
@@ -153,9 +157,10 @@ Template.editDayView.events({
 		stopEditingDay();
 	},
 	"submit .popupForm": function(event) {
-		var target = parseInt(Session.get("dayBeingEdited").dayNumber) - 1;
+		var dayID = Session.get("dayBeingEdited")._id;
 		var dayTitle = event.target.dayTitle.value;
 		var startTime = hmToMinutes(event.target.lengthH.value, event.target.lengthM.value);
+		var position = Session.get("dayBeingEdited").position;
 
 		if (event.target.dateCheckbox.checked) {
 			var date = new SimpleDate(event.target.dateYear.value, event.target.dateMonth.value, event.target.dateDay.value);
@@ -164,10 +169,13 @@ Template.editDayView.events({
 			} else {
 				var displayWeather = false;
 			}
+		} else {
+			var date = null;
 		}
-		else var date = null;
 
-		Meteor.call("editDayInfo", Session.get("currentSchedule"), target, dayTitle, startTime, date, displayWeather);
+		var modifiedDay = new Day(Session.get("currentSchedule"), position, dayTitle, startTime, date, displayWeather);
+
+		Meteor.call("updateDay", dayID, modifiedDay);
 		stopEditingDay();
 		return false;
 	},
@@ -180,7 +188,7 @@ Template.editDayView.events({
 		return false;
 	},
 	"click #delete2": function() {
-		Meteor.call("deleteDay", Session.get("currentSchedule"), parseInt(Session.get("dayBeingEdited").dayNumber) - 1);
+		Meteor.call("deleteDay", Session.get("dayBeingEdited")._id);
 		stopEditingDay();
 		return false;
 	}

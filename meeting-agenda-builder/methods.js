@@ -1,21 +1,12 @@
 Meteor.methods({
-	addSchedule: function(userID, scheduleTitle, numDays) {
-		var schedule = new emptySchedule;
-
-		schedule.scheduleTitle = scheduleTitle;
-		schedule.owner = userID;
-
-		for (var i = 0; i < numDays; i ++) {
-			schedule.days.push(new Day());
-		}
-
+	addSchedule: function(schedule) {
 		var scheduleID = Schedules.insert(schedule);
-		Session.set("currentSchedule", scheduleID);
+		return scheduleID;
 	},
 	deleteSchedule: function(scheduleID) {
 		var schedule = Schedules.findOne(scheduleID);
 
-		if (schedule.owner == Meteor.user()._id) {
+		if (schedule.owner === Meteor.user()._id) {
 			Schedules.remove(schedule._id);
 		} else {
 			throw new Error("You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
@@ -38,176 +29,69 @@ Meteor.methods({
 			// ej klar än
 		}
 	},
-	addDay: function(scheduleID, title, startTime, date, displayWeather) {
-		var day = new Day(title, startTime, date, displayWeather);
-
-		Schedules.update( {"_id": scheduleID}, { $push: {days: day}} )
+	addDay: function(day) {
+		Days.insert(day);
 	},
-	updateDay: function(target, modifiedDay, scheduleID) {
-		// Receives either "parkedActivites" or a day index. Receives a day object.
-		// Replaces the specified day in the database.
-
-		if (target === "parkedActivities") {
-			Schedules.update({"_id": scheduleID}, {$set: {parkedActivities: modifiedDay}});
-		} else {
-			var formattedInfo = {};
-			formattedInfo["days." + target] = modifiedDay; // create dict with a key named days[target] and push the new day (a necessary trick)
-			Schedules.update({"_id": scheduleID}, {$set: formattedInfo}) // reupload the whole day
-		}
+	updateDay: function(dayID, day) {
+		Days.update({'_id': dayID}, {$set: {
+			'dayTitle': day.dayTitle,
+			'startTime': day.startTime,
+			'date': day.date,
+			'displayWeather': day.displayWeather
+		}})
 	},
-	editDayInfo: function(scheduleID, target, dayTitle, startTime, date, displayWeather) {
-		// Receives information about a day to edit and the new information to insert.
-		// Downloads the day, modifies it and updates it. 
-		var day = getDays(scheduleID)[target];
+	// editDayInfo: function(scheduleID, target, dayTitle, startTime, date, displayWeather) {
+	// 	// Receives information about a day to edit and the new information to insert.
+	// 	// Downloads the day, modifies it and updates it. 
+	// 	var day = getDays(scheduleID)[target];
 
-		day.dayTitle = dayTitle;
-		day.startTime = startTime;
-		day.date = date;
-		day.displayWeather = displayWeather;
+	// 	day.dayTitle = dayTitle;
+	// 	day.startTime = startTime;
+	// 	day.date = date;
+	// 	day.displayWeather = displayWeather;
 
-		Meteor.call("updateDay", target, day, scheduleID);
-	},
-	deleteDay: function(scheduleID, target) {
-		// Receives a scheduleID and a day index. Downloads the days array, removes the specified day, replaces the days array with the modified one. 
-
-		var days = getDays(scheduleID);
-		days.splice(target, 1);
-
-		Schedules.update({"_id": scheduleID}, {$set: {"days": days}})
-	},
-	addActivity: function(activity, target, position, scheduleID) {
-		if (target === "parkedActivities") {
-			pas = getParkedActivities(scheduleID);
-			pas.splice(position, 0, activity);
-			Meteor.call("updateDay", target, pas, scheduleID);
-		} else {
-			day = getDays(scheduleID)[target];
-
-			if (position == null) day.activities.push(activity);
-			else day.activities.splice(position, 0, activity);
-				// console.log("add activity to specific position");
-				// activities = day.activities;
-				// console.log(activities);
-				// activities.splice(position, 0, activity);
-				// day.activities = activities;
-				// console.log(day);
-
-			Meteor.call("updateDay", target, day, scheduleID);
-		};
-	},
-	deleteActivity: function(target, position, scheduleID) {
-		if (target === "parkedActivities") {
-			var pas = getParkedActivities(scheduleID);
-			pas.splice(position, 1);
-			Meteor.call("updateDay", target, pas, scheduleID);
-		} else {
-			var day = getDays(scheduleID)[target];
-			day.activities.splice(position, 1);
-			Meteor.call("updateDay", target, day, scheduleID);
-		}
-	},
-	changeStartTime: function(target, newTime, scheduleID) {
-		day = Schedules.findOne(scheduleID).days[target]; // get the day
-		day.startTime = newTime; // modify the day's start time
-		Meteor.call("updateDay", target, day, scheduleID);
-	},
-	// updateActivityPos: function(targetList, activityID, leftPos, topPos) {
-	// 	if (targetList === "parkedActivities") {
-	// 		Schedules.update(
-	// 			{
-	// 				"_id": queryID, 
-	// 				"parkedActivities.id": activityID
-	// 			}, 
-	// 			{
-	// 				"$set": {
-	// 					"parkedActivities.$.leftPos": leftPos + "px",
-	// 					"parkedActivities.$.topPos": topPos + "px"
-	// 				}
-	// 			}
-	// 		);
-	// 	}
+	// 	Meteor.call("updateDay", target, day, scheduleID);
 	// },
-	moveActivity: function(scheduleID, target, startPos, endPos) {
-		if (target === "parkedActivities") {
-			var pas = getParkedActivities(scheduleID);
-			pas = moveActivityInList(pas, startPos, endPos);
-			Meteor.call("updateDay", target, pas, scheduleID);			
-		} else {
-			var dayIndex = parseInt(target.replace(/\D/g,'')) - 1; //Replaces every non-digit characters with nothing.
-			var day = getDays(scheduleID)[dayIndex];
-
-			day.activities = moveActivityInList(day.activities, startPos, endPos);
-
-			Meteor.call("updateDay", dayIndex, day, scheduleID);
-		}
-		Deps.flush();
+	deleteDay: function(dayID) {
+		Days.remove({'_id': dayID});
 	},
-	moveActivityToList: function(scheduleID, startTarget, endTarget, startPos, endPos) {
-
-		if(startTarget === "parkedActivities") {
-			console.log("parkedActivities till lista");
-			var pas = getParkedActivities(scheduleID);
-
-			var dayIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
-
-			var day = getDays(scheduleID)[dayIndex];
-
-			var activity = pas.splice(startPos, 1)[0];
-			
-			day.activities = putActivityInList(day.activities, activity, endPos);
-
-			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
-			var formattedInfo = {};
-
-			formattedInfo["days." + dayIndex] = day;
-			Schedules.update( {"_id": scheduleID}, { $set: formattedInfo });
-			
-
-		} else if (endTarget === "parkedActivities") {
-			console.log("lista till parkedActivities");
-			var pas = getParkedActivities(scheduleID);
-
-			var dayIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
-
-			var day = getDays(scheduleID)[dayIndex];
-
-			var activity = day.activities.splice(startPos, 1)[0];
-
-			pas = putActivityInList(pas, activity, endPos);
-
-			Schedules.update( {"_id": scheduleID}, {$set: {parkedActivities: pas} });
-
-			var formattedInfo = {};
-			formattedInfo["days." + dayIndex] = day;
-			Schedules.update( {"_id": scheduleID}, {$set: formattedInfo});
-
-		} else {
-			console.log("lista till lista");
-			var dayStartIndex = parseInt(startTarget.replace(/\D/g,'')) - 1;
-			var dayEndIndex = parseInt(endTarget.replace(/\D/g,'')) - 1;
-
-			var dayStart = getDays(scheduleID)[dayStartIndex];
-			var dayEnd = getDays(scheduleID)[dayEndIndex];
-
-			var activity = dayStart.activities.splice(startPos, 1)[0];
-
-			dayEnd.activities = putActivityInList(dayEnd.activities, activity, endPos);
-
-			var formattedInfo = {};
-			formattedInfo["days." + dayStartIndex] = dayStart;
-			formattedInfo["days." + dayEndIndex] = dayEnd;
-			Schedules.update( {"_id": scheduleID}, {$set: formattedInfo});
-		}
-		
-		Deps.flush();
+	addActivity: function(activity) {
+		Activities.insert(activity);
 	},
-	// updateRank: function(id, rank) {
-	// 	Schedules.update( {"_id": Session.get("currentSchedule"), parkedActivities._id = id}, {$set: {parkedActivities.$.rank: rank}});
-	// },
-	modifyActivity: function(newActivity, target, position, oldInfo, scheduleID) {
-		if (oldInfo.day !== target) position = null; // temporarily remove position info when changing days until reactive position chooser is implemented
-
-		Meteor.call("deleteActivity", oldInfo.day, oldInfo.activityIndex, scheduleID);
-		Meteor.call("addActivity", newActivity, target, position, scheduleID);
+	deleteActivity: function(activityID) {
+		Activities.remove({'_id': activityID});
+	},
+	changeStartTime: function(dayID, newTime) {
+		Days.update({'_id': dayID}, {$set: {'startTime': newTime}});
+	},
+	updateActivityPos: function(activityID, parentList, index) {
+		Activities.update({"_id": activityID}, {$set: {"parentList": parentList, "position": index}})
+	},
+	modifyActivity: function(activityID, activity) {
+		Activities.update({'_id':activityID}, {$set: {
+													'title': activity.title,
+													'activityLength': activity.activityLength,
+													'type': activity.type,
+													'location': activity.location,
+													'description': activity.description,
+													'parentList': activity.parentList
+												}
+											}
+		);
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
