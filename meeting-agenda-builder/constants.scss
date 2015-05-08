@@ -1,23 +1,24 @@
+/* Color definitions */
 $lightGray: #fafafa;
 $gray: #E5E5E5;
 $darkGray: #BFBFBF;
-$activityWidth: 240px;
-$dayHeaderHeight: 100px;
-$listWidth: 250px;
+$almostBlack: #333333;
 $yellow: #FFE11A;
 $blue: #004358;
 $green: #1F8A70;
 $orange: #FD7400;
 $lightGreen: #BEDB39;
 $lightBlue: #2e93c2;
-/*$veryLightBlue: #47abdf;*/
 $veryLightBlue: #9FBFD5;
 
-$textInputHeight: 23px;
-$loginFormPadding: 7px;
-$activityInfoTop: 5px;
-$activityTypeColorMargin: 4px;
-$borderRadius: 5px;
+
+/*Color scheme*/
+$bodyBackground: $veryLightBlue;
+$buttonClr: $blue;
+$buttonTextClr: white;
+$popupHeader: $darkGray;
+$modalBackground: $gray;
+$modalInputBorder: 1px solid $darkGray;
 
 $presentation: $blue;
 $group_work: $orange;
@@ -39,3 +40,22 @@ $discussion: $green;
 .break {
 	background-color: $break;
 }
+
+ /*Standard sizes */
+$activityWidth: 240px;
+$dayHeaderHeight: 100px;
+$listWidth: 250px;
+$textInputHeight: 23px;
+$loginFormPadding: 7px;
+$activityInfoTop: 5px;
+$activityTypeColorMargin: 4px;
+$borderRadius: 5px;
+
+
+
+
+
+
+
+
+

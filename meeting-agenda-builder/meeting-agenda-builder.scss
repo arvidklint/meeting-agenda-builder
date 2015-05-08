@@ -4,7 +4,7 @@
 body {
 	font-family: "Helvetica Neue Thin", "Helvetica", Arial, sans-serif;
 	font-size: 10pt;
-	background-color: $veryLightBlue;
+	background-color: $bodyBackground;
 }
 
 ul {
@@ -98,8 +98,6 @@ a:hover {
 	width: $activityWidth;
 }
 
-
-
 .activityTime {
 	width: $activityWidth;
 	height: 20px;
@@ -113,7 +111,7 @@ a:hover {
 
 .topButton {
 	border-radius: $borderRadius;
-	background-color: $blue;
+	background-color: $buttonClr;
 	border: none;
 	padding-top: 0px;
 	padding-right: 10px;
@@ -189,7 +187,7 @@ a:hover {
 	width: 120px;
 	height: 120px;
 	border-radius: 50%;
-	background-color: $blue;
+	background-color: $buttonClr;
 	border: none;
 	padding: 8px;
 	color: #ffffff;
@@ -250,10 +248,10 @@ a:hover {
 	margin: 0px;
 	min-width: 24px;
 	padding: 3px;
-	color: white;
+	color: $buttonTextClr;
 	border: none;
 	text-indent: 2px;
-	background: $blue;
+	background: $buttonClr;
 }
 
 .noBorderRight {
@@ -277,10 +275,10 @@ a:hover {
 
 .btn {
 	border-radius: $borderRadius;
-	background-color: $blue;
+	background-color: $buttonClr;
 	border: none;
 	padding: 8px;
-	color: #ffffff;
+	color: $buttonTextClr;
 	font-size: 12pt;
 	cursor: pointer;
 	float: right;
@@ -306,15 +304,15 @@ a:hover {
 	width: 400px;
 	position: relative;
 	margin: 5% auto;
-	background-color: $lightGray;
+	background-color: $modalBackground;
 	max-height: 100%;
-	overflow: scroll;
+	overflow: auto;
 	border-top-right-radius: $borderRadius;
 	border-top-left-radius: $borderRadius;
 }
 
 .popupHeader {
-	background-color: $gray;
+	background-color: $popupHeader;
 	border-top-right-radius: $borderRadius;
 	border-top-left-radius: $borderRadius;
 	padding: 10px;
@@ -337,8 +335,9 @@ a:hover {
 	width: 360px;
 	padding: 5px 5px;
 	margin-bottom: 10px;
-	border: 1px solid $gray;
-	border-radius: $borderRadius;
+	border: $modalInputBorder;
+	/*border: 1px solid white;*/
+	/*border-radius: $borderRadius;*/
 	resize: none;
 	font-size: 10pt;
 }
@@ -347,16 +346,16 @@ a:hover {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	color: white;
+	color: $buttonTextClr;
 	border: none;
 	text-indent: 2px;
-	background: $blue url("popupmenuarrow_white.png") no-repeat 98% 50%;
+	background: $buttonClr url("popupmenuarrow_white.png") no-repeat 98% 50%;
 	border-top-right-radius: $borderRadius;
 }
 
 .modalinputNumberLeft {
 	width: 30px;
-	background: $blue;
+	background: $buttonClr;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	margin-left: 5px;
@@ -364,20 +363,20 @@ a:hover {
 
 .modalinputNumberRight {
 	width: 30px;
-	background: $blue;
+	background: $buttonClr;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
 
 .modalinputNumberMiddle {
 	width: 30px;
-	background: $blue;
+	background: $buttonClr;
 	border-radius: 0;
 }
 
 .modalinputNumber4 {
 	width: 45px;
-	background: $blue;
+	background: $buttonClr;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
@@ -479,10 +478,13 @@ a:hover {
 	background-color: $gray;
 	font-size: 8pt;
 	border-radius: $borderRadius;
+	border: 1px solid $bodyBackground;
+	z-index: 40;
 }
 
 .infoBoxTable td {
 	width: 90px;
+	
 }
 
 .editDay {
@@ -523,7 +525,7 @@ a:hover {
 	/*padding: 5px;*/
 	position: absolute;
 	margin-top: -11px;
-	margin-left: 165px;
+	margin-left: 163px;
 	float: right;
 	font-size: 9pt;
 }
@@ -539,6 +541,7 @@ a:hover {
 	height: $dayHeaderHeight + 10;
 	margin-right: -5px;
 	margin-top: -5px;
+	overflow: hidden;
 }
 
 .diagram {
@@ -546,9 +549,7 @@ a:hover {
 	background-color: red;	
 }
 
-.presentation {
-	background-color: $blue;
-}
+/* I cant understand why, but these must be defined here again, despite also being defined in constants */
 
 .presentation {
 	background-color: $presentation;
