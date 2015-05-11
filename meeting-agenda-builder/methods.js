@@ -38,7 +38,10 @@ Meteor.methods({
 			'startTime': day.startTime,
 			'date': day.date,
 			'displayWeather': day.displayWeather
-		}})
+		}});
+	},
+	updateDayPos: function(dayID, position) {
+		Days.update({'_id': dayID}, {$set: {'position': position}});
 	},
 	// editDayInfo: function(scheduleID, target, dayTitle, startTime, date, displayWeather) {
 	// 	// Receives information about a day to edit and the new information to insert.
