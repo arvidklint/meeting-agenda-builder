@@ -89,7 +89,7 @@
 			<h4>Parked activities</h4>
 			<button class="btn center" id="addActivityButton">✚ Activity</button>
 		</div>
-		<ul class="activityList connectLists" id="{{listID}}">
+		<ul class="activityList connectLists parkedActivityList" id="{{listID}}">
 			{{#each parkedActivities}}
 				{{> activity}}
 			{{/each}}
@@ -195,7 +195,7 @@
 			
 		</div>
 
-		<ul class="activityList connectLists" id="{{listID}}">
+		<ul class="activityList connectLists dayActivityList" id="{{listID}}">
 			{{#each activities}}
 				{{> activity}}
 			{{/each}}

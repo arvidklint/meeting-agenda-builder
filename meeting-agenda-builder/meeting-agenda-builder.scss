@@ -100,6 +100,14 @@ a:hover {
 	border-radius: $borderRadius;
 }
 
+.parkedActivityList {
+	height: 100%;
+}
+
+.dayActivityList {
+	min-height: 150px;
+}
+
 #addActivityButton {
 	position: relative;
 	float: none;
@@ -174,13 +182,11 @@ a:hover {
 }
 
 .activityPlaceholder {
-	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	height: 50px;
+	height: 1px;
 	width: $activityWidth;
-	background-color: $lightGray;
-	float:left;
+	background-color: $almostBlack;
 }
 
 .activityLocation {

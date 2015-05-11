@@ -246,7 +246,7 @@ Template.day.rendered = function() {
 	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
-		// helper: "clone",
+		placeholder: "activityPlaceholder",
 		update: function(event, ui) {
 			var $this = $(this);
 			var activities = $this.sortable('toArray');
