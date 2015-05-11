@@ -14,7 +14,7 @@
 
 <template name="scheduleView">
 	<div id="mainFrame">
-		{{> scheduleTitle}}
+		{{> header}}
 
 		{{#unless viewAsList}}
 			{{> parkedActivitiesView}}
@@ -30,54 +30,56 @@
 	</div>
 </template>
 
-<template name="scheduleTitle">
-	<table class="scheduleViewTop">
-		<tr>
-			<td>
-				<button id="toScheduleChooser" class="floatLeft topButton">
-					<img src="arrow_left.png"/>
-				</button>
-				{{#unless viewAsList}}
-					<button id="toListView" class="floatLeft topButton">
-						<img src="list_view_icon_4.png"/>
-					</button>
-				{{else}}
-					<button id="toScheduleView" class="floatLeft topButton">
-						<img src="schedule_view_icon.png" class="buttonImage"/>
-					</button>
-				{{/unless}}
-			</td>
-			<td>
-				{{#unless editScheduleTitle}}
-					<span class="title" id="scheduleTitle">{{scheduleTitle}}</span>
-				{{else}}
-					<form id="scheduleTitleForm">
-						<input id="scheduleTitleInput" type="text" value="{{scheduleTitle}}" name="scheduleTitle"/>
-						<button type="submit">Save</button>
-					</form>
-				{{/unless}}
-			</td>
-		</tr>
-	</table>
-	<div class="infoBox">
-		<table class="infoBoxTable">
+<template name="header">
+	<div id="header">
+		<table class="scheduleViewTop">
 			<tr>
 				<td>
-					<div class="blob presentation"></div>Presentation
+					<button id="toScheduleChooser" class="floatLeft topButton">
+						<img src="arrow_left.png"/>
+					</button>
+					{{#unless viewAsList}}
+						<button id="toListView" class="floatLeft topButton">
+							<img src="list_view_icon_4.png"/>
+						</button>
+					{{else}}
+						<button id="toScheduleView" class="floatLeft topButton">
+							<img src="schedule_view_icon.png" class="buttonImage"/>
+						</button>
+					{{/unless}}
 				</td>
 				<td>
-					<div class="blob discussion"></div>Discussion
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="blob group_work"></div>Group work
-				</td>
-				<td>
-					<div class="blob break"></div>Break
+					{{#unless editScheduleTitle}}
+						<span class="title" id="scheduleTitle">{{scheduleTitle}}</span>
+					{{else}}
+						<form id="scheduleTitleForm">
+							<input id="scheduleTitleInput" type="text" value="{{scheduleTitle}}" name="scheduleTitle"/>
+							<button type="submit">Save</button>
+						</form>
+					{{/unless}}
 				</td>
 			</tr>
 		</table>
+		<div class="infoBox">
+			<table class="infoBoxTable">
+				<tr>
+					<td>
+						<div class="blob presentation"></div>Presentation
+					</td>
+					<td>
+						<div class="blob discussion"></div>Discussion
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="blob group_work"></div>Group work
+					</td>
+					<td>
+						<div class="blob break"></div>Break
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </template>
 

@@ -14,7 +14,7 @@ Template.scheduleView.helpers({
 	}
 });
 
-Template.scheduleTitle.helpers({
+Template.header.helpers({
 	scheduleTitle: function() {
 		return getScheduleInfo(Session.get("currentSchedule")).scheduleTitle;
 	},
@@ -26,7 +26,7 @@ Template.scheduleTitle.helpers({
 	}
 });
 
-Template.scheduleTitle.events({
+Template.header.events({
 	"click #toScheduleChooser": function() {
 		closeSchedule();
 	},
@@ -242,10 +242,7 @@ Template.day.rendered = function() {
 				Meteor.call("updateDayPos", dayID, index);
 			});
 		}
-	})
-}
-
-Template.activity.rendered = function() {
+	});
 	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
@@ -265,3 +262,7 @@ Template.activity.rendered = function() {
 		}
 	}).disableSelection();
 }
+
+// Template.activity.rendered = function() {
+	
+// }
