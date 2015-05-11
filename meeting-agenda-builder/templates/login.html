@@ -95,31 +95,39 @@
 			Schedules
 		</div>
 		
-		<table class="fullwidth">
+		<table class="scheduleListTable fullwidth">
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Days
+				</th>
+				<th>
+					Activities
+				</th>
+				<th>
+
+				</th>
+			</tr>
 			{{#each schedules}}
-				<tr class="scheduleListItem">
-					<td class="scheduleListClickable">
+				<tr>
+					<td class="scheduleListClickable scheduleListCol1">
 						{{scheduleTitle}}
 					</td>
-					<td class="scheduleListClickable">
-						{{numberOfDays}} days
+					<td class="scheduleListClickable scheduleListCol2">
+						{{numberOfDays}}
 					</td>
-					{{#if editSchedules}}
-						<td class="deleteSchedule">
-							X
-						</td>
-					{{/if}}
+					<td class="scheduleListClickable scheduleListCol3">
+						{{numberOfActivities}}
+					</td>
+					<td class="deleteSchedule scheduleListCol4">
+						╳
+					</td>
 				</tr>
 			{{/each}}
 		</table>
-		<button id="newSchedule">Create new schedule</button>
-		{{#if anySchedules}}
-			{{#if editSchedules}}
-				<button id="stopEditing">Done editing</button>
-			{{else}}
-				<button id="editSchedules">Edit schedules</button>
-			{{/if}}
-		{{/if}}
+		<button id="newSchedule" class="btn">Create new schedule</button>
 	</div>
 </template>
 

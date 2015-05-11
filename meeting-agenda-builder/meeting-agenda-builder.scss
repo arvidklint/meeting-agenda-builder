@@ -421,23 +421,71 @@ a:hover {
 }
 
 #scheduleList {
-	background-color: gray;
+	background-color: $almostBlack;
+	border-radius: $borderRadius;
 	padding: 5px;
-	width: 500px;
+	width: 600px;
 	margin-right: auto;
 	margin-left: auto;
+	overflow: hidden;
 }
 
-#scheduleListTable {
+.scheduleListTable {
 	width: 100%;
-}
-
-.scheduleListItem {
-	background-color: white;
+	background-color: $lightGray;
+	border-radius: $borderRadius;
 	cursor: pointer;
 	padding: 2px;
-	margin-bottom: 2px;
+	margin-bottom: 15px;
 	overflow: hidden;
+	border-collapse: collapse;
+	font-size: 11pt;
+}
+
+.scheduleListTable th {
+	text-align: left;
+	padding: 5px;
+	background-color: $gray;
+}
+
+.scheduleListTable tr {
+	border-bottom: 1px solid $gray;
+	height: 30px;
+}
+
+.scheduleListTable tr:last-child {
+	border-bottom: none;
+}
+
+.scheduleListTable td {
+	padding: 5px;
+}
+
+.scheduleListCol2 {
+	width: 50px;
+}
+
+.scheduleListCol3 {
+	width: 50px;
+}
+
+.scheduleListCol4 {
+	width: 10px;
+}
+
+.deleteSchedule {
+	opacity: 0.0;
+
+	-o-transition: all 0.1s linear;
+	-moz-transition: all 0.1s linear;
+	-khtml-transition: all 0.1s linear;
+	-webkit-transition: all 0.1s linear;
+	-ms-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+}
+
+.scheduleListTable tr:hover .deleteSchedule {
+	opacity: 1.0;
 }
 
 .floatLeft {
@@ -458,6 +506,7 @@ a:hover {
 	margin-left: 5px;
 	margin-bottom: 20px;
 	overflow: hidden;
+	color: white;
 }
 
 #scheduleTitleInput {

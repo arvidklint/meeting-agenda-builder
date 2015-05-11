@@ -168,6 +168,9 @@ Template.schedules.helpers({
 	numberOfDays: function() {
 		return getDays(this._id).length;
 	},
+	numberOfActivities: function() {
+		return getNumberOfActivities(this._id);
+	},
 	editSchedules: function() {
 		return Session.get("editSchedules");
 	},

@@ -25,6 +25,10 @@ getActivities = function(scheduleID, parentList) {
 	return Activities.find({'scheduleID': scheduleID, 'parentList': parentList}, {'sort': {'position': 1}}).fetch();
 }
 
+getNumberOfActivities = function(scheduleID) {
+	return Activities.find({"scheduleID" : scheduleID}).count();
+}
+
 getActivity = function(activityID) {
 	return Activities.findOne({'_id': activityID});
 }
