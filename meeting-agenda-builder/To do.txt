@@ -6,7 +6,7 @@ To do
 -Login
 -Many schedules, manage schedules
 /Drag and drop activities
-Drag and drop days
+-Drag and drop days
 -API
 	Förslag:
 	Text summarization, http://www.publicapis.com/textanalysis/text-summarization

@@ -1,14 +1,10 @@
 @import "constants";
 
-html {
-	height: 100%;
-}
 
 body {
 	font-family: "Helvetica Neue Thin", "Helvetica", Arial, sans-serif;
 	font-size: 10pt;
 	background-color: $bodyBackground;
-	height: 100%;
 }
 
 ul {
@@ -56,15 +52,13 @@ a:hover {
 
 #mainFrame {
 	/*background-color: $lightGreen;*/
-	/*height: 1000px;*/
-	height: 100%;
-
+	height: 1000px;
 }
 
 #parkedActivitiesView {
 	background-color: $lightGray;
 	float: left;
-	width: $listWidth + 20px;
+	width: $listWidth + 10px;
 	//height: 100%;
 	min-height: 250px;
 	/*border: 1px solid $gray;*/
@@ -96,18 +90,24 @@ a:hover {
 }
 
 .activityObject {
+	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 0px;
-	margin-bottom: 8px;
+	margin-bottom: 5px;
 	width: $activityWidth;
+	border: 1px solid black;
 }
 
 .activityTime {
 	width: $activityWidth;
-	height: 13px;
+	height: 20px;
 	text-align: center;
 	padding-bottom: 0px;
+	margin-bottom: -7px;	
+	margin-top: 6px;
+	float: left;
+	display: block;
 }
 
 .topButton {
@@ -131,22 +131,18 @@ a:hover {
 	width: $activityWidth;
 	height: 100%;
 	border: 1px solid white;
+	float: left;
 	background-color: $gray;
 	margin-top: 2px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding-bottom: 3px;
-	display: block;
 }
 
-/*.tooShort {
-	border-bottom: 1px;
-	border-style: dotted;
-}*/
+.tooShort {
+	border-bottom: 1px solid black;
+}
 
 .activityTitle {
 	padding: $activityInfoTop;
-	height: $activityTitleHeight;
+	height: 17px;
 	background-color: $darkGray;
 	border-top-right-radius: $borderRadius;
 	border-top-left-radius: $borderRadius;
@@ -209,13 +205,14 @@ a:hover {
 	height: 100%;
 	width: 3000px;
 	position: absolute;
+	overflow-x: scroll; 
 }
 
 .day {
 	border-radius: $borderRadius;
 	background-color: $lightGray;
-	width: $listWidth + 20px;
-	max-height: 100%;
+	width: $listWidth + 10px;
+	//height: 100%;
 	min-height: 250px;
 	float: left;
 	margin-left: 5px;
