@@ -78,6 +78,7 @@ a:hover {
 	min-height: 20px;
 	min-width: $listWidth;
 	background-color: $lightGray;
+	max-height: 100%;
 }
 
 #addActivityButton {

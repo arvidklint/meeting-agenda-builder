@@ -232,6 +232,19 @@ Template.minutesList.helpers({
 	}
 });
 
+Template.day.rendered = function() {
+	$('#daysList').sortable({
+		update: function(event, ui) {
+			var $this = $(this);
+			var days = $this.sortable('toArray');
+
+			_.each(days, function(dayID, index) {
+				Meteor.call("updateDayPos", dayID, index);
+			});
+		}
+	})
+}
+
 Template.activity.rendered = function() {
 	$('.activityList').sortable({
 		connectWith: ".connectLists",

@@ -125,9 +125,11 @@
 
 <template name="daysView">
 	<div id="daysView">
-		{{#each days}}
-			{{> day}}
-		{{/each}}
+		<ul id="daysList">
+			{{#each days}}
+				{{> day}}
+			{{/each}}
+		</ul>
 		<button id="addDay">✚ Day</button>
 	</div>
 
@@ -135,7 +137,7 @@
 </template>
 
 <template name="day">
-	<div class="day">
+	<div class="day" id="{{_id}}">
 		<div class="dayHeader">
 			<div class="diagramContainer">
 				{{#if anyActivities}}
