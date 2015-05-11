@@ -98,7 +98,7 @@
 </template>
 
 <template name="activity">
-	<li id="{{activityID}}" parentid="{{parentList}}" position="{{pos}}" class="activityObject {{tooShort}}" style="height: {{activityHeight}}px">
+	<li id="{{activityID}}" parentid="{{parentList}}" position="{{pos}}" class="activityObject">
 		<div class="activityTime">
 			{{#if activityStartSet}}
 				{{startTimeHuman}}
@@ -107,7 +107,7 @@
 			{{/if}}
 		</div>
 
-		<div class="activityInfo">
+		<div class="activityInfo" style="height: {{activityHeight}}px">
 			<div class="activityTitle">
 				<div class="editActivity">✎</div>
 				<div class="activityName">{{title}}</div>

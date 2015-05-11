@@ -25,6 +25,10 @@ getActivities = function(scheduleID, parentList) {
 	return Activities.find({'scheduleID': scheduleID, 'parentList': parentList}, {'sort': {'position': 1}}).fetch();
 }
 
+getNumberOfActivities = function(scheduleID) {
+	return Activities.find({"scheduleID" : scheduleID}).count();
+}
+
 getActivity = function(activityID) {
 	return Activities.findOne({'_id': activityID});
 }
@@ -91,10 +95,12 @@ getListPos = function(target) {
 // }
 
 getActivityHeight = function(length) {
-	if (length >= 30) {
-		return length * 1.5 + 20;
+	var activityTitleHeight = 24;
+	var activityHeight = length * 1.5 + activityTitleHeight
+	if (activityHeight > TOO_SHORT) {
+		return activityHeight;
 	} else {
-		return 45 + 20;
+		return activityTitleHeight;
 	}
 }
 

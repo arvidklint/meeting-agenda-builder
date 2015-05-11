@@ -171,7 +171,7 @@ Template.activity.helpers({
 		return getActivityHeight(this.activityLength);
 	},
 	tooShort: function() {
-		if (this.activityLength < 30) {
+		if (this.activityLength <= TOO_SHORT) {
 			return "tooShort";
 		}
 	},
