@@ -181,10 +181,10 @@ a:hover {
 .activityPlaceholder {
 	margin-left: auto;
 	margin-right: auto;
-	height: 1px;
 	width: $activityWidth;
-	background-color: $darkGray;
 	border-radius: $borderRadius;
+	margin-top: $activityTitleHeight;
+	margin-bottom: 8px;
 }
 
 .activityLocation {
@@ -197,7 +197,6 @@ a:hover {
 	padding: 3px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	//display: inline;
 }
 
 /*.activityListFooter {
@@ -228,7 +227,7 @@ a:hover {
 }
 
 .placeholderBackground {
-	background-color: $darkGray;
+	background-color: $darkGray
 }
 
 .dayHeader {
@@ -640,7 +639,6 @@ a:hover {
 
 .weatherNotification {
 	margin-top: 30px;
-	color: $red;
 }
 
 .diagramContainer {
@@ -683,8 +681,8 @@ a:hover {
 	-ms-transition: all $fadeTime linear;
 	transition: all $fadeTime linear;
 
-	-webkit-transition-delay: 1s; /* Safari */
-    transition-delay: 1s;
+	-webkit-transition-delay: 0.2s; /* Safari */
+    transition-delay: 0.2s;
 }
 
 .diagramContainer:hover + .diagramInfo {

@@ -273,9 +273,9 @@ Template.day.rendered = function() {
 	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
-		placeholder: "activityObject placeholderBackground",
+		placeholder: "activityPlaceholder placeholderBackground",
 		start: function(e,ui){
-			ui.placeholder.height(ui.item.height());
+			ui.placeholder.height($(ui.item).find('.activityInfo').height());
 		},
 		update: function(event, ui) {
 			var $this = $(this);

@@ -26,6 +26,7 @@ if (Meteor.isClient) {
 					console.log("error getting weather: " + err);
 					count++;
 					if (count > 5) {
+						Session.set("weatherNotification", "Weather error");
 						clearInterval(weatherInterval);
 					}
 				}
@@ -48,6 +49,6 @@ if (Meteor.isClient) {
 		// 		console.log('An unknown error occured!');
 		// 		break;
 		// }
-		Session.set("weatherNotification", "Weather Error");
+		Session.set("weatherNotification", "Weather error");
 	}
 }
