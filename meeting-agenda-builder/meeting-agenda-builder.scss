@@ -72,7 +72,7 @@ a:hover {
 
 #parkedActivitiesView {
 	margin-top: $headerHeight;
-	background-color: $lightGray;
+	background-color: $parkedActivitiesBackground;
 	width: $listWidth + 10px;
 	height: 100%;
 	min-height: 250px;
@@ -86,7 +86,7 @@ a:hover {
 
 #parkedActivitiesHeader {
 	height: $dayHeaderHeight;
-	background-color: $lightGray;
+	background-color: $parkedActivitiesBackground;
 	padding: 5px;
 }
 
@@ -95,7 +95,7 @@ a:hover {
 	margin: 5px;
 	min-height: 20px;
 	min-width: $listWidth;
-	background-color: $lightGray;
+	background-color: $activityListBackground;
 	max-height: 500px;
 	border-radius: $borderRadius;
 }
@@ -152,7 +152,7 @@ a:hover {
 	border-radius: $borderRadius;
 	width: $activityWidth;
 	height: 100%;
-	background-color: $gray;
+	background-color: $activityInfoBackground;
 	margin-top: 2px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -210,18 +210,18 @@ a:hover {
 }*/
 
 #addDay {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
+	border-radius: $borderRadius;
 	background-color: $buttonClr;
+	position: fixed;
+	top: 10px;
+	right: 185px;
 	border: none;
-	padding: 8px;
+	padding-top: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
 	color: #ffffff;
 	font-size: 14pt;
 	cursor: pointer;
-	margin-top: 100px;
-	margin-left: 20px;
-	float: left;
 }
 
 #daysView {
@@ -235,7 +235,7 @@ a:hover {
 
 .day {
 	border-radius: $borderRadius;
-	background-color: $lightGray;
+	background-color: $dayBackground;
 	width: $listWidth + 20px;
 	max-height: 100%;
 	min-height: 250px;
@@ -441,7 +441,7 @@ a:hover {
 	margin-top: $activityTypeColorMargin;
 }
 
-#scheduleList {
+#scheduleListContainer {
 	background-color: $almostBlack;
 	border-radius: $borderRadius;
 	padding: 5px;
@@ -470,6 +470,7 @@ a:hover {
 }
 
 .scheduleListTable tr {
+	background-color: $lightGray;
 	border-bottom: 1px solid $gray;
 	height: 30px;
 }

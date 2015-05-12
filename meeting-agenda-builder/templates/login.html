@@ -90,42 +90,46 @@
 		{{/if}}
 	</div>
 
-	<div id="scheduleList">
+	<div id="scheduleListContainer">
 		<div class="title">
 			Schedules
 		</div>
 		
-		<table class="scheduleListTable fullwidth">
-			<tr>
-				<th>
-					Name
-				</th>
-				<th>
-					Days
-				</th>
-				<th>
-					Activities
-				</th>
-				<th>
-
-				</th>
-			</tr>
-			{{#each schedules}}
+		<table class="scheduleListTable fullwidth" id="scheduleList">
+			<thead>
 				<tr>
-					<td class="scheduleListClickable scheduleListCol1">
-						{{scheduleTitle}}
-					</td>
-					<td class="scheduleListClickable scheduleListCol2">
-						{{numberOfDays}}
-					</td>
-					<td class="scheduleListClickable scheduleListCol3">
-						{{numberOfActivities}}
-					</td>
-					<td class="deleteSchedule scheduleListCol4">
-						╳
-					</td>
+					<th>
+						Name
+					</th>
+					<th>
+						Days
+					</th>
+					<th>
+						Activities
+					</th>
+					<th>
+
+					</th>
 				</tr>
-			{{/each}}
+			</thead>
+			<tbody>
+				{{#each schedules}}
+					<tr id="{{_id}}">
+						<td class="scheduleListClickable scheduleListCol1">
+							{{scheduleTitle}}
+						</td>
+						<td class="scheduleListClickable scheduleListCol2">
+							{{numberOfDays}}
+						</td>
+						<td class="scheduleListClickable scheduleListCol3">
+							{{numberOfActivities}}
+						</td>
+						<td class="deleteSchedule scheduleListCol4">
+							╳
+						</td>
+					</tr>
+				{{/each}}
+			</tbody>
 		</table>
 		<button id="newSchedule" class="btn">Create new schedule</button>
 	</div>

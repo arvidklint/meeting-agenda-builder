@@ -233,6 +233,7 @@ Template.minutesList.helpers({
 });
 
 Template.day.rendered = function() {
+
 	$('#daysList').sortable({
 		update: function(event, ui) {
 			var $this = $(this);

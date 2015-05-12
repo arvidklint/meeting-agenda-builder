@@ -4,22 +4,30 @@ $gray: #E5E5E5;
 $darkGray: #BFBFBF;
 $almostBlack: #333333;
 $yellow: #FFE11A;
-$blue: #004358;
-$green: #1F8A70;
+$blue: #2581c1;
+$green: #25a33d;
 $orange: #FD7400;
 $lightGreen: #BEDB39;
-$lightBlue: #2e93c2;
+$lightBlue: #a2e4ff;
 $veryLightBlue: #9FBFD5;
 $activityTitleHeight: 17px;
+$teal: #2a56d6;
+$grayBlue: #a4c0d3;
+$magenta: #f047ce;
+$red: #e02d42;
 
 
 /*Color scheme*/
-$bodyBackground: $veryLightBlue;
-$buttonClr: $lightBlue;
+$bodyBackground: $grayBlue;
+$buttonClr: $blue;
 $buttonTextClr: white;
 $popupHeader: $gray;
 $modalBackground: $lightGray;
 $modalInputBorder: 1px solid $darkGray;
+$parkedActivitiesBackground: $lightGray;
+$activityListBackground: $lightGray;
+$dayBackground: $lightGray;
+$activityInfoBackground: $gray;
 
 $presentation: $blue;
 $group_work: $orange;
