@@ -1,5 +1,11 @@
 @import "constants";
 
+.listViewFrame {
+	overflow: scroll;
+	padding-left: $standardSpace;
+	padding-bottom: $standardSpace;
+}
+
 .listViewDayTitle {
 	font-weight: bold;
 	font-size: 11pt;

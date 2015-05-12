@@ -1,3 +1,11 @@
+$(window).resize(function() {
+	setContentSize();
+});
+
+Template.listView.rendered = function() {
+	setContentSize();
+}
+
 Template.listView.helpers({
 	test: function() {
 		return "jag är test";
