@@ -118,6 +118,7 @@ a:hover {
 	margin-bottom: 8px;
 	width: $activityWidth;
 	border-radius: $borderRadius;
+	cursor: default;
 }
 
 .activityTime {
@@ -616,6 +617,7 @@ a:hover {
 .dayHeader td {
 	height: 16px;
 	padding-right: 7px;
+	cursor: default;
 }
 
 .activityObject:hover .editActivity {
