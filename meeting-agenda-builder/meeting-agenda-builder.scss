@@ -123,6 +123,7 @@ a:hover {
 	margin-top: 0px;
 	margin-bottom: 8px;
 	width: $activityWidth;
+	border-radius: $borderRadius;
 }
 
 .activityTime {
@@ -244,6 +245,10 @@ a:hover {
 	margin-right: 0px;
 	padding-bottom: 10px;
 	/*border: 1px solid $gray;*/
+}
+
+.placeholderBackground {
+	background-color: $darkGray;
 }
 
 .dayHeader {
@@ -632,6 +637,11 @@ a:hover {
 .weatherInfo {
 	margin-top: -10px;
 	text-overflow: ellipsis;
+}
+
+.weatherNotification {
+	margin-top: 30px;
+	color: $red;
 }
 
 .diagramContainer {

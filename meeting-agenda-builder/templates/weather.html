@@ -1,9 +1,15 @@
 <template name="weather">
 	<div class="weather">
-		<img src="{{imgref}}" class="weatherIcon"/>
-		<div class="weatherInfo">
-			<div class="center">{{temp}}</div>
-			<div class="center">{{description}}</div>
-		</div>
+		{{#if gotWeather}}
+			<img src="{{imgref}}" class="weatherIcon"/>
+			<div class="weatherInfo">
+				<div class="center">{{temp}}</div>
+				<div class="center">{{description}}</div>
+			</div>
+		{{else}}
+			<div class="weatherNotification">
+				{{weatherNotification}}
+			</div>
+		{{/if}}
 	</div>
 </template>

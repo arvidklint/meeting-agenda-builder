@@ -1,11 +1,9 @@
 if (Meteor.isClient) {
+	Session.set("weather", "");
+	Session.set("weatherNotification", "loading weather");
+
 	// Does this browser support geolocation?
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
-	}
-	else{
-		showError("Your browser does not support Geolocation!");
-	}
+	navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
 
 	function locationSuccess(position) {
 		var lat = position.coords.latitude;
@@ -17,43 +15,39 @@ if (Meteor.isClient) {
 		//console.log(query);
 
 		// Session.set("position", {"lat": lat, "lon": lon});
-
-		Meteor.call("getWeather", query, function (err, r) {
-			if(r) {
-				Session.set("weather", r.data);
-			} else {
-				console.log("error getting weather: " + err);
-			}
-		});
+		var count = 0;
+		var weatherInterval = setInterval(function() {
+			Meteor.call("getWeather", query, function (err, r) {
+				if(r) {
+					console.log("gotWeather");
+					Session.set("weather", r.data);
+					clearInterval(weatherInterval);
+				} else {
+					console.log("error getting weather: " + err);
+					count++;
+					if (count > 5) {
+						clearInterval(weatherInterval);
+					}
+				}
+			});
+		}, 3000);
 	}
 
 	function locationError(error) {
-		switch(error.code) {
-			case error.TIMEOUT:
-				showError("A timeout occured! Please try again!");
-				break;
-			case error.POSITION_UNAVAILABLE:
-				showError('We can\'t detect your location. Sorry!');
-				break;
-			case error.PERMISSION_DENIED:
-				showError('Please allow geolocation access for this to work.');
-				break;
-			case error.UNKNOWN_ERROR:
-				showError('An unknown error occured!');
-				break;
-		}
+		// switch(error.code) {
+		// 	case error.TIMEOUT:
+		// 		console.log("A timeout occured! Please try again!");
+		// 		break;
+		// 	case error.POSITION_UNAVAILABLE:
+		// 		console.log('We can\'t detect your location. Sorry!');
+		// 		break;
+		// 	case error.PERMISSION_DENIED:
+		// 		console.log('Please allow geolocation access for this to work.');
+		// 		break;
+		// 	case error.UNKNOWN_ERROR:
+		// 		console.log('An unknown error occured!');
+		// 		break;
+		// }
+		Session.set("weatherNotification", "Weather Error");
 	}
-}
-
-showError = function(msg){
-	console.log(msg);
-}
-
-if(Meteor.isServer) {
-	Meteor.methods({
-		getWeather: function (query) {
-			//this.unblock();
-			return Meteor.http.get(query);
-		}
-	});
 }

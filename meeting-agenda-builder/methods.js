@@ -84,6 +84,9 @@ Meteor.methods({
 												}
 											}
 		);
+	},
+	getWeather: function (query) {
+		return Meteor.http.get(query);
 	}
 });
 

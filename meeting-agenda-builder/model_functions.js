@@ -29,6 +29,10 @@ getActivities = function(scheduleID, parentList) {
 	return Activities.find({'scheduleID': scheduleID, 'parentList': parentList}, {'sort': {'position': 1}}).fetch();
 }
 
+getActivitiesInDay = function(dayID) {
+	return Activities.find({'parentList': dayID}).fetch();
+}
+
 getNumberOfActivities = function(scheduleID) {
 	return Activities.find({"scheduleID" : scheduleID}).count();
 }
@@ -152,11 +156,11 @@ addActivityNumbers = function(activities) {
 	return activities;
 }
 
-dayLength = function(day) {
-	length = 0;
-
-	for (var i in day.activities) {
-		length += day.activities[i].activityLength;
+dayLength = function(dayID) {
+	var activities = getActivitiesInDay(dayID);
+	var length = 0;
+	for (var i in activities) {
+		length += activities[i].activityLength;
 	}
 
 	return length;
@@ -286,6 +290,9 @@ getWeatherImgRef = function(date) {
 }
 
 dayInWeatherRange = function(date) {
+	if (Session.get("weather") === "") {
+		return true;
+	}
 	var daysFromNow = getDaysFromNow(date);
 	if(daysFromNow >= 0 && daysFromNow < Session.get("weather").cnt) {
 		return true;

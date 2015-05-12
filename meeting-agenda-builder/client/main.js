@@ -8,6 +8,8 @@ Session.set("activityModal", false);
 
 Session.set("refreshingLists", true);
 
+Session.set("weatherError", "hej");
+
 Template.scheduleView.helpers({
 	viewAsList: function() {
 		return Session.get("viewAsList");
@@ -44,6 +46,9 @@ Template.header.events({
 		Meteor.call("editSchedule", Session.get("currentSchedule"), newName, null);
 		Session.set("editScheduleTitle", false);
 		return false;
+	},
+	"click #addDay": function() {
+		Session.set("addDayModal", true);
 	}
 });
 
@@ -51,12 +56,6 @@ Template.daysView.helpers({
 	days: function() {
 		var days = getDays(Session.get("currentSchedule"));
 		return days;
-	}
-});
-
-Template.daysView.events({
-	"click #addDay": function() {
-		Session.set("addDayModal", true);
 	}
 });
 
@@ -84,13 +83,13 @@ Template.day.helpers({
 		return this.position + 1;
 	},
 	dayLength: function() {
-		return minutesToHuman(dayLength(this));
+		return minutesToHuman(dayLength(this._id));
 	},
 	dayEnd: function() {
-		return minutesToHuman(this.startTime + dayLength(this));
+		return minutesToHuman(this.startTime + dayLength(this._id));
 	},
 	addWeather: function() {
-		if(this.date !== null && Session.get("weather") && this.displayWeather) {
+		if(this.date !== null && this.displayWeather) {
 			if(dayInWeatherRange(this.date)) return true;
 		}
 	},
@@ -205,6 +204,16 @@ Template.weather.helpers({
 	},
 	imgref: function() {
 		return getWeatherImgRef(this.date);
+	},
+	gotWeather: function() {
+		if (Session.get("weather") != "") {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	weatherNotification: function() {
+		return Session.get('weatherNotification');
 	}
 });
 
@@ -235,6 +244,10 @@ Template.minutesList.helpers({
 Template.day.rendered = function() {
 
 	$('#daysList').sortable({
+		placeholder: "day placeholderBackground",
+		start: function(e,ui){
+			ui.placeholder.height(ui.item.height());
+		},
 		update: function(event, ui) {
 			var $this = $(this);
 			var days = $this.sortable('toArray');
@@ -247,7 +260,7 @@ Template.day.rendered = function() {
 	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
-		placeholder: "activityPlaceholder",
+		placeholder: "activityObject placeholderBackground",
 		start: function(e,ui){
 			ui.placeholder.height(ui.item.height());
 		},
