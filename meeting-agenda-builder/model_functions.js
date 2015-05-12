@@ -61,6 +61,10 @@ getDays = function(scheduleID) {
 	return Days.find({'scheduleID': scheduleID}, {'sort': {'position': 1}}).fetch();
 }
 
+getNumberOfDays = function(scheduleID) {
+	return Days.find({"scheduleID" : scheduleID}).count();
+}
+
 getDay = function(dayID) {
 	return Days.findOne({'_id': dayID});
 }
@@ -68,8 +72,6 @@ getDay = function(dayID) {
 getNewDayPosition = function(scheduleID) {
 	return getDays(scheduleID).length;
 }
-
-
 
 getScheduleInfo = function(scheduleID) {
 	schedule = Schedules.findOne(scheduleID);

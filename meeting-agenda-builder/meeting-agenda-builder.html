@@ -32,35 +32,29 @@
 
 <template name="header">
 	<div id="header">
-		<table class="scheduleViewTop">
-			<tr>
-				<td>
-					<button id="toScheduleChooser" class="floatLeft topButton">
-						<img src="arrow_left.png"/>
-					</button>
-					{{#unless viewAsList}}
-						<button id="toListView" class="floatLeft topButton">
-							<img src="list_view_icon_4.png"/>
-						</button>
-					{{else}}
-						<button id="toScheduleView" class="floatLeft topButton">
-							<img src="schedule_view_icon.png" class="buttonImage"/>
-						</button>
-					{{/unless}}
-				</td>
-				<td>
-					{{#unless editScheduleTitle}}
-						<span class="title" id="scheduleTitle">{{scheduleTitle}}</span>
-					{{else}}
-						<form id="scheduleTitleForm">
-							<input id="scheduleTitleInput" type="text" value="{{scheduleTitle}}" name="scheduleTitle"/>
-							<button type="submit" class="topButton">Save</button>
-						</form>
-					{{/unless}}
-				</td>
-			</tr>
-		</table>
-		<button id="addDay" class="topButton">✚ Day</button>
+		<div class="scheduleViewTop">
+			<button id="toScheduleChooser" class="scheduleViewTopItem btn smallBtn">
+				<img src="arrow_left.png"/>
+			</button>
+			{{#unless viewAsList}}
+				<button id="toListView" class="scheduleViewTopItem btn smallBtn">
+					<img src="list_view_icon_4.png"/>
+				</button>
+			{{else}}
+				<button id="toScheduleView" class="scheduleViewTopItem btn smallBtn">
+					<img src="schedule_view_icon.png" class="buttonImage"/>
+				</button>
+			{{/unless}}
+			{{#unless editScheduleTitle}}
+				<div class="scheduleViewTopItem title" id="scheduleTitle">{{scheduleTitle}}</div>
+			{{else}}
+				<form class="scheduleViewTopItem" id="scheduleTitleForm">
+					<input id="scheduleTitleInput" type="text" value="{{scheduleTitle}}" name="scheduleTitle"/>
+					<button type="submit" class="topButton">Save</button>
+				</form>
+			{{/unless}}
+		</div>
+		<button class="btn smallBtn" id="addDay">✚ Day</button>
 		<div class="infoBox">
 			<table class="infoBoxTable">
 				<tr>
@@ -127,12 +121,14 @@
 </template>
 
 <template name="daysView">
-	<div id="daysView">
-		<ul id="daysList">
-			{{#each days}}
-				{{> day}}
-			{{/each}}
-		</ul>
+	<div id="daysViewContainer">
+		<div id="daysView" style="width: {{daysViewWidth}}px">
+			<ul id="daysList">
+				{{#each days}}
+					{{> day}}
+				{{/each}}
+			</ul>
+		</div>
 	</div>
 
 	{{> diagramExplanationModal}}

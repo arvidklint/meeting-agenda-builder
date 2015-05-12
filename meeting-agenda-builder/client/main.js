@@ -56,8 +56,20 @@ Template.daysView.helpers({
 	days: function() {
 		var days = getDays(Session.get("currentSchedule"));
 		return days;
+	},
+	daysViewWidth: function() {
+		console.log(getDaysViewWidth());
+		return getDaysViewWidth();
 	}
 });
+
+$(window).resize(function() {
+	setContentSize();
+});
+
+Template.parkedActivitiesView.rendered = function() {
+	setContentSize();
+}
 
 Template.parkedActivitiesView.helpers({
 	parkedActivities: function() {
@@ -257,6 +269,7 @@ Template.day.rendered = function() {
 			});
 		}
 	});
+
 	$('.activityList').sortable({
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
@@ -278,6 +291,9 @@ Template.day.rendered = function() {
 			$('.activityList').sortable('refresh');
 		}
 	}).disableSelection();
+
+	setContentSize();
+
 }
 
 // Template.activity.rendered = function() {

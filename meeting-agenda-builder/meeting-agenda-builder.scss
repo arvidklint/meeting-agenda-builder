@@ -8,8 +8,10 @@ body {
 	font-family: "Helvetica Neue Thin", "Helvetica", Arial, sans-serif;
 	font-size: 10pt;
 	background-color: $bodyBackground;
-	margin: 0px;
+	margin-top: 0;
+	margin-left: 0;
 	height: 100%;
+	overflow-x: hidden;
 }
 
 ul {
@@ -56,48 +58,40 @@ a:hover {
 }
 
 #header {
+	/*margin-top: -3px;*/
 	background-color: $almostBlack;
 	width: 100%;
 	height: $headerHeight;
-	position: fixed;
-	z-index: 1100;
 }
 
 #mainFrame {
-	/*background-color: $lightGreen;*/
-	/*height: 1000px;*/
+	width: 100%;
 	height: 100%;
-
+	padding-bottom: 10px;
+	position: fixed;
 }
 
 #parkedActivitiesView {
-	margin-top: $headerHeight;
-	background-color: $parkedActivitiesBackground;
-	width: $listWidth + 10px;
-	height: 100%;
-	min-height: 250px;
-	position: fixed;
-	/*border: 1px solid $gray;*/
-	/*border-radius: $borderRadius;*/
-	padding-bottom: 5px;
-	z-index: 1000;
+	padding-top: $standardSpace;
+	padding-bottom: $standardSpace;
+	width: $listWidth + $listMargin;
+	background-color: $lightGray;
+	float: left;
 	border-right: solid $darkGray 1px;
 }
 
 #parkedActivitiesHeader {
 	height: $dayHeaderHeight;
-	background-color: $parkedActivitiesBackground;
-	padding: 5px;
+	padding-top: $standardSpace;
 }
-
 
 .activityList {
 	margin: 5px;
 	min-height: 20px;
 	min-width: $listWidth;
-	background-color: $activityListBackground;
-	max-height: 500px;
 	border-radius: $borderRadius;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .parkedActivityList {
@@ -144,6 +138,8 @@ a:hover {
 	font-size: 14pt;
 	cursor: pointer;
 }
+
+
 
 /*.buttonImage {
 	margin-top: 6px;
@@ -210,40 +206,24 @@ a:hover {
 	background-color: $lightGray;
 }*/
 
-#addDay {
-	border-radius: $borderRadius;
-	background-color: $buttonClr;
-	position: fixed;
-	top: 10px;
-	right: 185px;
-	border: none;
-	padding-top: 0px;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: #ffffff;
-	font-size: 14pt;
-	cursor: pointer;
+#daysViewContainer {
+	overflow: auto;
+	padding: $standardSpace;
 }
 
 #daysView {
-	/*background-color: white;*/
-	margin-top: $headerHeight + 10px;
-	margin-left: 265px;
 	height: 100%;
-	width: 3000px;
-	position: absolute;
+	overflow: hidden;
 }
 
 .day {
 	border-radius: $borderRadius;
-	background-color: $dayBackground;
-	width: $listWidth + 20px;
+	background-color: $lightGray;
+	width: $listWidth + $listMargin;
 	max-height: 100%;
 	min-height: 250px;
 	float: left;
-	margin-left: 5px;
-	margin-right: 0px;
-	padding-bottom: 10px;
+	margin-right: $standardSpace;
 	/*border: 1px solid $gray;*/
 }
 
@@ -319,6 +299,13 @@ a:hover {
 
 .badBtn {
 	background-color: red;
+}
+
+.smallBtn {
+	font-size: 10pt;
+	padding: 0;
+	height: 25px;
+	min-width: 35px
 }
 
 .modal_overlay {
@@ -462,6 +449,7 @@ a:hover {
 	border-radius: $borderRadius;
 	cursor: pointer;
 	padding: 2px;
+	margin-top: 20px;
 	margin-bottom: 15px;
 	overflow: hidden;
 	border-collapse: collapse;
@@ -530,30 +518,43 @@ a:hover {
 .title {
 	font-size: 14pt;
 	margin-top: 1pt;
-	margin-left: 5px;
-	margin-bottom: 20px;
 	overflow: hidden;
 	color: $lightGray;
 }
 
 #scheduleTitleInput {
+	margin-top: -2px;
+	margin-left: 7px;
 	font-size: 14pt;
 }
 
 .scheduleViewTop {
-	margin-top: 3px;
-	margin-left: 7px;
+	position: absolute;
+	top: $standardSpace + 2;
+	left: 7px;
 }
 
-.scheduleViewTop tr {
-	height: 40px;
+.scheduleViewTopItem {
+	float: left;
+	height: 25px;
 	vertical-align: middle;
 }
 
+#scheduleTitle {
+	margin-left: $standardSpace;
+}
+
+#addDay {
+	position: absolute;
+	width: 60px;
+	right: 190px;
+	top: 12px;
+}
+
 .infoBox {
-	position: fixed;
-	top: 5px;
+	position: absolute;
 	right: 5px;
+	top: 5px;
 	height: 37px;
 	width: 170px;
 	padding-left: 3px;
@@ -561,12 +562,10 @@ a:hover {
 	font-size: 8pt;
 	border-radius: $borderRadius;
 	border: 1px solid $bodyBackground;
-	z-index: 40;
 }
 
 .infoBoxTable td {
 	width: 90px;
-	
 }
 
 .editDay {
