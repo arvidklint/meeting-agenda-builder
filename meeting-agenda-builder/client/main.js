@@ -247,6 +247,9 @@ Template.day.rendered = function() {
 		connectWith: ".connectLists",
 		dropOnEmpty: true,
 		placeholder: "activityPlaceholder",
+		start: function(e,ui){
+			ui.placeholder.height(ui.item.height());
+		},
 		update: function(event, ui) {
 			var $this = $(this);
 			var activities = $this.sortable('toArray');
@@ -257,7 +260,7 @@ Template.day.rendered = function() {
 		},
 		stop: function(e, ui) {
 			var parent = ui.item.parent();
-            var id = parent.attr('id');
+			var id = parent.attr('id');
 			$('.activityList').sortable('refresh');
 		}
 	}).disableSelection();

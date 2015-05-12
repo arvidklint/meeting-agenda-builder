@@ -4,7 +4,7 @@
 			<div class="modal">
 				<div class="popupHeader">
 					<div class="popupHeader_title">
-						Edit day {{dayNumber}}
+						Edit day {{dayNumber}} <b>{{day.dayTitle}}</b>
 					</div>
 					<div class="popupHeader_button">
 						X
@@ -13,7 +13,7 @@
 
 				<form class="popupForm">
 					<label class="modalLabel" for="dayTitle">Title</label>
-					<input class="modalinput" type="text" name="dayTitle" value="{{day.dayTitle}}"/>
+					<input class="modalinput" type="text" name="dayTitle" value="{{day.dayTitle}}" autofocus/>
 					<label class="modalLabel" for="startTime">Start time</label>
 					{{> timeSelectors}}
 					

@@ -186,12 +186,14 @@ a:hover {
 	margin-right: auto;
 	height: 1px;
 	width: $activityWidth;
-	background-color: $almostBlack;
+	background-color: $darkGray;
+	border-radius: $borderRadius;
 }
 
 .activityLocation {
 	padding: 3px;
 	font-size: 10pt;
+	font-style: italic;
 }
 
 .activityDescription {
@@ -653,7 +655,12 @@ a:hover {
 	float: none;
 	color: red;
 	margin-left: 165px;
-	margin-top: 67px;
+	margin-top: 64px;
+	padding: 2px;
+	background-color: $lightGray;
+	border-radius: $borderRadius;
+	z-index: 500;
+	border: solid 1px $darkGray;
 
 	opacity: 0.0;
 	filter: alpha(opacity=0);
