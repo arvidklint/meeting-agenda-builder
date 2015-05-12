@@ -1,40 +1,42 @@
 <template name="listView">
-	<p class="listViewDayTitle">Parked activities</p>
-	<table class="scheduleAsList">
-		<tr class="tableHeader">
-			<th class="col0 leftRoundCorner">
-				Length
-			</th>
-			{{> scheduleListHeader}}
-		</tr>
-		{{#each parkedActivities}}
-			{{> activity_listView}}
-		{{/each}}
-	</table>
-
-	{{#each days}}
-		<div class="listViewDayTitle">Day {{dayNumber}}</div>
-		<div class="listViewDayInfo">
-			{{#if this.dayTitle}}"{{this.dayTitle}}" | {{/if}}
-			{{#if this.date}}{{this.date.year}}-{{this.date.month}}-{{this.date.day}} | {{/if}}
-			Start: {{startTimeHuman}} | 
-			Length: {{dayLength}} | 
-			End: {{dayEnd}} | 
-			<span class="editDay_listView">✎</span>
-		</div>
-
+	<div class="listViewFrame">
+		<div class="listViewDayTitle">Parked activities</div>
 		<table class="scheduleAsList">
-			<tr>
+			<tr class="tableHeader">
 				<th class="col0 leftRoundCorner">
-					Start time
+					Length
 				</th>
 				{{> scheduleListHeader}}
 			</tr>
-			{{#each activities}}
+			{{#each parkedActivities}}
 				{{> activity_listView}}
 			{{/each}}
 		</table>
-	{{/each}}
+
+		{{#each days}}
+			<div class="listViewDayTitle">Day {{dayNumber}}</div>
+			<div class="listViewDayInfo">
+				{{#if this.dayTitle}}"{{this.dayTitle}}" | {{/if}}
+				{{#if this.date}}{{this.date.year}}-{{this.date.month}}-{{this.date.day}} | {{/if}}
+				Start: {{startTimeHuman}} | 
+				Length: {{dayLength}} | 
+				End: {{dayEnd}} | 
+				<span class="editDay_listView">✎</span>
+			</div>
+
+			<table class="scheduleAsList">
+				<tr>
+					<th class="col0 leftRoundCorner">
+						Start time
+					</th>
+					{{> scheduleListHeader}}
+				</tr>
+				{{#each activities}}
+					{{> activity_listView}}
+				{{/each}}
+			</table>
+		{{/each}}
+	</div>
 </template>
 
 <template name="activity_listView">

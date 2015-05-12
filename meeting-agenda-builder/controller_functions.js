@@ -104,13 +104,19 @@ logout = function() {
 }
 
 setContentSize = function() {
-	var contentHeight = $(window).height() - HEADER_HEIGHT - 2*STANDARD_SPACE;
-	var parkedActivitiesListHeight = contentHeight - DAY_HEADER_HEIGHT;
-	var dayActivityListHeight = parkedActivitiesListHeight - 4*STANDARD_SPACE;
-	$("#parkedActivitiesView").height(contentHeight + "px");
-	$("#daysViewContainer").height(contentHeight + "px");
-	$(".dayActivityList").css("max-height", dayActivityListHeight + "px");
-	$(".parkedActivityList").height(parkedActivitiesListHeight - 5 + "px");
+	if (!Session.get("viewAsList")) {
+		var contentHeight = $(window).height() - HEADER_HEIGHT - 2*STANDARD_SPACE;
+		var parkedActivitiesListHeight = contentHeight - DAY_HEADER_HEIGHT;
+		var dayActivityListHeight = parkedActivitiesListHeight - 4*STANDARD_SPACE;
+		$("#parkedActivitiesView").height(contentHeight + "px");
+		$("#daysViewContainer").height(contentHeight + "px");
+		$(".dayActivityList").css("max-height", dayActivityListHeight + "px");
+		$(".parkedActivityList").height(parkedActivitiesListHeight - 5 + "px");
+	} else {
+		var contentHeight = $(window).height() - HEADER_HEIGHT - STANDARD_SPACE;
+		$('.listViewFrame').height(contentHeight + "px");
+	}
+		
 }
 
 getDaysViewWidth = function() {

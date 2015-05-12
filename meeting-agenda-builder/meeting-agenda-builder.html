@@ -155,9 +155,11 @@
 			<div class="dayName">
 				{{#if addDayTitle}}{{dayTitle}}{{/if}}
 			</div>
-			{{#if addWeather}}
-				{{> weather}}
-			{{/if}}
+			<div class="weather">
+				{{#if addWeather}}
+					{{> weather}}
+				{{/if}}
+			</div>
 			<table class="dayInfoTable">
 				<tr>
 					<td colspan="2">
