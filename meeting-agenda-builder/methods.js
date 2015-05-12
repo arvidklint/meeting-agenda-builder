@@ -14,7 +14,7 @@ Meteor.methods({
 	},
 	editSchedule: function(scheduleID, newTitle, numDays) {
 		if (newTitle) {
-			Schedules.update( {"_id": scheduleID}, {$set: {scheduleTitle: newTitle}} );
+			Schedules.update( {"_id": scheduleID}, {$set: {'scheduleTitle': newTitle}} );
 		}
 
 		if (numDays) {
@@ -28,6 +28,9 @@ Meteor.methods({
 
 			// ej klar än
 		}
+	},
+	updateSchedulePos: function(scheduleID, position) {
+		Schedules.update({'_id': scheduleID}, {$set: {'position': position}});
 	},
 	addDay: function(day) {
 		Days.insert(day);

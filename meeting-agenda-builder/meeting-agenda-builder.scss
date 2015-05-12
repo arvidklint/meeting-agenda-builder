@@ -138,6 +138,8 @@ a:hover {
 	cursor: pointer;
 }
 
+
+
 /*.buttonImage {
 	margin-top: 6px;
 }*/
@@ -146,7 +148,7 @@ a:hover {
 	border-radius: $borderRadius;
 	width: $activityWidth;
 	height: 100%;
-	background-color: $gray;
+	background-color: $activityInfoBackground;
 	margin-top: 2px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -202,21 +204,6 @@ a:hover {
 	height: 40px;
 	background-color: $lightGray;
 }*/
-
-#addDay {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
-	background-color: $buttonClr;
-	border: none;
-	padding: 8px;
-	color: #ffffff;
-	font-size: 14pt;
-	cursor: pointer;
-	margin-top: 100px;
-	margin-left: 20px;
-	float: left;
-}
 
 #daysViewContainer {
 	overflow: auto;
@@ -307,6 +294,13 @@ a:hover {
 
 .badBtn {
 	background-color: red;
+}
+
+.smallBtn {
+	font-size: 10pt;
+	padding: 0;
+	height: 25px;
+	min-width: 35px
 }
 
 .modal_overlay {
@@ -434,7 +428,7 @@ a:hover {
 	margin-top: $activityTypeColorMargin;
 }
 
-#scheduleList {
+#scheduleListContainer {
 	background-color: $almostBlack;
 	border-radius: $borderRadius;
 	padding: 5px;
@@ -450,6 +444,7 @@ a:hover {
 	border-radius: $borderRadius;
 	cursor: pointer;
 	padding: 2px;
+	margin-top: 20px;
 	margin-bottom: 15px;
 	overflow: hidden;
 	border-collapse: collapse;
@@ -463,6 +458,7 @@ a:hover {
 }
 
 .scheduleListTable tr {
+	background-color: $lightGray;
 	border-bottom: 1px solid $gray;
 	height: 30px;
 }
@@ -517,25 +513,37 @@ a:hover {
 .title {
 	font-size: 14pt;
 	margin-top: 1pt;
-	margin-left: 5px;
-	margin-bottom: 20px;
 	overflow: hidden;
 	color: $lightGray;
 }
 
 #scheduleTitleInput {
+	margin-top: -2px;
+	margin-left: 7px;
 	font-size: 14pt;
 }
 
 .scheduleViewTop {
 	position: absolute;
-	top: 3px;
+	top: $standardSpace + 2;
 	left: 7px;
 }
 
-.scheduleViewTop tr {
-	height: 40px;
+.scheduleViewTopItem {
+	float: left;
+	height: 25px;
 	vertical-align: middle;
+}
+
+#scheduleTitle {
+	margin-left: $standardSpace;
+}
+
+#addDay {
+	position: absolute;
+	width: 60px;
+	right: 190px;
+	top: 12px;
 }
 
 .infoBox {

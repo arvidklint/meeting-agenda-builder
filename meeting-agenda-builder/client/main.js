@@ -44,6 +44,9 @@ Template.header.events({
 		Meteor.call("editSchedule", Session.get("currentSchedule"), newName, null);
 		Session.set("editScheduleTitle", false);
 		return false;
+	},
+	"click #addDay": function() {
+		Session.set("addDayModal", true);
 	}
 });
 
@@ -55,12 +58,6 @@ Template.daysView.helpers({
 	daysViewWidth: function() {
 		console.log(getDaysViewWidth());
 		return getDaysViewWidth();
-	}
-});
-
-Template.daysView.events({
-	"click #addDay": function() {
-		Session.set("addDayModal", true);
 	}
 });
 
@@ -245,6 +242,7 @@ Template.minutesList.helpers({
 });
 
 Template.day.rendered = function() {
+
 	$('#daysList').sortable({
 		update: function(event, ui) {
 			var $this = $(this);

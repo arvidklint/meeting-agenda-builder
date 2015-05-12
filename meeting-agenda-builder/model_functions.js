@@ -10,9 +10,13 @@ testFunc = function() {
 }
 
 getSchedules = function(user) {
-	schedules = Schedules.find({"owner": user._id}).fetch();
+	schedules = Schedules.find({"owner": user._id}, {'sort': {'position': 1}}).fetch();
 
 	return schedules;
+}
+
+getNumberOfSchedules = function(userID) {
+	return Schedules.find({'owner': userID}).count();
 }
 
 

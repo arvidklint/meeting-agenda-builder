@@ -9,9 +9,10 @@ Activity = function(scheduleID, position, parentList, title, length, type, locat
 	this.parentList = parentList;
 }
 
-Schedule = function(userID, title) {
+Schedule = function(userID, position, title) {
 	this.owner = userID;
 	this.scheduleTitle = title;
+	this.position = position;
 }
 
 // Template for schedule objects

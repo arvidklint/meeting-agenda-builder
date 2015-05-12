@@ -182,12 +182,35 @@ Template.schedules.helpers({
 	}
 });
 
+Template.schedules.rendered = function() {
+	$('#scheduleList tbody').sortable({
+		helper: function(e, ui) {
+			ui.children().each(function() {
+				$(this).width($(this).width());
+			});
+			return ui;
+		},
+		update: function(event, ui) {
+			var $this = $(this);
+			var schedules = $this.sortable('toArray');
+
+			_.each(schedules, function(scheduleID, index) {
+				Meteor.call("updateSchedulePos", scheduleID, index);
+			});
+		}
+	}).disableSelection();
+
+	console.log("schedules rendered");
+};
+
 Template.newSchedule.events({
 	"click .closeNewScheduleModal": function() {
 		Session.set("newScheduleModal", false);
 	},
 	"submit .popupForm": function(event) {
-		var newSchedule = new Schedule(Meteor.user()._id, event.target.scheduleName.value);
+		console.log("submit");
+		var position = getNumberOfSchedules(Meteor.user()._id);
+		var newSchedule = new Schedule(Meteor.user()._id, position, event.target.scheduleName.value);
 		Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
 			console.log("lägger till dag");
 			for (var i = 0; i < event.target.numberOfDays.value; i++) {
