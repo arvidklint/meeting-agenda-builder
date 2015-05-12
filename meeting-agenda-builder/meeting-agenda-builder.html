@@ -126,13 +126,15 @@
 </template>
 
 <template name="daysView">
-	<div id="daysView">
-		<ul id="daysList">
-			{{#each days}}
-				{{> day}}
-			{{/each}}
-		</ul>
-		<button id="addDay">✚ Day</button>
+	<div id="daysViewContainer">
+		<div id="daysView" style="width: {{daysViewWidth}}px">
+			<ul id="daysList">
+				{{#each days}}
+					{{> day}}
+				{{/each}}
+			</ul>
+			<button id="addDay">✚ Day</button>
+		</div>
 	</div>
 
 	{{> diagramExplanationModal}}

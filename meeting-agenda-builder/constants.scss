@@ -10,7 +10,6 @@ $orange: #FD7400;
 $lightGreen: #BEDB39;
 $lightBlue: #2e93c2;
 $veryLightBlue: #9FBFD5;
-$activityTitleHeight: 17px;
 
 
 /*Color scheme*/
@@ -43,6 +42,7 @@ $discussion: $green;
 }
 
  /*Standard sizes */
+$standardSpace: 10px;
 $activityWidth: 240px;
 $dayHeaderHeight: 100px;
 $listWidth: 250px;
@@ -52,5 +52,7 @@ $activityInfoTop: 5px;
 $activityTypeColorMargin: 4px;
 $borderRadius: 5px;
 $headerHeight: 50px;
+$activityTitleHeight: 17px;
+$listMargin: 20px;
 
 $fadeTime: 0.1s;

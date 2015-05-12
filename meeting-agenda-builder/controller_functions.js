@@ -102,3 +102,18 @@ logout = function() {
 
 	Meteor.logout();
 }
+
+setContentSize = function() {
+	var contentHeight = $(window).height() - HEADER_HEIGHT - 2*STANDARD_SPACE;
+	var parkedActivitiesListHeight = contentHeight - DAY_HEADER_HEIGHT;
+	var dayActivityListHeight = parkedActivitiesListHeight - 4*STANDARD_SPACE;
+	$("#parkedActivitiesView").height(contentHeight + "px");
+	$("#daysViewContainer").height(contentHeight + "px");
+	$(".dayActivityList").css("max-height", dayActivityListHeight + "px");
+	$(".parkedActivityList").height(parkedActivitiesListHeight - 5 + "px");
+}
+
+getDaysViewWidth = function() {
+	var width = (DAY_WIDTH + STANDARD_SPACE) * getNumberOfDays(Session.get("currentSchedule"));
+	return width;
+}
