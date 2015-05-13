@@ -9,7 +9,7 @@ Meteor.methods({
 		if (schedule.owner === Meteor.user()._id) {
 			Schedules.remove(schedule._id);
 		} else {
-			throw new Error("You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
+			throw new Message("Error", "You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
 		}
 	},
 	editSchedule: function(scheduleID, newTitle, numDays) {

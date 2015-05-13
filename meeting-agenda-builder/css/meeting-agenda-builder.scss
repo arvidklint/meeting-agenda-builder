@@ -679,6 +679,10 @@ a:hover {
 	background-color: red;
 }
 
+.diagramInfoContainer {
+	position: relative;
+}
+
 .diagramInfo {
 	font-size: 8pt;
 	position: absolute;
@@ -703,11 +707,11 @@ a:hover {
 	-ms-transition: all $fadeTime linear;
 	transition: all $fadeTime linear;
 
-	-webkit-transition-delay: 0.2s; /* Safari */
+	-webkit-transition-delay: 0.2s;
     transition-delay: 0.2s;
 }
 
-.diagramContainer:hover + .diagramInfo {
+.diagramContainer:hover + .diagramInfoContainer .diagramInfo {
 	opacity: 1.0;
 	filter: alpha(opacity=100);
 }

@@ -76,10 +76,16 @@ Template.newSchedule.events({
 		if (!(scheduleName === "")) {
 			var position = getNumberOfSchedules(Meteor.user()._id);
 			var newSchedule = new Schedule(Meteor.user()._id, position, event.target.scheduleName.value);
-			Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
-				Meteor.call("addSeveralDays", scheduleID, event.target.numberOfDays.value);
-				openSchedule(scheduleID);
-			});
+			try {
+				Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
+					Meteor.call("addSeveralDays", scheduleID, event.target.numberOfDays.value);
+					openSchedule(scheduleID);
+					if (error) throw new Message("Error", error.message);
+				});
+			} catch(error) {
+				messageBox(error);
+			}
+
 			Session.set("newScheduleModal", false);
 		} else {
 			messageBox(new Message("Title required", "Schedules are required to have a title."));
@@ -110,8 +116,8 @@ Template.deleteSchedule.events({
 		try {
 			Meteor.call("deleteSchedule", Session.get("scheduleToDelete")._id);
 			stopDeletingSchedule();
-		} catch(e) {
-			alert(e.message);
+		} catch(error) {
+			messageBox(error);
 		}
 
 		return false;
