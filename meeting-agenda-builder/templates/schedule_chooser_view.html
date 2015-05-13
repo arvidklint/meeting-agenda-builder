@@ -1,4 +1,7 @@
 <template name="schedules">
+	{{> newSchedule}}
+	{{> deleteSchedule}}
+
 	<div id="userInfo">
 		<img src="user.png"/>
 		<span id="user">{{user}}</span><br/>
@@ -55,44 +58,48 @@
 </template>
 
 <template name="newSchedule">
-	<div class="modal_overlay">
-		<div class="modal">
-			<div class="popupHeader">
-				<div class="popupHeader_title">
-					Create new schedule
+	{{#if newScheduleModal}}
+		<div class="modal_overlay">
+			<div class="modal">
+				<div class="popupHeader">
+					<div class="popupHeader_title">
+						Create new schedule
+					</div>
+					<div class="popupHeader_button closeNewScheduleModal">
+						X
+					</div>
 				</div>
-				<div class="popupHeader_button closeNewScheduleModal">
-					X
-				</div>
-			</div>
 
-			<form class="popupForm">
-				<input class="modalinput" type="text" name="scheduleName" placeholder="Schedule name" required="true"/>
-				<label class="modalLabel" for="numberOfDays">Number of days</label>
-				<input class="modalinput" type="number" name="numberOfDays" min="0" value="1" required="true"/>
-				<button class="btn" type="submit">Create new</button>
-			</form>
+				<form class="popupForm">
+					<input class="modalinput" type="text" name="scheduleName" placeholder="Schedule name" required="true" autofocus="autofocus"/>
+					<label class="modalLabel" for="numberOfDays">Number of days</label>
+					<input class="modalinput" type="number" name="numberOfDays" min="0" value="1" required="true"/>
+					<button class="btn" type="submit">Create new</button>
+				</form>
+			</div>
 		</div>
-	</div>
+	{{/if}}
 </template>
 
 <template name="deleteSchedule">
-	<div class="modal_overlay">
-		<div class="modal">
-			<div class="popupHeader">
-				<div class="popupHeader_title">
-					Delete schedule
+	{{#if deleteScheduleModal}}
+		<div class="modal_overlay">
+			<div class="modal">
+				<div class="popupHeader">
+					<div class="popupHeader_title">
+						Delete schedule
+					</div>
+					<div class="popupHeader_button closeDeleteScheduleModal">
+						X
+					</div>
 				</div>
-				<div class="popupHeader_button closeDeleteScheduleModal">
-					X
-				</div>
-			</div>
 
-			<form class="popupForm">
-				Are you sure you want to delete the schedule "{{scheduleTitle}}"? The schedule contains {{numDays}} days. The action can not be undone.<br/>
-				<button class="btn closeDeleteScheduleModal">Cancel</button>
-				<button class="btn badBtn" type="submit">Delete</button>
-			</form>
+				<form class="popupForm">
+					Are you sure you want to delete the schedule "{{scheduleTitle}}"? The schedule contains {{numDays}} days. The action can not be undone.<br/>
+					<button class="btn closeDeleteScheduleModal">Cancel</button>
+					<button class="btn badBtn" type="submit">Delete</button>
+				</form>
+			</div>
 		</div>
-	</div>
+	{{/if}}
 </template>

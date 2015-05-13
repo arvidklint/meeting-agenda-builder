@@ -23,6 +23,9 @@ Template.header.events({
 	"dblclick #scheduleTitle": function() {
 		Session.set("editScheduleTitle", true);
 	},
+	"click #editScheduleName": function() {
+		Session.set("editScheduleTitle", true);
+	},
 	"submit #scheduleTitleForm": function(event) {
 		var newName = event.target.scheduleTitle.value;
 		Meteor.call("editSchedule", Session.get("currentSchedule"), newName, null);

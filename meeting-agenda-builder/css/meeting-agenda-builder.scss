@@ -306,7 +306,7 @@ a:hover {
 	padding:0;
 	padding-right: $standardSpace;
 	padding-left: $standardSpace;
-	height: 25px;
+	height: 27px;
 	min-width: 35px
 }
 
@@ -536,6 +536,26 @@ a:hover {
 	position: absolute;
 	top: $standardSpace + 2;
 	left: 7px;
+}
+
+#editScheduleName {
+	float: left;
+	color: white;
+	margin-top: 5px;
+	margin-left: $standardSpace;
+	opacity: 0.0;
+	cursor: pointer;
+
+	-o-transition: all $fadeTime linear;
+	-moz-transition: all $fadeTime linear;
+	-khtml-transition: all $fadeTime linear;
+	-webkit-transition: all $fadeTime linear;
+	-ms-transition: all $fadeTime linear;
+	transition: all $fadeTime linear;
+}
+
+#header:hover #editScheduleName {
+	opacity: 1.0;
 }
 
 .scheduleViewTopItem {

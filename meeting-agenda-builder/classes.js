@@ -40,3 +40,8 @@ SimpleDate = function(year, month, day) {
 	this.month = month;
 	this.day = day;
 }
+
+Message = function(messageTitle, messageDescription) {
+	this.messageTitle = messageTitle;
+	this.messageDescription = messageDescription;
+}

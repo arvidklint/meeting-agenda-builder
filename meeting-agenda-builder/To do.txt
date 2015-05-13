@@ -47,5 +47,7 @@ Try och chatch
 Testa efter buggar
 
 Buggar
+Gör schedule name obligatoriskt
+Penn-symbol när man pekar på schemanamnet för att redigera
 Redigera aktiviteter i listvy
 Uppdatera position när dagar raderas/flyttas

@@ -20,33 +20,6 @@ Template.loginView.rendered = function() {
 Template.loginView.helpers({
 	loggedIn: function() {
 		return Session.get("loggedIn");
-	},
-	newScheduleModal: function() {
-		return Session.get("newScheduleModal");
-	},
-	deleteScheduleModal: function() {
-		return Session.get("deleteScheduleModal");
-	}
-});
-
-Template.loginView.events({
-	"click .scheduleListClickable": function() {
-		openSchedule(this._id);
-		return false;
-	},
-	"click #newSchedule": function() {
-		Session.set("newScheduleModal", true);
-	},
-	"click .deleteSchedule": function() {
-		Session.set("deleteScheduleModal", true);
-		Session.set("scheduleToDelete", this);
-	},
-	"click #logOut": function() {
-		logout();
-		return false;
-	},
-	"click #changePassword": function() {
-		Session.set("changePassword", true);
 	}
 });
 

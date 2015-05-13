@@ -3,6 +3,7 @@ Meteor.subscribe("activities");
 Meteor.subscribe("days");
 
 Session.set("weatherError", "");
+Session.set("message", null);
 
 $(window).resize(function() {
 	setContentSize();
@@ -118,4 +119,12 @@ setContentSize = function() {
 getDaysViewWidth = function() {
 	var width = (DAY_WIDTH + STANDARD_SPACE) * getNumberOfDays(Session.get("currentSchedule"));
 	return width;
+}
+
+messageBox = function(message) {
+	Session.set("message", message);
+}
+
+closeMessageBox = function() {
+	Session.set("message", null)
 }

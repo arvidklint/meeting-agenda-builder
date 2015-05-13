@@ -1,0 +1,24 @@
+<template name="messageBox">
+	{{#if message}}
+	
+		<div class="modal_overlay">
+			<div class="modal">
+				<div class="popupHeader">
+					<div class="popupHeader_title">
+						{{messageTitle}}
+					</div>
+					<div class="popupHeader_button closeMessageBox">
+						X
+					</div>
+				</div>
+
+				<form class="popupForm">
+					{{messageDescription}}
+						<br/>
+					<button class="btn closeMessageBox">OK</button>
+				</form>
+			</div>
+		</div>
+
+	{{/if}}
+</template>

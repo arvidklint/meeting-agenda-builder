@@ -39,24 +39,60 @@ Template.schedules.helpers({
 	}
 });
 
+Template.schedules.events({
+	"click .scheduleListClickable": function() {
+		openSchedule(this._id);
+		return false;
+	},
+	"click #newSchedule": function() {
+		Session.set("newScheduleModal", true);
+	},
+	"click .deleteSchedule": function() {
+		Session.set("deleteScheduleModal", true);
+		Session.set("scheduleToDelete", this);
+	},
+	"click #logOut": function() {
+		logout();
+		return false;
+	},
+	"click #changePassword": function() {
+		Session.set("changePassword", true);
+	}
+});
+
+Template.newSchedule.helpers({
+	newScheduleModal: function() {
+		return Session.get("newScheduleModal");
+	}
+});
+
 Template.newSchedule.events({
 	"click .closeNewScheduleModal": function() {
 		Session.set("newScheduleModal", false);
 	},
 	"submit .popupForm": function(event) {
-		var position = getNumberOfSchedules(Meteor.user()._id);
-		var newSchedule = new Schedule(Meteor.user()._id, position, event.target.scheduleName.value);
-		Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
-			Meteor.call("addSeveralDays", scheduleID, event.target.numberOfDays.value);
-			openSchedule(scheduleID);
-		});
-		Session.set("newScheduleModal", false);
+		var scheduleName = event.target.scheduleName.value;
 
+		if (!(scheduleName === "")) {
+			var position = getNumberOfSchedules(Meteor.user()._id);
+			var newSchedule = new Schedule(Meteor.user()._id, position, event.target.scheduleName.value);
+			Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
+				Meteor.call("addSeveralDays", scheduleID, event.target.numberOfDays.value);
+				openSchedule(scheduleID);
+			});
+			Session.set("newScheduleModal", false);
+		} else {
+			messageBox(new Message("Title required", "Schedules are required to have a title."));
+		}
+		
 		return false;
 	}
 });
 
 Template.deleteSchedule.helpers({
+	deleteScheduleModal: function() {
+		return Session.get("deleteScheduleModal");
+	},
 	scheduleTitle: function() {
 		return Session.get("scheduleToDelete").scheduleTitle;
 	},

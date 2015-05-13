@@ -4,14 +4,6 @@
 	{{else}}
 		{{> loginForm}}
 	{{/if}}
-
-	{{#if newScheduleModal}}
-		{{> newSchedule}}
-	{{/if}}
-
-	{{#if deleteScheduleModal}}
-		{{> deleteSchedule}}
-	{{/if}}
 </template>
 
 <template name="loginForm">
@@ -20,7 +12,7 @@
 	{{#if createAccount}}
 		<form id="createAccountForm">
 			<div class="loginForm">
-				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="email" placeholder="E-mail" name="email" id="email" autofocus="autofocus"/>
 				<input type="password" placeholder="Password" name="password"/>
 				<div class="errorText">{{loginError}}</div>
 				<button type="submit" class="btn">Create</button>
@@ -34,7 +26,7 @@
 	{{else}} {{#if forgotPassword}}
 		<form id="forgotPasswordForm">
 			<div class="loginForm">
-				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="email" placeholder="E-mail" name="email" id="email" autofocus="autofocus"/>
 				<div class="errorText {{friendly}}">{{loginError}}</div>
 				<div class="additionalFuckingDataIfOnly1FieldInLoginForm">
 					<button type="submit" class="btn">Send reset instructions</button>
@@ -49,7 +41,7 @@
 	{{else}} {{#if resetPassword}}
 		<form id="resetPasswordForm">
 			<div class="loginForm">
-				<input type="password" placeholder="Password" name="newPassword"/>
+				<input type="password" placeholder="New password" name="newPassword" autofocus="autofocus"/>
 				<div class="errorText">{{loginError}}</div>
 				<div class="additionalFuckingDataIfOnly1FieldInLoginForm">
 					<button type="submit" class="btn">Change password</button>
@@ -64,7 +56,7 @@
 	{{else}}
 		<form id="loginForm">
 			<div class="loginForm">
-				<input type="email" placeholder="E-mail" name="email" id="email"/>
+				<input type="email" placeholder="E-mail" name="email" id="email" autofocus="autofocus"/>
 				<input type="password" placeholder="Password" name="password"/>
 				<div class="errorText">{{loginError}}</div>
 				<button type="submit" class="btn">Sign in</button>
