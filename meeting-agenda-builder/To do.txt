@@ -52,3 +52,5 @@ Buggar
 -Redigera aktiviteter i listvy
 -Uppdatera position när dagar raderas/flyttas
 -Ska inte gå att dra i något när en modal är uppe
+-Uppdatera position när dagar raderas/flyttas
+-“30% breaks” är fixed position.

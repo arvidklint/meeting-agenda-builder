@@ -37,6 +37,17 @@ getNewActivityPosition = function(scheduleID, parentList) {
 	return getActivities(scheduleID, parentList).length;
 }
 
+updateActivitiesPosition = function(parentList) {
+	var activitiesIDArray = [];
+	$('#' + parentList).find('li').each(function(){
+		activitiesIDArray.push($(this).attr('id')); 
+	});
+	_.each(activitiesIDArray, function(activityID, index){
+		console.log(activityID + ", " + index);
+		Meteor.call("updateActivityPos", activityID, parentList, index);
+	});
+}
+
 getDays = function(scheduleID) {
 	return Days.find({'scheduleID': scheduleID}, {'sort': {'position': 1}}).fetch();
 }
@@ -51,6 +62,17 @@ getDay = function(dayID) {
 
 getNewDayPosition = function(scheduleID) {
 	return getDays(scheduleID).length;
+}
+
+updateDaysPosition = function() {
+	var daysIDArray = [];
+	$('#daysList').find('.day').each(function(){
+		daysIDArray.push($(this).attr('id')); 
+	});
+	_.each(daysIDArray, function(dayID, index) {
+		console.log(dayID + ", " + index);
+		Meteor.call("updateDayPos", dayID, index);
+	});
 }
 
 getScheduleInfo = function(scheduleID) {
