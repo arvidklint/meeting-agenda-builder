@@ -33,8 +33,10 @@ Template.listView.helpers({
 
 Template.listView.events({
 	"click .editDay_listView": function() {
-		console.log("click")
-		editDay(this._id);w
+		editDay(this._id);
+	},
+	"click .editActivity_listView": function() {
+		editActivity(this._id);
 	}
 });
 
