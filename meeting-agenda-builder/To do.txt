@@ -19,7 +19,7 @@ URL field in activities
 -Good-looking interface for schedule
 -Good-looking interface for login view
 -År längre fram
-Drag runt scheman
+-Drag runt scheman
 När man raderar dag – flytta alla dess aktiviteter till Parked activities
 
 -Design schedule chooser view
@@ -42,7 +42,7 @@ Automatically focus input boxes where appropriate, e.g. Title when creating new 
 Weather not found - grå ruta
 Ha en standardrast som alltid går att dra in någonstans ifrån?
 Duplicera dagar
-Välj slutgiltig design
+-Välj slutgiltig design
 Try och chatch
 Testa efter buggar
 
@@ -50,4 +50,5 @@ Buggar
 -Gör schedule name obligatoriskt
 -Penn-symbol när man pekar på schemanamnet för att redigera
 -Redigera aktiviteter i listvy
-Uppdatera position när dagar raderas/flyttas
+-Uppdatera position när dagar raderas/flyttas
+-Ska inte gå att dra i något när en modal är uppe

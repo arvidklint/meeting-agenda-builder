@@ -224,6 +224,7 @@ a:hover {
 	min-height: 250px;
 	float: left;
 	margin-right: $standardSpace;
+	overflow: hidden;
 	/*border: 1px solid $gray;*/
 }
 
@@ -233,7 +234,7 @@ a:hover {
 
 .dayHeader {
 	height: $dayHeaderHeight;
-	border-radius: 5px 5px 0px 0px;
+	/*border-radius: $borderRadius $borderRadius 0px 0px;*/
 	/*border-bottom: 1px solid $lightGray;*/
 	background-color: $gray;
 	padding: 5px
@@ -669,9 +670,8 @@ a:hover {
 	height: $dayHeaderHeight + 10;
 	margin-right: -5px;
 	margin-top: -5px;
-	overflow: hidden;
 	cursor: help;
-	border-top-right-radius: $borderRadius;
+	overflow: hidden;
 }
 
 .diagram {
@@ -693,7 +693,7 @@ a:hover {
 	padding: 2px;
 	background-color: $lightGray;
 	border-radius: $borderRadius;
-	z-index: 500;
+	z-index: 100;
 	border: solid 1px $darkGray;
 
 	opacity: 0.0;
@@ -716,6 +716,15 @@ a:hover {
 	filter: alpha(opacity=100);
 }
 
+.diagramLine {
+	background-color: red;
+	position: absolute;
+	height: 2px;
+	width: 36px;
+	margin-left: -3px;
+	top: ($dayHeaderHeight + 10) * 0.7;
+}
+
 /* I cant understand why, but these must be defined here again, despite also being defined in constants */
 
 .presentation {
@@ -734,11 +743,3 @@ a:hover {
 	background-color: $break;
 }
 
-.diagramLine {
-	background-color: red;
-	position: absolute;
-	height: 2px;
-	width: 36px;
-	margin-left: -3px;
-	top: ($dayHeaderHeight + 10) * 0.7;
-}
