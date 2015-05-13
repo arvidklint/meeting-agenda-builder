@@ -45,3 +45,7 @@ Duplicera dagar
 Välj slutgiltig design
 Try och chatch
 Testa efter buggar
+
+Buggar
+Redigera aktiviteter i listvy
+Uppdatera position när dagar raderas/flyttas

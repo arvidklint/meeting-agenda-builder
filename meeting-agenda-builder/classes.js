@@ -15,14 +15,13 @@ Schedule = function(userID, position, title) {
 	this.position = position;
 }
 
-// Template for schedule objects
 emptySchedule = function() {
 	this.scheduleTitle = "";
 	this.owner = "";
 }
 
-// Template for day objects
 Day = function(scheduleID, position, title, startTime, date, displayWeather) {
+	position = typeof position !== 'undefined' ? position : getNewDayPosition(scheduleID);
 	title = typeof title !== 'undefined' ? title : "";
 	startTime = typeof startTime !== 'undefined' ? startTime : 540;
 	date = typeof date !== 'undefined' ? date : null;
@@ -41,10 +40,3 @@ SimpleDate = function(year, month, day) {
 	this.month = month;
 	this.day = day;
 }
-
-activityTypes = [
-	{"value": "presentation", "name": "Presentation"},
-	{"value": "group_work", "name": "Group work"},
-	{"value": "discussion", "name": "Discussion"},
-	{"value": "break", "name": "Break"}
-];

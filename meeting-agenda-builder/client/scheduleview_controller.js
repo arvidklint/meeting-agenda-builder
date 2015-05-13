@@ -1,54 +1,9 @@
-Meteor.subscribe("schedules");
-Meteor.subscribe("activities");
-Meteor.subscribe("days");
-
-Session.set("showPas", true);
 Session.set("addDayModal", false);
 Session.set("activityModal", false);
-
-Session.set("refreshingLists", true);
-
-Session.set("weatherError", "hej");
 
 Template.scheduleView.helpers({
 	viewAsList: function() {
 		return Session.get("viewAsList");
-	}
-});
-
-Template.header.helpers({
-	scheduleTitle: function() {
-		return getScheduleInfo(Session.get("currentSchedule")).scheduleTitle;
-	},
-	editScheduleTitle: function() {
-		return Session.get("editScheduleTitle");
-	},
-	viewAsList: function() {
-		return Session.get("viewAsList");
-	}
-});
-
-Template.header.events({
-	"click #toScheduleChooser": function() {
-		closeSchedule();
-	},
-	"click #toListView": function() {
-		Session.set("viewAsList", true);
-	},
-	"click #toScheduleView": function() {
-		Session.set("viewAsList", false);
-	},
-	"dblclick #scheduleTitle": function() {
-		Session.set("editScheduleTitle", true);
-	},
-	"submit #scheduleTitleForm": function(event) {
-		var newName = event.target.scheduleTitle.value;
-		Meteor.call("editSchedule", Session.get("currentSchedule"), newName, null);
-		Session.set("editScheduleTitle", false);
-		return false;
-	},
-	"click #addDay": function() {
-		Session.set("addDayModal", true);
 	}
 });
 
@@ -58,13 +13,8 @@ Template.daysView.helpers({
 		return days;
 	},
 	daysViewWidth: function() {
-		console.log(getDaysViewWidth());
 		return getDaysViewWidth();
 	}
-});
-
-$(window).resize(function() {
-	setContentSize();
 });
 
 Template.parkedActivitiesView.rendered = function() {
@@ -87,6 +37,47 @@ Template.parkedActivitiesView.events({
 	}
 });
 
+Template.day.rendered = function() {
+	$('#daysList').sortable({
+		placeholder: "day placeholderBackground",
+		start: function(e,ui){
+			ui.placeholder.height(ui.item.height());
+		},
+		update: function(event, ui) {
+			var $this = $(this);
+			var days = $this.sortable('toArray');
+
+			_.each(days, function(dayID, index) {
+				Meteor.call("updateDayPos", dayID, index);
+			});
+		}
+	});
+
+	$('.activityList').sortable({
+		connectWith: ".connectLists",
+		dropOnEmpty: true,
+		placeholder: "activityPlaceholder placeholderBackground",
+		start: function(e,ui){
+			ui.placeholder.height($(ui.item).find('.activityInfo').height());
+		},
+		update: function(event, ui) {
+			var $this = $(this);
+			var activities = $this.sortable('toArray');
+			var parentList = $this.attr('id');
+			_.each(activities, function(activityID, index){
+				Meteor.call("updateActivityPos", activityID, parentList, index);
+			});
+		},
+		stop: function(e, ui) {
+			var parent = ui.item.parent();
+			var id = parent.attr('id');
+			$('.activityList').sortable('refresh');
+		}
+	}).disableSelection();
+
+	setContentSize();
+}
+
 Template.day.helpers({
 	startTimeHuman: function() {
 		return minutesToHuman(this.startTime);
@@ -101,7 +92,7 @@ Template.day.helpers({
 		return minutesToHuman(this.startTime + dayLength(this._id));
 	},
 	addWeather: function() {
-		if(this.date !== null && this.displayWeather) {
+		if (this.date !== null && this.displayWeather) {
 			if(dayInWeatherRange(this.date)) return true;
 		}
 	},
@@ -109,8 +100,7 @@ Template.day.helpers({
 		return this.date.year + "-" + this.date.month + "-" + this.date.day;
 	},
 	addDate: function() {
-		if (this.date) 
-			return true;
+		if (this.date) return true;
 	},
 	addDayTitle: function() {
 		if (this.dayTitle !== "") return true;
@@ -252,50 +242,3 @@ Template.minutesList.helpers({
 		return (this == minute);
 	}
 });
-
-Template.day.rendered = function() {
-
-	$('#daysList').sortable({
-		placeholder: "day placeholderBackground",
-		start: function(e,ui){
-			ui.placeholder.height(ui.item.height());
-		},
-		update: function(event, ui) {
-			var $this = $(this);
-			var days = $this.sortable('toArray');
-
-			_.each(days, function(dayID, index) {
-				Meteor.call("updateDayPos", dayID, index);
-			});
-		}
-	});
-
-	$('.activityList').sortable({
-		connectWith: ".connectLists",
-		dropOnEmpty: true,
-		placeholder: "activityPlaceholder placeholderBackground",
-		start: function(e,ui){
-			ui.placeholder.height($(ui.item).find('.activityInfo').height());
-		},
-		update: function(event, ui) {
-			var $this = $(this);
-			var activities = $this.sortable('toArray');
-			var parentList = $this.attr('id');
-			_.each(activities, function(activityID, index){
-				Meteor.call("updateActivityPos", activityID, parentList, index);
-			});
-		},
-		stop: function(e, ui) {
-			var parent = ui.item.parent();
-			var id = parent.attr('id');
-			$('.activityList').sortable('refresh');
-		}
-	}).disableSelection();
-
-	setContentSize();
-
-}
-
-// Template.activity.rendered = function() {
-	
-// }

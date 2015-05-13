@@ -1,3 +1,13 @@
+Meteor.subscribe("schedules");
+Meteor.subscribe("activities");
+Meteor.subscribe("days");
+
+Session.set("weatherError", "");
+
+$(window).resize(function() {
+	setContentSize();
+});
+
 openSchedule = function(scheduleID) {
 	Session.set("currentSchedule", scheduleID);
 }
@@ -5,12 +15,6 @@ openSchedule = function(scheduleID) {
 closeSchedule = function() {
 	Session.set("currentSchedule", null);
 }
-
-// checkClickOfActivityObject = function(target) {
-// 	if (target) target = parseInt(target.dayNumber) - 1; // If any parent data exists, we are inside a day. The target is then the dayIndex (dayNumber - 1)
-// 	else target = "parkedActivities"; // If no parent data exists, we are inside of parkedActivities
-// 	return target;
-// }
 
 editActivity = function(activityID) {
 	Session.set("editActivityModal", true);
@@ -55,12 +59,6 @@ closeDiagramExplanation = function() {
 	Session.set("diagramExplanation", false);
 }
 
-stopEditingSchedules = function() {
-	Session.set("editSchedules", false);
-	Session.set("deleteScheduleModal", false);
-	Session.set("scheduleToDelete", null);
-}
-
 stopDeletingSchedule = function() {
 	Session.set("deleteScheduleModal", false);
 	Session.set("scheduleToDelete", null);
@@ -93,9 +91,7 @@ login = function(email, password) {
 		
 logout = function() {
 	closeSchedule();
-	stopEditingSchedules();
 	stopDeletingSchedule();
-	Session.set("anySchedules", false);
 	Session.set("loginError", null);
 	Session.set("createAccount", false);
 	resetLoginForm();

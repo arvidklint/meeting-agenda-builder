@@ -18,11 +18,6 @@ Template.newActivityView.events({
 		var description = event.target.description.value;
 		var length = hmToMinutes(lengthH, lengthM);
 
-		// if (target != "parkedActivities") {
-		// 	target--; // the page number is human readable but now index must start at 0
-		// 	target = 'day_' + target;
-		// }
-
 		var position = getNewActivityPosition(Session.get("currentSchedule"), parentList);
 
 		//scheduleID, position, parentList, title, length, type, location, description
@@ -125,14 +120,10 @@ Template.newDayView.events({
 
 		var newDay = new Day(Session.get("currentSchedule"), position, title, startTime, date, displayWeather);
 
-		//if (target != "parkedActivities") target--; // the page number is human readable but now index must start at 0
-
 		Meteor.call("addDay", newDay);
-		//Meteor.call("addActivity", newActivity, target, 0, Session.get("currentSchedule"));
 
 		stopAddingDay();
 
-		//Meteor.flush();
 		return false;
 	}
 });
@@ -202,7 +193,7 @@ Template.changePasswordView.helpers({
 	loginError: function() {
 		return Session.get("loginError");
 	}
-})
+});
 
 Template.changePasswordView.events({
 	"click .popupHeader_button": function() {

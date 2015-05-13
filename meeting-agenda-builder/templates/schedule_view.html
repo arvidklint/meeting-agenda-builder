@@ -1,0 +1,175 @@
+<template name="scheduleView">
+	<div id="mainFrame">
+		{{> header}}
+
+		{{#unless viewAsList}}
+			{{> parkedActivitiesView}}
+			{{> daysView}}
+		{{else}}
+			{{> listView}}
+		{{/unless}}
+
+		{{> newDayView}}
+		{{> editDayView}}
+		{{> newActivityView}}
+		{{> editActivityView}}
+	</div>
+</template>
+
+<template name="parkedActivitiesView">
+	<div id="parkedActivitiesView">
+		<div id="parkedActivitiesHeader">
+			<h4>Parked activities</h4>
+			<button class="btn center" id="addActivityButton">✚ Activity</button>
+		</div>
+		<ul class="activityList connectLists parkedActivityList" id="{{listID}}">
+			{{#each parkedActivities}}
+				{{> activity}}
+			{{/each}}
+		</ul>
+	</div>
+</template>
+
+<template name="activity">
+	<li id="{{activityID}}" parentid="{{parentList}}" position="{{pos}}" class="activityObject">
+		<div class="activityTime">
+			{{#if activityStartSet}}
+				{{startTimeHuman}}
+			{{else}}
+				{{activityLength}} min
+			{{/if}}
+		</div>
+
+		<div class="activityInfo" style="height: {{activityHeight}}px">
+			<div class="activityTitle">
+				<div class="editActivity">✎</div>
+				<div class="activityName">{{title}}</div>
+				<div class="typeIndicator {{type}}"></div>
+			</div>
+			{{#if location}}
+				<div class="activityLocation">
+					{{location}}
+				</div>
+			{{/if}}
+			<div class="activityDescription">
+				{{description}}
+			</div>
+		</div>
+	</li>
+</template>
+
+<template name="daysView">
+	<div id="daysViewContainer">
+		<div id="daysView" style="width: {{daysViewWidth}}px">
+			<ul id="daysList">
+				{{#each days}}
+					{{> day}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+
+	{{> diagramExplanationModal}}
+</template>
+
+<template name="day">
+	<div class="day" id="{{_id}}">
+		<div class="dayHeader">
+			<div class="diagramContainer">
+				{{#if anyActivities}}
+					<div class="diagramLine"></div>
+					<div class="diagram presentation" style="height: {{presentationHeight}}%"></div>
+					<div class="diagram group_work" style="height: {{groupWorkHeight}}%"></div>
+					<div class="diagram discussion" style="height: {{discussionHeight}}%"></div>
+					<div class="diagram break" style="height: {{breakHeight}}%"></div>
+				{{/if}}
+			</div>
+			<div class="diagramInfo">
+				30 % breaks ➤
+			</div>
+
+			<div class="editDay">✎</div>
+			<h4>Day {{dayNumber}}</h4>
+			<div class="dayName">
+				{{#if addDayTitle}}{{dayTitle}}{{/if}}
+			</div>
+			<div class="weather">
+				{{#if addWeather}}
+					{{> weather}}
+				{{/if}}
+			</div>
+			<table class="dayInfoTable">
+				<tr>
+					<td colspan="2">
+						<form class="startTime">
+							Start time
+							<select class="smallSelect hoursList noBorderRight" name="startHours">
+								{{> hoursList}}
+							</select>
+							<select class="smallSelect minutesList noBorderLeft" name="startMinutes">
+								{{> minutesList}}
+							</select>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						{{#if addDate}}
+							{{date}}
+						{{/if}}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Length {{dayLength}}
+					</td>
+					<td>
+						End {{dayEnd}}
+					</td>
+				</tr>
+			</table>
+			
+		</div>
+
+		<ul class="activityList connectLists dayActivityList" id="{{listID}}">
+			{{#each activities}}
+				{{> activity}}
+			{{/each}}
+		</ul>
+
+	</div>
+</template>
+
+<template name="hoursList">
+	{{#each hours}}
+		{{#if selected}}
+			<option value="{{this}}" selected="selected">{{this}}</option>
+		{{else}}
+			<option value="{{this}}">{{this}}</option>
+		{{/if}}
+	{{/each}}
+</template>
+
+<template name="minutesList">
+	{{#each minutes}}
+		{{#if selected}}
+			<option value="{{this}}" selected="selected">{{this}}</option>
+		{{else}}
+			<option value="{{this}}">{{this}}</option>
+		{{/if}}
+	{{/each}}
+</template>
+
+<template name="weather">	
+	{{#if gotWeather}}
+		<img src="{{imgref}}" class="weatherIcon"/>
+		<div class="weatherInfo">
+			<div class="center">{{temp}}</div>
+			<div class="center">{{description}}</div>
+		</div>
+	{{else}}
+		<div class="weatherNotification">
+			{{weatherNotification}}
+		</div>
+	{{/if}}
+</template>

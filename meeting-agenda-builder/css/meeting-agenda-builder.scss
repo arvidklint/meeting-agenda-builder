@@ -25,14 +25,6 @@ h4 {
 	margin: 0px;
 }
 
-.dayName {
-	text-align: center;
-	font-size: 9pt;
-	margin: 0px;
-	margin-top: 2px;
-	height: 20px;
-}
-
 p {
 	margin: 0px;
 }
@@ -55,6 +47,14 @@ a:hover {
 
 .border {
 	border: 1px solid black;
+}
+
+.dayName {
+	text-align: center;
+	font-size: 9pt;
+	margin: 0px;
+	margin-top: 2px;
+	height: 20px;
 }
 
 #header {
@@ -302,8 +302,10 @@ a:hover {
 }
 
 .smallBtn {
-	font-size: 10pt;
-	padding: 0;
+	font-size: 11pt;
+	padding:0;
+	padding-right: $standardSpace;
+	padding-left: $standardSpace;
 	height: 25px;
 	min-width: 35px
 }
@@ -524,6 +526,7 @@ a:hover {
 }
 
 #scheduleTitleInput {
+	width: 300px;
 	margin-top: -2px;
 	margin-left: 7px;
 	font-size: 14pt;
@@ -547,7 +550,6 @@ a:hover {
 
 #addDay {
 	position: absolute;
-	width: 60px;
 	right: 190px;
 	top: 12px;
 }

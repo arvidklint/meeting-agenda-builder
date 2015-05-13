@@ -3,6 +3,7 @@
 .listViewFrame {
 	overflow: scroll;
 	padding-left: $standardSpace;
+	padding-right: $standardSpace;
 	padding-bottom: $standardSpace;
 }
 
@@ -23,7 +24,7 @@
 .scheduleAsList {
 	background-color: $lightGray;
 	border-radius: $borderRadius;
-	width: 900px;
+	width: 850px;
 	border-collapse: collapse;
 }
 
@@ -111,6 +112,7 @@ tr:last-child {
 }
 
 .blob {
+	-webkit-print-color-adjust: exact; 
 	width: 10px;
 	height: 10px;
 	border: none;

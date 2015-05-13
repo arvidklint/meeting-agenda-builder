@@ -1,7 +1,3 @@
-$(window).resize(function() {
-	setContentSize();
-});
-
 Template.listView.rendered = function() {
 	setContentSize();
 }
@@ -37,7 +33,8 @@ Template.listView.helpers({
 
 Template.listView.events({
 	"click .editDay_listView": function() {
-		editDay(this._id);
+		console.log("click")
+		editDay(this._id);w
 	}
 });
 

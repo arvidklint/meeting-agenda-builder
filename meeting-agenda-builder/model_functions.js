@@ -2,8 +2,6 @@ Schedules = new Mongo.Collection("schedules");
 Activities = new Mongo.Collection("activities");
 Days = new Mongo.Collection("days");
 
-// Main model functions
-
 testFunc = function() {
 	console.log("leTest");
 	loggedIn = true;
@@ -18,12 +16,6 @@ getSchedules = function(user) {
 getNumberOfSchedules = function(userID) {
 	return Schedules.find({'owner': userID}).count();
 }
-
-
-
-// getParkedActivities = function(scheduleID) {
-// 	return Schedules.findOne(scheduleID).parkedActivities;
-// }
 
 getActivities = function(scheduleID, parentList) {
 	return Activities.find({'scheduleID': scheduleID, 'parentList': parentList}, {'sort': {'position': 1}}).fetch();
@@ -43,18 +35,6 @@ getActivity = function(activityID) {
 
 getNewActivityPosition = function(scheduleID, parentList) {
 	return getActivities(scheduleID, parentList).length;
-}
-
-function dynamicSort(property) {
-	var sortOrder = 1;
-	if(property[0] === "-") {
-		sortOrder = -1;
-		property = property.substr(1);
-	}
-	return function (a,b) {
-		var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-		return result * sortOrder;
-	}
 }
 
 getDays = function(scheduleID) {
@@ -92,18 +72,6 @@ getListPos = function(target) {
 	}
 }
 
-// getTotalListHeight = function(target) {
-// 	if (target === "parkedActivities") {
-// 		pas = getParkedActivities();
-// 		var totalHeight = 0;
-// 		for (var i = 0; i < pas.length; i++) {
-// 			totalHeight += getActivityHeight(pas[i]);
-// 			totalHeight += MARGIN_BETWEEN_ACTIVITIES;
-// 		}
-// 		return totalHeight;
-// 	}
-// }
-
 getActivityHeight = function(length) {
 	var activityTitleHeight = 24;
 	var activityHeight = length * 1.5 + activityTitleHeight
@@ -113,21 +81,6 @@ getActivityHeight = function(length) {
 		return activityTitleHeight;
 	}
 }
-
-// getBiggestValueID = function(target) {
-// 	if (target === "parkedActivities") {
-// 		pas = getParkedActivities();
-// 		var biggestValue = 0;
-// 		for (var i = 0; i < pas.length; i++) {
-// 			if (parseInt(pas[i].id) > biggestValue) {
-// 				biggestValue = parseInt(pas[i].id);
-// 			}
-// 		}
-// 		return biggestValue;
-// 	}
-// }
-
-
 
 addActivityStartTimes = function(startTime, activities) {
 	// Receives an array of days. Returns an array of days, with fields for activity start times added
@@ -195,6 +148,8 @@ hmToMinutes = function(hours, minutes) {
 }
 
 zeroPadding = function(num, size) {
+	// Adds zeroes to the beginning of a string
+
 	while (num.length < size) {
 		num = "0" + num;
 	}
@@ -215,28 +170,6 @@ numberList = function(start, end, step, padding) {
 	}
 
 	return numList;
-}
-
-moveActivityInList = function(list, startPos, endPos) {
-	var activity = list[startPos];
-	list.splice(startPos, 1);
-
-	if (endPos >= list.length) {
-		list.push(activity);
-	} else {
-		list.splice(endPos, 0, activity);
-	}
-	return list;
-}
-
-putActivityInList = function(list, activity, pos) {
-	// if (pos >= list.length) {
-	// 	list.push(activity);
-	// } else {
-	// 	list.splice(pos, 0, activity);
-	// }
-	list.splice(pos, 0, activity);
-	return list;
 }
 
 getCurrentYear = function() {

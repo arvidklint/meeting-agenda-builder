@@ -1,0 +1,47 @@
+<template name="header">
+	<div id="header">
+		<div class="scheduleViewTop">
+			<button id="toScheduleChooser" class="scheduleViewTopItem btn smallBtn">
+				<img src="arrow_left.png"/>
+			</button>
+			{{#unless viewAsList}}
+				<button id="toListView" class="scheduleViewTopItem btn smallBtn">
+					<img src="list_view_icon_4.png"/>
+				</button>
+			{{else}}
+				<button id="toScheduleView" class="scheduleViewTopItem btn smallBtn">
+					<img src="schedule_view_icon.png" class="buttonImage"/>
+				</button>
+			{{/unless}}
+			{{#unless editScheduleTitle}}
+				<div class="scheduleViewTopItem title" id="scheduleTitle">{{scheduleTitle}}</div>
+			{{else}}
+				<form class="scheduleViewTopItem" id="scheduleTitleForm">
+					<input id="scheduleTitleInput" type="text" value="{{scheduleTitle}}" name="scheduleTitle"/>
+					<button type="submit" class="btn smallBtn">Save</button>
+				</form>
+			{{/unless}}
+		</div>
+		<button class="btn smallBtn" id="addDay">✚ Day</button>
+		<div class="infoBox">
+			<table class="infoBoxTable">
+				<tr>
+					<td>
+						<div class="blob presentation"></div>Presentation
+					</td>
+					<td>
+						<div class="blob discussion"></div>Discussion
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="blob group_work"></div>Group work
+					</td>
+					<td>
+						<div class="blob break"></div>Break
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</template>

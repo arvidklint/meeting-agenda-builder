@@ -49,7 +49,7 @@ Template.timeSelectors.helpers({
 	},
 	selectedHour: function() {
 		if (Session.get("activityModal")) {
-			if (this == "00") return true;
+			if (this == "01") return true;
 		} else if (Session.get("editActivityModal")) {
 			if (this == Session.get("activityBeingEdited").activityLengthHM[0]) return true;
 		} else if (Session.get("addDayModal")) {
@@ -60,7 +60,7 @@ Template.timeSelectors.helpers({
 	},
 	selectedMinute: function() {
 		if (Session.get("activityModal")) {
-			if (this == "45") return true;
+			if (this == "00") return true;
 		} else if (Session.get("editActivityModal")) {
 			if (this == Session.get("activityBeingEdited").activityLengthHM[1]) return true;
 		} else if (Session.get("addDayModal")) {

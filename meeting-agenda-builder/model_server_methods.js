@@ -16,24 +16,17 @@ Meteor.methods({
 		if (newTitle) {
 			Schedules.update( {"_id": scheduleID}, {$set: {'scheduleTitle': newTitle}} );
 		}
-
-		if (numDays) {
-			oldLength = parseInt(getDays(scheduleID).length);
-			difference = numDays - oldLength;
-			newDays = [];
-
-			for (var i = 0; i < difference; i ++) {
-				newDays.push(new Day);
-			}
-
-			// ej klar än
-		}
 	},
 	updateSchedulePos: function(scheduleID, position) {
 		Schedules.update({'_id': scheduleID}, {$set: {'position': position}});
 	},
 	addDay: function(day) {
 		Days.insert(day);
+	},
+	addSeveralDays: function(scheduleID, numDays) {
+		for (var i = 0; i < numDays; i++) {
+			Meteor.call("addDay", new Day(scheduleID));
+		}
 	},
 	updateDay: function(dayID, day) {
 		Days.update({'_id': dayID}, {$set: {
@@ -46,18 +39,6 @@ Meteor.methods({
 	updateDayPos: function(dayID, position) {
 		Days.update({'_id': dayID}, {$set: {'position': position}});
 	},
-	// editDayInfo: function(scheduleID, target, dayTitle, startTime, date, displayWeather) {
-	// 	// Receives information about a day to edit and the new information to insert.
-	// 	// Downloads the day, modifies it and updates it. 
-	// 	var day = getDays(scheduleID)[target];
-
-	// 	day.dayTitle = dayTitle;
-	// 	day.startTime = startTime;
-	// 	day.date = date;
-	// 	day.displayWeather = displayWeather;
-
-	// 	Meteor.call("updateDay", target, day, scheduleID);
-	// },
 	deleteDay: function(dayID) {
 		Days.remove({'_id': dayID});
 	},
@@ -89,18 +70,3 @@ Meteor.methods({
 		return Meteor.http.get(query);
 	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
