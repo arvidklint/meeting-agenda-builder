@@ -51,3 +51,4 @@ Buggar
 -Penn-symbol när man pekar på schemanamnet för att redigera
 -Redigera aktiviteter i listvy
 Uppdatera position när dagar raderas/flyttas
+“30% breaks” är fixed position.

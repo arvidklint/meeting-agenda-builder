@@ -45,11 +45,9 @@ Template.day.rendered = function() {
 		},
 		update: function(event, ui) {
 			var $this = $(this);
-			var days = $this.sortable('toArray');
+			var daysIDArray = $this.sortable('toArray');
 
-			_.each(days, function(dayID, index) {
-				Meteor.call("updateDayPos", dayID, index);
-			});
+			updateDaysPosition();
 		}
 	});
 
@@ -62,15 +60,10 @@ Template.day.rendered = function() {
 		},
 		update: function(event, ui) {
 			var $this = $(this);
-			var activities = $this.sortable('toArray');
 			var parentList = $this.attr('id');
-			_.each(activities, function(activityID, index){
-				Meteor.call("updateActivityPos", activityID, parentList, index);
-			});
+			updateActivitiesPosition(parentList);
 		},
 		stop: function(e, ui) {
-			var parent = ui.item.parent();
-			var id = parent.attr('id');
 			$('.activityList').sortable('refresh');
 		}
 	}).disableSelection();

@@ -78,7 +78,10 @@ Template.editActivityView.events({
 	}, 
 	"click #delete2": function() {
 		var activityID = Session.get("activityBeingEdited")._id;
-		Meteor.call("deleteActivity", activityID)
+		Meteor.call("deleteActivity", activityID, function(err, data) {
+			var parentList = $('#' + activityID).parent().attr('id');
+			updateActivitiesPosition(parentList);
+		});
 		stopEditingActivity();
 		return false;
 	},
@@ -117,6 +120,7 @@ Template.newDayView.events({
 		}
 
 		var position = getNewDayPosition(Session.get("currentSchedule"));
+		console.log("position" + position);
 
 		var newDay = new Day(Session.get("currentSchedule"), position, title, startTime, date, displayWeather);
 
@@ -179,7 +183,9 @@ Template.editDayView.events({
 		return false;
 	},
 	"click #delete2": function() {
-		Meteor.call("deleteDay", Session.get("dayBeingEdited")._id);
+		Meteor.call("deleteDay", Session.get("dayBeingEdited")._id, function(err, data) {
+			updateDaysPosition();
+		});
 		stopEditingDay();
 		return false;
 	}
