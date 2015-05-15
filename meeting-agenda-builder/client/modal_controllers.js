@@ -120,7 +120,7 @@ Template.newDayView.events({
 		}
 
 		var position = getNewDayPosition(Session.get("currentSchedule"));
-		console.log("position" + position);
+		
 
 		var newDay = new Day(Session.get("currentSchedule"), position, title, startTime, date, displayWeather);
 

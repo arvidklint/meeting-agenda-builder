@@ -14,7 +14,6 @@ function locationSuccess(position) {
 	var weatherInterval = setInterval(function() {
 		Meteor.call("getWeather", query, function (err, r) {
 			if(r) {
-				console.log("gotWeather");
 				Session.set("weather", r.data);
 				clearInterval(weatherInterval);
 			} else {

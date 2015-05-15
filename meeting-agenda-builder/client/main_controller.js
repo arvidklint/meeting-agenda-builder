@@ -93,8 +93,6 @@ login = function(email, password) {
 logout = function() {
 	closeSchedule();
 	stopDeletingSchedule();
-	Session.set("loginError", null);
-	Session.set("createAccount", false);
 	resetLoginForm();
 
 	Meteor.logout();

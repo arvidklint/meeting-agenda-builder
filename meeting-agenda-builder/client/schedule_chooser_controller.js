@@ -77,16 +77,18 @@ Template.newSchedule.events({
 			var position = getNumberOfSchedules(Meteor.user()._id);
 			var newSchedule = new Schedule(Meteor.user()._id, position, event.target.scheduleName.value);
 			try {
+				if (event.target.numberOfDays.value > 99) throw new Message("Error", "Maximum number of days is 99.");
+
 				Meteor.call("addSchedule", newSchedule, function(error, scheduleID) {
 					Meteor.call("addSeveralDays", scheduleID, event.target.numberOfDays.value);
 					openSchedule(scheduleID);
 					if (error) throw new Message("Error", error.message);
 				});
+
+				Session.set("newScheduleModal", false);
 			} catch(error) {
 				messageBox(error);
 			}
-
-			Session.set("newScheduleModal", false);
 		} else {
 			messageBox(new Message("Title required", "Schedules are required to have a title."));
 		}

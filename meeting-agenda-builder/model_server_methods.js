@@ -8,6 +8,8 @@ Meteor.methods({
 
 		if (schedule.owner === Meteor.user()._id) {
 			Schedules.remove(schedule._id);
+			Days.remove({"scheduleID": schedule._id});
+			Activities.remove({"scheduleID": schedule._id});
 		} else {
 			throw new Message("Error", "You are not the owner of the schedule \"" + schedule.scheduleTitle + "\" and can therefore not delete it.");
 		}
@@ -41,6 +43,7 @@ Meteor.methods({
 	},
 	deleteDay: function(dayID) {
 		Days.remove({'_id': dayID});
+		Activities.remove({"parentList": dayID});
 	},
 	addActivity: function(activity) {
 		Activities.insert(activity);

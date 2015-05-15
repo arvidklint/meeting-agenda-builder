@@ -43,7 +43,6 @@ updateActivitiesPosition = function(parentList) {
 		activitiesIDArray.push($(this).attr('id')); 
 	});
 	_.each(activitiesIDArray, function(activityID, index){
-		console.log(activityID + ", " + index);
 		Meteor.call("updateActivityPos", activityID, parentList, index);
 	});
 }
@@ -70,7 +69,6 @@ updateDaysPosition = function() {
 		daysIDArray.push($(this).attr('id')); 
 	});
 	_.each(daysIDArray, function(dayID, index) {
-		console.log(dayID + ", " + index);
 		Meteor.call("updateDayPos", dayID, index);
 	});
 }

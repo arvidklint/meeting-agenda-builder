@@ -1,0 +1,70 @@
+Saker som fungerar
+
+logga in
+fel lösenord
+glömt lösenord
+skapa konto
+fel användare
+Byta lösenord
+	passwords must match
+	gamla lösenordet fel
+	byta lösenord fungerar
+Create schedule
+	namn krävs
+	går att skapa nytt schema
+tillbaka till scheduleview
+gå in på schema
+radera schema
+	cancel funkar
+	radera funkar
+skapa nytt schema med flera dagar
+dubbelklicka för att byta namn på schema
+klicka på edit för att byta namn på schema
+byta namn på schema
+lägg till aktivitet
+	det går
+	titel går
+	location går
+	med description
+	alla typer fungerar
+	olika längder
+	placera direkt till på dag
+Diagram
+peka på diagram
+klicka på diagram
+diagramförklaring stänga
+redigera aktivitet
+	dubbelklicka och penna
+	spara nya attribut
+	ändra längd
+	ändra typ
+	ändra dag
+dra runt aktivitet
+ändra ordning på aktivitet
+ändra dag för aktivitet
+redigera dagar
+	dubbelklicak för att redigera och penna
+	ändra titel
+	ändra starttid
+	kryssa i datum
+	kommer ihåg datum som är valt
+	väljer dagens datum och inget är val
+	kryssa väder
+	vädererror
+	kryssa ur väder
+	ändra datum
+	ta bort titel
+	ändra starttid direkt i headern
+byta ordningen på dagar genom att dra, fort som fan!
+lägg till ny dag
+	utan titel
+	med titel
+	med annan tid
+	med datum
+	datum och väder
+listview
+	dubbelklicka för att registrera
+	klicka på penna för att redigera
+	penna för att redigera dag
+ha fler scheman
+ändra ordning på scheman

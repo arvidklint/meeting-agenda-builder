@@ -34,7 +34,6 @@ Template.orderSelector.helpers({
 			if (Session.get("chosenTarget") === "parkedActivities") {
 				var length = getParkedActivities(Session.get("currentSchedule")).length;
 			}
-			// console.log(numberList(1, length + 1, 1));
 			return numberList(1, length + 1, 1);
 		}
 	}
